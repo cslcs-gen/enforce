@@ -1,0 +1,36 @@
+[
+  {
+    "id": "PS-CLIC",
+    "title": "AI-Powered Healthcare Licence Expiry & Renewal Risk Detection",
+    "tagline": "Thousands of healthcare licences lapse undetected, letting unlicensed practitioners and facilities continue operating legally.",
+    "priority": "High",
+    "priorityScore": 8,
+    "priorityReason": "Lapsed licences represent a direct patient safety and legal liability risk. Manual tracking across thousands of licensees is error-prone and resource-intensive. AI can provide continuous monitoring at scale with near-zero marginal cost, and is directly implementable on top of existing licensing registry data.",
+    "users": "Licensing officers, compliance teams, enforcement supervisors, and healthcare facility operators across clinics, pharmacies, TCM outlets, and allied health providers registered with MOH and HSA.",
+    "useCase": "The ministry maintains a licensing registry covering thousands of healthcare professionals and facilities. Licences have varying renewal cycles — annual, biennial, or conditional. Officers currently rely on periodic manual batch checks or reactive discovery (e.g. a complaint triggers a licence check) to identify expired licences. There is no proactive automated alert system to flag upcoming expirations or detect licences that have lapsed without renewal. By the time an expired licence is discovered, the practitioner or facility may have been operating unlicensed for weeks or months.",
+    "painPoints": [
+      "No automated proactive alert when a licence is 30, 60, or 90 days from expiry — officers discover lapses reactively.",
+      "Thousands of licences across multiple healthcare categories make manual tracking humanly impossible at full coverage.",
+      "Conditional licences with non-standard expiry cycles fall through the cracks most often, as they do not follow the standard renewal calendar.",
+      "Expired licensees are not automatically cross-referenced against active complaint records or inspection schedules, creating blind spots in enforcement."
+    ],
+    "consequence": "Unlicensed practitioners and facilities continue to see patients, dispense medications, or perform procedures without valid regulatory standing. This creates direct patient harm risk, exposes the ministry to legal and reputational liability, and undermines public confidence in the licensing regime as a safety guarantee.",
+    "globalRef": "UK CQC uses automated registration monitoring with proactive expiry alerts integrated into its provider portal. Australia AHPRA runs automated licence status checks with email and SMS renewal reminders at 90, 60, and 30-day intervals. US state medical boards increasingly use AI-assisted licence lifecycle management to flag at-risk renewals and detect unlicensed practice patterns across large registries.",
+    "aiSolution": "An AI monitoring layer sits over the existing licensing registry and continuously scores each licence on a renewal-risk index based on days to expiry, historical renewal behaviour, licence type, and complaint history. High-risk licences are surfaced in a daily enforcement dashboard with recommended actions. The system auto-generates renewal reminder communications, flags lapsed licences for immediate enforcement follow-up, and cross-references lapsed licencees against open complaint cases and scheduled inspections.",
+    "aiTechniques": [
+      "Time-series risk scoring on licence renewal patterns",
+      "Automated cross-referencing with complaint and inspection databases",
+      "NLP-based classification of licence type and condition flags",
+      "Rule-based alert engine with ML-tuned thresholds"
+    ],
+    "northstar": [
+      "Reduce unlicensed operation detection lag from weeks to under 48 hours",
+      "Achieve 100% proactive coverage of all licence expiries with zero manual batch checking",
+      "Increase on-time renewal rate by 30% through automated early-warning communications"
+    ],
+    "pocScope": "Build a licence expiry dashboard using synthetic registry data: ingest a CSV of 500 mock licences with expiry dates and types, apply risk scoring, surface top 20 at-risk licences with recommended actions, and generate a sample enforcement alert email. 1-week build using Python + Claude API for alert text generation.",
+    "submittedBy": "CS",
+    "submittedAt": "2026-06-24T21:05:50.411Z",
+    "approved": true
+  }
+]
