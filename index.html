@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI in Healthcare Enforcement - enforce.buildjoynow.com</title>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',system-ui,sans-serif;background:#0d1117;color:#e6edf3;font-size:14px;line-height:1.6}
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0d1117}::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
@@ -79,7 +77,8 @@ input.pi:focus{border-color:#00b4d8}
 .ef{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:5px;color:#e6edf3;padding:8px 10px;font-family:inherit;font-size:12px;margin-bottom:8px;outline:none}
 .ef:focus{border-color:#00b4d8}
 .ast{font-family:monospace;font-size:12px;color:#8b949e;margin-top:10px;min-height:18px}
-.empty{text-align:center;padding:40px;color:#8b949e;font-size:13px}</style>
+.empty{text-align:center;padding:40px;color:#8b949e;font-size:13px}
+.poc-badge{margin-top:10px;padding:7px 10px;background:#0d1f0d;border-radius:4px;font-size:11px;color:#3fb950}</style>
 </head>
 <body>
 <div class="app-header">
@@ -100,27 +99,29 @@ input.pi:focus{border-color:#00b4d8}
   <button class="tab-btn" onclick="switchTab('submit')">&#128161; Submit Idea</button>
   <button class="tab-btn" onclick="switchTab('admin')">&#128274; Admin</button>
 </div>
+
+<!-- EXEC SUMMARY -->
 <div class="pane active" id="pane-exec">
   <div class="card">
     <span class="card-label">Executive Summary</span>
-    <p style="color:#8b949e;line-height:1.7;margin-bottom:20px">8 prioritised AI problem statements for the Health Ministry enforcement ecosystem. Derived from global research across FDA, DOJ, UK, Singapore MOH/HSA (2024-2026).</p>
-    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;overflow:hidden">
-      <table class="exec-table"><thead><tr style="background:#0d1117">
-        <th>ID</th><th>Problem Statement</th><th>Priority</th><th>Score</th><th>Why It's a Priority</th>
-      </tr></thead><tbody id="exec-tbody"></tbody></table>
+    <p style="color:#8b949e;line-height:1.7;margin-bottom:20px">This report identifies <strong style="color:#e6edf3">8 prioritised AI problem statements</strong> for the Health Ministry enforcement ecosystem covering field operations, complaint management, online enforcement intelligence, professional conduct oversight, and regulatory knowledge. Derived from global research across FDA, DOJ, UK, Singapore MOH/HSA (2024-2026). Each scored against <strong style="color:#e6edf3">impact, feasibility, urgency, and POC speed</strong>.</p>
+    <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;overflow:hidden">
+      <table class="exec-table">
+        <thead><tr style="background:#0d1117">
+          <th>ID</th><th>Problem Statement</th><th>Priority</th><th>Score</th><th>Why It's a Priority</th>
+        </tr></thead>
+        <tbody id="exec-tbody"></tbody>
+      </table>
     </div>
     <p style="color:#8b949e;font-size:11px;margin-top:8px">Click any row to view full pitch</p>
   </div>
   <div class="card">
     <span class="card-label">Recommended POC Sequence</span>
-    <div style="display:flex;flex-wrap:wrap;gap:4px">
-      <div style="flex:1 1 160px;border-left:3px solid #e63946;padding:0 14px;margin-bottom:10px"><div style="font-size:10px;font-weight:700;color:#e63946;text-transform:uppercase">Week 1-2</div><div style="font-size:12px;color:#8b949e;margin-top:4px">PS-02: Complaint Triage</div><div style="font-size:12px;color:#8b949e">PS-06: Regulatory Assistant</div></div>
-      <div style="flex:1 1 160px;border-left:3px solid #f4a261;padding:0 14px;margin-bottom:10px"><div style="font-size:10px;font-weight:700;color:#f4a261;text-transform:uppercase">Week 3-4</div><div style="font-size:12px;color:#8b949e;margin-top:4px">PS-01: Field Inspection Notes</div><div style="font-size:12px;color:#8b949e">PS-08: Case Summary Gen</div></div>
-      <div style="flex:1 1 160px;border-left:3px solid #2a9d8f;padding:0 14px;margin-bottom:10px"><div style="font-size:10px;font-weight:700;color:#2a9d8f;text-transform:uppercase">Week 5-6</div><div style="font-size:12px;color:#8b949e;margin-top:4px">PS-03: Online Detection</div><div style="font-size:12px;color:#8b949e">PS-05: Inspection Planning</div></div>
-      <div style="flex:1 1 160px;border-left:3px solid #8957e5;padding:0 14px;margin-bottom:10px"><div style="font-size:10px;font-weight:700;color:#8957e5;text-transform:uppercase">Month 3+</div><div style="font-size:12px;color:#8b949e;margin-top:4px">PS-04: Pattern Detection</div><div style="font-size:12px;color:#8b949e">PS-07: Adverse Events</div></div>
-    </div>
+    <div id="poc-sequence" style="display:flex;flex-wrap:wrap;gap:4px"></div>
   </div>
 </div>
+
+<!-- ALL STATEMENTS -->
 <div class="pane" id="pane-statements">
   <p style="color:#8b949e;margin-bottom:16px;font-size:13px">Click a card to view the full pitch:</p>
   <div id="cs" style="display:none;margin-bottom:24px">
@@ -130,24 +131,28 @@ input.pi:focus{border-color:#00b4d8}
   <div class="section-title">Core Problem Statements</div>
   <div class="ps-grid" id="pgrid"></div>
 </div>
+
+<!-- DETAIL -->
 <div class="pane" id="pane-detail">
   <button class="back-btn" onclick="switchTab('statements')">&larr; Back to all</button>
   <div id="dc"></div>
 </div>
+
+<!-- SUBMIT -->
 <div class="pane" id="pane-submit">
-  <div class="info-note"><strong>How this works:</strong> Use Claude (claude.ai) with the prompt below. Paste the JSON output back here with the passcode to publish your idea.</div>
+  <div class="info-note"><strong>How this works:</strong> Use Claude (claude.ai) with the prompt format below. Paste the JSON output back here with the passcode to publish your idea to this site.</div>
   <div class="step-block">
     <div class="step-num">1</div>
-    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Copy this prompt into Claude</div>
-    <div style="color:#8b949e;font-size:12px;margin-bottom:12px">Open claude.ai, paste, replace the last line with your problem, send.</div>
+    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Add this on top of your prompt to generate same idea format for submission</div>
+    <div style="color:#8b949e;font-size:12px;margin-bottom:12px">Open claude.ai, paste this at the top of your prompt, then describe your healthcare enforcement problem below it.</div>
     <div class="prompt-box" id="prompt-display"></div>
     <button class="copy-btn" id="cbtn" onclick="copyPrompt()">Copy Prompt</button>
   </div>
   <div class="step-block">
     <div class="step-num">2</div>
-    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Paste Claude's JSON output here</div>
-    <div style="color:#8b949e;font-size:12px;margin-bottom:10px">Copy the entire JSON block (starting { ending }) and paste below.</div>
-    <textarea class="pz" id="pzone" placeholder="Paste the JSON from Claude here..." oninput="liveVal()"></textarea>
+    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Paste your generated output JSON here</div>
+    <div style="color:#8b949e;font-size:12px;margin-bottom:10px">Copy the entire JSON block Claude outputs (starting { ending }) and paste below.</div>
+    <textarea class="pz" id="pzone" placeholder="Paste your generated JSON output here..." oninput="liveVal()"></textarea>
     <div class="vbox" id="vb"></div>
   </div>
   <div class="step-block">
@@ -164,6 +169,8 @@ input.pi:focus{border-color:#00b4d8}
     <div class="suc" id="suc"><h3>Submission Accepted!</h3><p>Published. Refresh in ~2 minutes to see it in Community Submissions.</p></div>
   </div>
 </div>
+
+<!-- ADMIN -->
 <div class="pane" id="pane-admin">
   <div id="alog" class="aw">
     <div class="card">
@@ -186,1314 +193,492 @@ input.pi:focus{border-color:#00b4d8}
     <div class="ast" id="ast"></div>
   </div>
 </div>
+
 <script>
 var WORKER="https://enforce-api.buildjoynow.com";
 var PROMPT_TEMPLATE="You are helping a team contribute a problem statement to a healthcare enforcement AI research project run by a health ministry. Generate a structured problem statement in EXACT JSON format.\n\nIMPORTANT: Output ONLY the JSON object. No explanation, no markdown, no preamble. Start with { and end with }.\n\n{\n  \"id\": \"PS-C[short 3-letter topic code e.g. PS-CVAX]\",\n  \"title\": \"Clear concise title of the AI problem statement (max 80 chars)\",\n  \"tagline\": \"One sentence describing the core pain (max 120 chars)\",\n  \"priority\": \"[Critical | High | Medium]\",\n  \"priorityScore\": 7.5,\n  \"priorityReason\": \"2-3 sentences explaining why this is a priority for healthcare enforcement\",\n  \"users\": \"Who are the primary users affected (enforcement officers, inspectors, etc.)\",\n  \"useCase\": \"Describe the current workflow and where the problem occurs (3-5 sentences)\",\n  \"painPoints\": [\n    \"Pain point 1 - specific and concrete\",\n    \"Pain point 2\",\n    \"Pain point 3\",\n    \"Pain point 4\"\n  ],\n  \"consequence\": \"What happens if unsolved - patient safety, public trust, operational impact\",\n  \"globalRef\": \"How other countries/agencies (FDA, UK CQC, WHO, EU, TGA) have addressed this\",\n  \"aiSolution\": \"Describe the proposed AI solution - what it does, how, what data (3-5 sentences)\",\n  \"aiTechniques\": [\n    \"AI technique 1 e.g. NLP classification\",\n    \"AI technique 2\",\n    \"AI technique 3\"\n  ],\n  \"northstar\": [\n    \"Measurable outcome 1 e.g. Reduce X by Y%\",\n    \"Measurable outcome 2\",\n    \"Measurable outcome 3\"\n  ],\n  \"pocScope\": \"What a 1-2 week POC looks like - specific deliverable and tech approach\",\n  \"submittedBy\": \"Your name or team name\"\n}\n\nNOW generate the JSON for this healthcare enforcement problem:\n[CONTRIBUTOR: Replace this line with your problem description. Be specific about the pain, who suffers, and what an AI solution might look like.]";
-const { useState } = React;
-const PRIORITY_COLORS = {
-  "Critical": {
-    bg: "#1a1a2e",
-    accent: "#e63946",
-    badge: "#e63946",
-    text: "#fff"
+const problemStatements = [
+  {
+    id: "PS-01",
+    title: "AI-Powered Field Inspection Notes & Case Documentation",
+    tagline: "Enforcement officers lose critical context between the field and the case management system.",
+    priority: "Critical",
+    priorityScore: 9.2,
+    priorityReason: "Directly impacts enforcement accuracy and timeliness. Low-hanging fruit with proven global analogues (FieldNote, FDA Elsa). Fast POC potential.",
+    users: "Healthcare enforcement inspectors, licensing officers, field compliance officers conducting site visits to clinics, hospitals, pharmacies, and retail health product outlets.",
+    useCase: "Officers conduct on-site inspections of healthcare facilities, pharmacies, and vaping product outlets. During visits, they observe violations, interview staff, photograph evidence, and must document findings. The Case Management System (CMS) is desktop-only, causing a documentation lag of days to weeks per inspection.",
+    painPoints: [
+      "Field tools are desktop-first \u2014 real-time note capture is impractical during active inspections.",
+      "Mental fatigue causes memory loss between observation and documentation, leading to inaccurate records.",
+      "Evidence, voice notes, photos, and handwritten observations are fragmented across personal devices.",
+      "CMS update lag means supervisors cannot act on enforcement findings in near real-time."
+    ],
+    consequence: "Incomplete or delayed documentation weakens enforcement actions, creates legal risk in disciplinary proceedings, and allows non-compliant operators to continue unchecked during the administrative lag window.",
+    globalRef: "MSF FieldNote (Singapore, 2026) \u2014 AI-powered mobile case capture for social workers. FDA Elsa (USA, June 2025) \u2014 LLM assistant for inspection planning and scientific review. Both demonstrate that AI-assisted field documentation meaningfully reduces time-to-action.",
+    aiSolution: "Mobile-first voice-to-text capture with domain-shaped AI synthesis tailored to healthcare enforcement taxonomies (violation types, regulatory references, severity flags). Structured summaries auto-populate CMS draft entries. Multilingual support for Singlish and regional languages.",
+    aiTechniques: ["Speech-to-text (Whisper-class)", "NLP summarisation", "Structured template generation", "Mobile-first UX"],
+    northstar: ["Reduce post-inspection documentation time by 60%", "Zero-lag CMS draft creation", "Standardised violation reporting quality"],
+    pocScope: "Mobile web app: voice record \u2192 AI transcribe \u2192 structured enforcement report \u2192 CMS export. 2-week build."
   },
-  "High": {
-    bg: "#1a1a2e",
-    accent: "#f4a261",
-    badge: "#f4a261",
-    text: "#fff"
+  {
+    id: "PS-02",
+    title: "Intelligent Complaint Triage & Risk Prioritisation",
+    tagline: "Hundreds of public complaints arrive monthly with no automated way to separate urgent safety alerts from low-risk queries.",
+    priority: "Critical",
+    priorityScore: 9.0,
+    priorityReason: "Healthcare complaint volumes are growing globally. AI triage is proven in DOJ, FDA contexts. Direct patient safety impact \u2014 a missed critical complaint can be catastrophic.",
+    users: "Complaint intake officers, enforcement supervisors, case managers within the health ministry regulatory arm.",
+    useCase: "The ministry receives complaints via email, web forms, and hotlines covering unlicensed practitioners, substandard drugs, illegal vaping products, and healthcare service failures. Officers manually read, classify, and assign every complaint \u2014 a bottleneck that causes high-risk cases to sit in the same queue as routine administrative queries.",
+    painPoints: [
+      "No automated urgency scoring \u2014 critical public health threats sit alongside minor administrative complaints.",
+      "Manual triage consumes 30\u201340% of an officer's productive time weekly.",
+      "Inconsistent classification across officers leads to variable enforcement response.",
+      "Duplicate complaints from multiple sources are not detected, inflating workload."
+    ],
+    consequence: "Delayed response to urgent complaints (e.g., contaminated drug reports, unlicensed surgery) directly threatens public safety and erodes public trust in the ministry's enforcement effectiveness.",
+    globalRef: "DOJ AI Inventory (2025\u20132026) \u2014 AI used for complaint intake triage and travel-pattern anomaly detection in investigations. UK Care Quality Commission explored AI triage for healthcare complaints prioritisation. FDA Elsa supports safety profile assessments from adverse event data.",
+    aiSolution: "LLM-based complaint classifier that scores complaints on a severity matrix (patient harm potential \u00d7 regulatory breach type \u00d7 evidence quality). Duplicate detection via semantic similarity. Auto-routes to the right enforcement team with a recommended response SLA.",
+    aiTechniques: ["LLM text classification", "Semantic similarity / deduplication", "Severity scoring models", "RAG over regulatory codebooks"],
+    northstar: ["90% triage accuracy vs. manual benchmark", "Reduce triage time per complaint by 75%", "Zero critical complaints missed in first 48 hours"],
+    pocScope: "Claude API complaint classifier with severity dashboard. Ingest sample complaints CSV \u2192 output prioritised queue with scores and rationale. 1-week build."
   },
-  "Medium": {
-    bg: "#1a1a2e",
-    accent: "#2a9d8f",
-    badge: "#2a9d8f",
-    text: "#fff"
+  {
+    id: "PS-03",
+    title: "Illegal Vaping & Unlicensed Health Product Detection via Online Intelligence",
+    tagline: "Illegal vaping products and unregistered health supplements are openly sold online, outpacing manual monitoring capacity.",
+    priority: "Critical",
+    priorityScore: 8.8,
+    priorityReason: "Singapore's vaping enforcement is a stated public health priority. Online marketplaces move faster than human monitoring. AI can provide exponential coverage at near-zero marginal cost.",
+    users: "Health Products Regulation officers, enforcement intelligence analysts, field seizure teams.",
+    useCase: "Illegal vaping products, unregistered Traditional Chinese Medicine (TCM) products, and counterfeit drugs are openly listed on platforms like Carousell, Shopee, Facebook Marketplace, and Telegram groups. Officers currently depend on tip-offs and reactive enforcement. Proactive monitoring is manual and severely under-resourced.",
+    painPoints: [
+      "Manual monitoring covers <5% of online listings daily \u2014 the vast majority goes undetected.",
+      "Sellers use coded language, emoji substitutes, and rotating keywords to evade keyword filters.",
+      "Telegram and WhatsApp groups operate in private channels, invisible to surface-level monitoring.",
+      "No systematic link between online intelligence and CMS enforcement case creation."
+    ],
+    consequence: "Illegal products reach consumers unchecked. Youth vaping rates remain high partly because enforcement cannot match the speed and scale of online distribution. Counterfeit drugs present direct patient safety risks.",
+    globalRef: "UK Trading Standards (2024) \u2014 AI used to detect coded language in illegal vape listings on social platforms. US DOJ/FDA multi-agency task force (2024\u20132025) deployed data analytics to trace e-cigarette distribution networks. Mobiloitte (UK, 2024) documented AI's role in real-time monitoring, predictive enforcement, and age-verification bypass detection for vaping.",
+    aiSolution: "AI web crawler with NLP to scan public marketplace listings for prohibited health products. Semantic detection trained on coded language (e.g., 'nic salt', product photo recognition). Automated evidence packaging with listing URL, screenshot, seller profile, and price history. Auto-creates intelligence referral in CMS.",
+    aiTechniques: ["Web scraping + NLP classification", "Image recognition (product packaging)", "Semantic coding detection", "Automated CMS referral creation"],
+    northstar: ["10\u00d7 increase in online leads generated per officer per day", "Detect listings within 2 hours of posting", "Reduce time from detection to enforcement referral to <24 hours"],
+    pocScope: "Carousell/Shopee scraper + Claude classifier for vaping product listings \u2192 priority queue with evidence snapshots. 2-week build."
+  },
+  {
+    id: "PS-04",
+    title: "Healthcare Professional Misconduct Pattern Detection",
+    tagline: "Individual complaint records hide systemic misconduct patterns that only become visible across cases and time.",
+    priority: "High",
+    priorityScore: 8.3,
+    priorityReason: "Cross-case analysis is a known enforcement blind spot globally. AI pattern detection has been validated in financial crime and is being adopted by healthcare regulators. High impact, medium build complexity.",
+    users: "Senior enforcement officers, professional conduct committee secretariat, medical/nursing board investigators.",
+    useCase: "Complaints against healthcare professionals (doctors, nurses, TCM practitioners, pharmacists) are investigated individually. There is no systematic mechanism to detect whether a practitioner accumulates multiple low-severity complaints that collectively indicate serious misconduct, or whether a clinic operator is the subject of repeated service complaints indicative of systemic failure.",
+    painPoints: [
+      "Complaints are siloed by case \u2014 cross-practitioner pattern analysis is done manually and rarely.",
+      "Low-severity cases that fall below the investigation threshold are closed without accumulation tracking.",
+      "No automated alert when a practitioner crosses an evidence-weighted risk threshold.",
+      "Billing anomalies linked to potential fraud or over-servicing are not systematically flagged."
+    ],
+    consequence: "Practitioners engaged in ongoing misconduct continue practising without intervention. The regulatory response is always reactive \u2014 triggered only when a high-severity incident occurs \u2014 rather than preventive.",
+    globalRef: "US DOJ (2025\u20132026) \u2014 AI isolates suspicious billing patterns and flags anomalies across millions of transactions for healthcare fraud enforcement. UK GMC has explored graph-based analytics across complaint datasets. ScienceDirect (2025) research confirms NLP-driven pattern analysis of medical records improves malpractice investigation accuracy.",
+    aiSolution: "Graph-based analytics layer over CMS data: link complaints, practitioners, clinics, and inspection outcomes. ML model scores practitioner risk profiles. Anomaly detection on billing/prescription patterns. Automatic escalation alerts to supervisors when risk thresholds are crossed.",
+    aiTechniques: ["Graph analytics (Neo4j-class)", "ML anomaly detection", "NLP complaint linkage", "Risk scoring models"],
+    northstar: ["Identify 80% of high-risk practitioners before a critical incident", "Reduce average time from first complaint to investigation trigger by 50%", "Zero repeat offenders overlooked for >12 months"],
+    pocScope: "Synthetic CMS dataset \u2192 network graph visualiser + risk score dashboard per practitioner. 3-week build."
+  },
+  {
+    id: "PS-05",
+    title: "AI-Assisted Inspection Planning & Risk-Based Scheduling",
+    tagline: "Inspection resources are spread evenly across licensed facilities regardless of actual risk \u2014 high-risk operators get the same attention as compliant ones.",
+    priority: "High",
+    priorityScore: 8.1,
+    priorityReason: "Adopted by FDA (Elsa, 2025) as a priority use case. Directly optimises scarce enforcement resource allocation. Data already exists in CMS and licensing systems.",
+    users: "Inspection planning officers, enforcement supervisors, licensing compliance teams.",
+    useCase: "The ministry licenses thousands of healthcare facilities, pharmacies, TCM outlets, and health product retailers. Inspection schedules are largely fixed by routine cycle rather than dynamic risk. High-risk facilities (history of violations, online complaints, licence conditions attached) receive no more attention than fully compliant operators.",
+    painPoints: [
+      "Fixed inspection cycles ignore emerging risk signals (new complaints, market intelligence, practitioner changes).",
+      "No predictive model to identify which facilities are likely to be non-compliant before the next scheduled visit.",
+      "Officers waste time on consistently compliant facilities while high-risk ones get equal inspection frequency.",
+      "Resource constraints mean some facility types go uninspected for 2\u20133 years."
+    ],
+    consequence: "Non-compliant facilities operate undetected for extended periods. Enforcement effort is misallocated, reducing deterrence impact and public health protection.",
+    globalRef: "FDA Elsa (USA, June 2025) \u2014 explicitly used to identify high-priority inspection targets among drug manufacturers. Australia TGA and UK MHRA have both piloted risk-based inspection frameworks. White & Case (2025) noted regulators now use AI for predictive enforcement posture.",
+    aiSolution: "Risk scoring engine that aggregates complaint history, past violation severity, licence tenure, online intelligence signals, and peer-facility benchmarks. Outputs a dynamic inspection priority queue updated monthly. Integrates with CMS to auto-generate inspection plans.",
+    aiTechniques: ["Multi-factor risk scoring", "Time-series trend analysis", "CMS data integration", "Dashboard with explainable AI rationale"],
+    northstar: ["Increase violation detection rate per inspection by 40%", "Reduce uninspected high-risk facility periods to <6 months", "Save 20% of total inspection officer hours through smarter routing"],
+    pocScope: "Risk scoring model on synthetic licensing + complaint data \u2192 heatmap dashboard of highest-risk facilities by region and type. 2-week build."
+  },
+  {
+    id: "PS-06",
+    title: "Regulatory Document Intelligence & Query Assistant",
+    tagline: "Officers spend hours manually referencing legislation, circulars, and licensing conditions that change frequently and span multiple systems.",
+    priority: "High",
+    priorityScore: 7.9,
+    priorityReason: "High officer frustration point with immediate productivity gains. RAG over regulatory corpus is mature, low-risk AI. Foundational layer for other AI tools.",
+    users: "All enforcement and licensing officers, legal/policy teams, front-desk advisory officers.",
+    useCase: "Healthcare enforcement is underpinned by a complex regulatory framework: HCSA, Medicines Act, Poisons Act, Health Products Act, TCM Practitioners Act, and dozens of subsidiary legislation, codes of practice, and MOH circulars. Officers must cross-reference multiple documents to determine applicable regulations for each case or inquiry. New circulars and amendments are issued frequently and inconsistently communicated.",
+    painPoints: [
+      "Officers must manually search across 10+ documents to answer a single regulatory query.",
+      "New amendments and circulars are not automatically surfaced to officers managing active cases.",
+      "Knowledge is concentrated in senior officers \u2014 junior staff over-rely on informal advice channels.",
+      "Inconsistent regulatory interpretation across teams leads to uneven enforcement."
+    ],
+    consequence: "Enforcement actions built on incorrect regulatory references are vulnerable to legal challenge. Officer productivity suffers. Junior officers are less confident and effective, increasing supervision burden on seniors.",
+    globalRef: "FDA's CDERGPT initiative (2025) \u2014 LLM over regulatory documents for drug evaluators. Singapore MOH/HSA AIHGle 2.0 (March 2026) acknowledges AI's role in regulatory knowledge management. Multiple jurisdictions exploring RAG-based regulatory assistants for compliance officers.",
+    aiSolution: "RAG (Retrieval-Augmented Generation) assistant trained on the full healthcare regulatory corpus. Officers query in plain English: 'What are the advertising requirements for a TCM clinic?' The system retrieves the exact clause, explains it, and flags any recent amendments. Integrated into CMS as a contextual sidebar.",
+    aiTechniques: ["RAG over regulatory documents", "Semantic search", "Citation-grounded responses", "Amendment change detection"],
+    northstar: ["Reduce average regulatory query resolution time from 25 mins to <2 mins", "100% of officers access consistent regulatory guidance", "Zero enforcement actions overturned due to incorrect regulatory reference"],
+    pocScope: "Claude RAG assistant over 5 core Acts + MOH circulars. Web interface with citation output. 1-week build."
+  },
+  {
+    id: "PS-07",
+    title: "Automated Adverse Event & Pharmacovigilance Signal Detection",
+    tagline: "Drug and health product adverse event reports are processed manually, delaying safety signals that should trigger rapid regulatory action.",
+    priority: "High",
+    priorityScore: 7.7,
+    priorityReason: "Pharmacovigilance AI is globally validated and FDA/EMA are already deploying it. Directly protects public safety. Aligns with HSA's post-market surveillance mandate.",
+    users: "HSA pharmacovigilance officers, health product safety analysts, post-market surveillance teams.",
+    useCase: "Healthcare professionals and the public submit adverse event reports for drugs, medical devices, and health supplements via MedWatch-equivalent channels. These reports are manually reviewed to detect safety signals \u2014 patterns that indicate a product may be causing unexpected harm. The volume of reports, especially post-pandemic, has grown significantly while officer headcount has not.",
+    painPoints: [
+      "Manual review cannot keep pace with report volume \u2014 signal detection lags by weeks.",
+      "Reports from different channels (online portal, email, phone) are not automatically consolidated.",
+      "Weak signals (individual low-severity reports that collectively indicate a pattern) are missed.",
+      "International safety alerts from WHO, EMA, FDA are manually monitored and not systematically matched to local product registrations."
+    ],
+    consequence: "Delayed detection of safety signals allows harmful products to remain on the market longer than necessary. Missed international alerts mean Singapore may be slow to act on globally flagged risks.",
+    globalRef: "FDA Elsa (2025) \u2014 summarises adverse events to support safety profile assessments. PubMed research (Jan 2025) confirmed AI in pharmacovigilance has streamlined signal detection, surveillance, and ADR reporting automation. EMA and WHO are integrating ML-based signal detection into their pharmacovigilance frameworks.",
+    aiSolution: "AI pipeline that ingests adverse event reports, NLP-extracts structured data (product, batch, symptom, severity), runs statistical disproportionality analysis for signal detection, and automatically matches against WHO/EMA international alerts. Dashboard with signal strength scores and recommended regulatory actions.",
+    aiTechniques: ["NLP information extraction", "Disproportionality analysis (PRR/ROR)", "International alert matching", "Signal prioritisation dashboard"],
+    northstar: ["Detect safety signals 5\u00d7 faster than manual review", "100% of international alerts matched to local product registry within 24 hours", "Reduce time from signal detection to regulatory action by 50%"],
+    pocScope: "NLP extractor on sample adverse event reports \u2192 signal detection dashboard with severity scores. 2-week build."
+  },
+  {
+    id: "PS-08",
+    title: "AI-Generated Enforcement Case Summaries & Decision Support",
+    tagline: "Enforcement officers spend hours preparing case summaries and investigation briefs that follow predictable structured formats.",
+    priority: "Medium",
+    priorityScore: 7.2,
+    priorityReason: "High time savings per case but lower urgency vs. safety-critical problems. Excellent quick-win POC that builds officer trust in AI tools before tackling more complex use cases.",
+    users: "Investigation officers, legal officers preparing cases for disciplinary committees, enforcement supervisors reviewing case files.",
+    useCase: "When an enforcement case reaches the stage of formal investigation or committee referral, officers must produce a comprehensive case summary: timeline of events, complaint history, inspection findings, regulatory breaches identified, evidence inventory, and recommended action. This document is critical for the disciplinary committee or legal proceedings. Officers currently compile this manually from disparate CMS records.",
+    painPoints: [
+      "Average case summary preparation takes 4\u20138 hours per case regardless of complexity.",
+      "Quality is highly variable depending on the officer's experience and writing ability.",
+      "Officers miss relevant precedents or similar past cases that would strengthen the recommendation.",
+      "Review and revision cycles between officers and supervisors are slow due to quality inconsistency."
+    ],
+    consequence: "Bottleneck in the investigation pipeline delays disciplinary outcomes. Poor-quality summaries reduce the credibility of enforcement actions before committees. Officers experience high administrative burden at the most critical stage of their work.",
+    globalRef: "ScienceDirect (Aug 2025) research confirms AI-driven NLP can automate analysis of medical records in malpractice investigations, improving efficiency and transparency. US DOJ AI Inventory (2025) includes AI for generating investigation briefs and analysing case documents.",
+    aiSolution: "AI case summary generator that reads all CMS case records (complaints, inspection reports, correspondence, evidence logs), synthesises a structured brief following the committee's required format, surfaces similar precedent cases with outcomes, and flags key legal references. Officer reviews, edits, and approves before submission.",
+    aiTechniques: ["LLM summarisation over case records", "Precedent retrieval (RAG)", "Structured document generation", "Human-in-the-loop review"],
+    northstar: ["Reduce case summary preparation time from 6 hours to <45 minutes", "Consistent quality score \u22654/5 from committee reviewers", "Increase precedent citation rate in enforcement briefs by 80%"],
+    pocScope: "Claude API: ingest structured case data JSON \u2192 generate committee-ready enforcement brief with precedent suggestions. 1-week build."
   }
-};
-const problemStatements = [{
-  id: "PS-01",
-  title: "AI-Powered Field Inspection Notes & Case Documentation",
-  tagline: "Enforcement officers lose critical context between the field and the case management system.",
-  priority: "Critical",
-  priorityScore: 9.2,
-  priorityReason: "Directly impacts enforcement accuracy and timeliness. Low-hanging fruit with proven global analogues (FieldNote, FDA Elsa). Fast POC potential.",
-  users: "Healthcare enforcement inspectors, licensing officers, field compliance officers conducting site visits to clinics, hospitals, pharmacies, and retail health product outlets.",
-  useCase: "Officers conduct on-site inspections of healthcare facilities, pharmacies, and vaping product outlets. During visits, they observe violations, interview staff, photograph evidence, and must document findings. The Case Management System (CMS) is desktop-only, causing a documentation lag of days to weeks per inspection.",
-  painPoints: ["Field tools are desktop-first \u2014 real-time note capture is impractical during active inspections.", "Mental fatigue causes memory loss between observation and documentation, leading to inaccurate records.", "Evidence, voice notes, photos, and handwritten observations are fragmented across personal devices.", "CMS update lag means supervisors cannot act on enforcement findings in near real-time."],
-  consequence: "Incomplete or delayed documentation weakens enforcement actions, creates legal risk in disciplinary proceedings, and allows non-compliant operators to continue unchecked during the administrative lag window.",
-  globalRef: "MSF FieldNote (Singapore, 2026) \u2014 AI-powered mobile case capture for social workers. FDA Elsa (USA, June 2025) \u2014 LLM assistant for inspection planning and scientific review. Both demonstrate that AI-assisted field documentation meaningfully reduces time-to-action.",
-  aiSolution: "Mobile-first voice-to-text capture with domain-shaped AI synthesis tailored to healthcare enforcement taxonomies (violation types, regulatory references, severity flags). Structured summaries auto-populate CMS draft entries. Multilingual support for Singlish and regional languages.",
-  aiTechniques: ["Speech-to-text (Whisper-class)", "NLP summarisation", "Structured template generation", "Mobile-first UX"],
-  northstar: ["Reduce post-inspection documentation time by 60%", "Zero-lag CMS draft creation", "Standardised violation reporting quality"],
-  pocScope: "Mobile web app: voice record \u2192 AI transcribe \u2192 structured enforcement report \u2192 CMS export. 2-week build."
-}, {
-  id: "PS-02",
-  title: "Intelligent Complaint Triage & Risk Prioritisation",
-  tagline: "Hundreds of public complaints arrive monthly with no automated way to separate urgent safety alerts from low-risk queries.",
-  priority: "Critical",
-  priorityScore: 9.0,
-  priorityReason: "Healthcare complaint volumes are growing globally. AI triage is proven in DOJ, FDA contexts. Direct patient safety impact \u2014 a missed critical complaint can be catastrophic.",
-  users: "Complaint intake officers, enforcement supervisors, case managers within the health ministry regulatory arm.",
-  useCase: "The ministry receives complaints via email, web forms, and hotlines covering unlicensed practitioners, substandard drugs, illegal vaping products, and healthcare service failures. Officers manually read, classify, and assign every complaint \u2014 a bottleneck that causes high-risk cases to sit in the same queue as routine administrative queries.",
-  painPoints: ["No automated urgency scoring \u2014 critical public health threats sit alongside minor administrative complaints.", "Manual triage consumes 30\u201340% of an officer's productive time weekly.", "Inconsistent classification across officers leads to variable enforcement response.", "Duplicate complaints from multiple sources are not detected, inflating workload."],
-  consequence: "Delayed response to urgent complaints (e.g., contaminated drug reports, unlicensed surgery) directly threatens public safety and erodes public trust in the ministry's enforcement effectiveness.",
-  globalRef: "DOJ AI Inventory (2025\u20132026) \u2014 AI used for complaint intake triage and travel-pattern anomaly detection in investigations. UK Care Quality Commission explored AI triage for healthcare complaints prioritisation. FDA Elsa supports safety profile assessments from adverse event data.",
-  aiSolution: "LLM-based complaint classifier that scores complaints on a severity matrix (patient harm potential \u00d7 regulatory breach type \u00d7 evidence quality). Duplicate detection via semantic similarity. Auto-routes to the right enforcement team with a recommended response SLA.",
-  aiTechniques: ["LLM text classification", "Semantic similarity / deduplication", "Severity scoring models", "RAG over regulatory codebooks"],
-  northstar: ["90% triage accuracy vs. manual benchmark", "Reduce triage time per complaint by 75%", "Zero critical complaints missed in first 48 hours"],
-  pocScope: "Claude API complaint classifier with severity dashboard. Ingest sample complaints CSV \u2192 output prioritised queue with scores and rationale. 1-week build."
-}, {
-  id: "PS-03",
-  title: "Illegal Vaping & Unlicensed Health Product Detection via Online Intelligence",
-  tagline: "Illegal vaping products and unregistered health supplements are openly sold online, outpacing manual monitoring capacity.",
-  priority: "Critical",
-  priorityScore: 8.8,
-  priorityReason: "Singapore's vaping enforcement is a stated public health priority. Online marketplaces move faster than human monitoring. AI can provide exponential coverage at near-zero marginal cost.",
-  users: "Health Products Regulation officers, enforcement intelligence analysts, field seizure teams.",
-  useCase: "Illegal vaping products, unregistered Traditional Chinese Medicine (TCM) products, and counterfeit drugs are openly listed on platforms like Carousell, Shopee, Facebook Marketplace, and Telegram groups. Officers currently depend on tip-offs and reactive enforcement. Proactive monitoring is manual and severely under-resourced.",
-  painPoints: ["Manual monitoring covers <5% of online listings daily \u2014 the vast majority goes undetected.", "Sellers use coded language, emoji substitutes, and rotating keywords to evade keyword filters.", "Telegram and WhatsApp groups operate in private channels, invisible to surface-level monitoring.", "No systematic link between online intelligence and CMS enforcement case creation."],
-  consequence: "Illegal products reach consumers unchecked. Youth vaping rates remain high partly because enforcement cannot match the speed and scale of online distribution. Counterfeit drugs present direct patient safety risks.",
-  globalRef: "UK Trading Standards (2024) \u2014 AI used to detect coded language in illegal vape listings on social platforms. US DOJ/FDA multi-agency task force (2024\u20132025) deployed data analytics to trace e-cigarette distribution networks. Mobiloitte (UK, 2024) documented AI's role in real-time monitoring, predictive enforcement, and age-verification bypass detection for vaping.",
-  aiSolution: "AI web crawler with NLP to scan public marketplace listings for prohibited health products. Semantic detection trained on coded language (e.g., 'nic salt', product photo recognition). Automated evidence packaging with listing URL, screenshot, seller profile, and price history. Auto-creates intelligence referral in CMS.",
-  aiTechniques: ["Web scraping + NLP classification", "Image recognition (product packaging)", "Semantic coding detection", "Automated CMS referral creation"],
-  northstar: ["10\u00d7 increase in online leads generated per officer per day", "Detect listings within 2 hours of posting", "Reduce time from detection to enforcement referral to <24 hours"],
-  pocScope: "Carousell/Shopee scraper + Claude classifier for vaping product listings \u2192 priority queue with evidence snapshots. 2-week build."
-}, {
-  id: "PS-04",
-  title: "Healthcare Professional Misconduct Pattern Detection",
-  tagline: "Individual complaint records hide systemic misconduct patterns that only become visible across cases and time.",
-  priority: "High",
-  priorityScore: 8.3,
-  priorityReason: "Cross-case analysis is a known enforcement blind spot globally. AI pattern detection has been validated in financial crime and is being adopted by healthcare regulators. High impact, medium build complexity.",
-  users: "Senior enforcement officers, professional conduct committee secretariat, medical/nursing board investigators.",
-  useCase: "Complaints against healthcare professionals (doctors, nurses, TCM practitioners, pharmacists) are investigated individually. There is no systematic mechanism to detect whether a practitioner accumulates multiple low-severity complaints that collectively indicate serious misconduct, or whether a clinic operator is the subject of repeated service complaints indicative of systemic failure.",
-  painPoints: ["Complaints are siloed by case \u2014 cross-practitioner pattern analysis is done manually and rarely.", "Low-severity cases that fall below the investigation threshold are closed without accumulation tracking.", "No automated alert when a practitioner crosses an evidence-weighted risk threshold.", "Billing anomalies linked to potential fraud or over-servicing are not systematically flagged."],
-  consequence: "Practitioners engaged in ongoing misconduct continue practising without intervention. The regulatory response is always reactive \u2014 triggered only when a high-severity incident occurs \u2014 rather than preventive.",
-  globalRef: "US DOJ (2025\u20132026) \u2014 AI isolates suspicious billing patterns and flags anomalies across millions of transactions for healthcare fraud enforcement. UK GMC has explored graph-based analytics across complaint datasets. ScienceDirect (2025) research confirms NLP-driven pattern analysis of medical records improves malpractice investigation accuracy.",
-  aiSolution: "Graph-based analytics layer over CMS data: link complaints, practitioners, clinics, and inspection outcomes. ML model scores practitioner risk profiles. Anomaly detection on billing/prescription patterns. Automatic escalation alerts to supervisors when risk thresholds are crossed.",
-  aiTechniques: ["Graph analytics (Neo4j-class)", "ML anomaly detection", "NLP complaint linkage", "Risk scoring models"],
-  northstar: ["Identify 80% of high-risk practitioners before a critical incident", "Reduce average time from first complaint to investigation trigger by 50%", "Zero repeat offenders overlooked for >12 months"],
-  pocScope: "Synthetic CMS dataset \u2192 network graph visualiser + risk score dashboard per practitioner. 3-week build."
-}, {
-  id: "PS-05",
-  title: "AI-Assisted Inspection Planning & Risk-Based Scheduling",
-  tagline: "Inspection resources are spread evenly across licensed facilities regardless of actual risk \u2014 high-risk operators get the same attention as compliant ones.",
-  priority: "High",
-  priorityScore: 8.1,
-  priorityReason: "Adopted by FDA (Elsa, 2025) as a priority use case. Directly optimises scarce enforcement resource allocation. Data already exists in CMS and licensing systems.",
-  users: "Inspection planning officers, enforcement supervisors, licensing compliance teams.",
-  useCase: "The ministry licenses thousands of healthcare facilities, pharmacies, TCM outlets, and health product retailers. Inspection schedules are largely fixed by routine cycle rather than dynamic risk. High-risk facilities (history of violations, online complaints, licence conditions attached) receive no more attention than fully compliant operators.",
-  painPoints: ["Fixed inspection cycles ignore emerging risk signals (new complaints, market intelligence, practitioner changes).", "No predictive model to identify which facilities are likely to be non-compliant before the next scheduled visit.", "Officers waste time on consistently compliant facilities while high-risk ones get equal inspection frequency.", "Resource constraints mean some facility types go uninspected for 2\u20133 years."],
-  consequence: "Non-compliant facilities operate undetected for extended periods. Enforcement effort is misallocated, reducing deterrence impact and public health protection.",
-  globalRef: "FDA Elsa (USA, June 2025) \u2014 explicitly used to identify high-priority inspection targets among drug manufacturers. Australia TGA and UK MHRA have both piloted risk-based inspection frameworks. White & Case (2025) noted regulators now use AI for predictive enforcement posture.",
-  aiSolution: "Risk scoring engine that aggregates complaint history, past violation severity, licence tenure, online intelligence signals, and peer-facility benchmarks. Outputs a dynamic inspection priority queue updated monthly. Integrates with CMS to auto-generate inspection plans.",
-  aiTechniques: ["Multi-factor risk scoring", "Time-series trend analysis", "CMS data integration", "Dashboard with explainable AI rationale"],
-  northstar: ["Increase violation detection rate per inspection by 40%", "Reduce uninspected high-risk facility periods to <6 months", "Save 20% of total inspection officer hours through smarter routing"],
-  pocScope: "Risk scoring model on synthetic licensing + complaint data \u2192 heatmap dashboard of highest-risk facilities by region and type. 2-week build."
-}, {
-  id: "PS-06",
-  title: "Regulatory Document Intelligence & Query Assistant",
-  tagline: "Officers spend hours manually referencing legislation, circulars, and licensing conditions that change frequently and span multiple systems.",
-  priority: "High",
-  priorityScore: 7.9,
-  priorityReason: "High officer frustration point with immediate productivity gains. RAG over regulatory corpus is mature, low-risk AI. Foundational layer for other AI tools.",
-  users: "All enforcement and licensing officers, legal/policy teams, front-desk advisory officers.",
-  useCase: "Healthcare enforcement is underpinned by a complex regulatory framework: HCSA, Medicines Act, Poisons Act, Health Products Act, TCM Practitioners Act, and dozens of subsidiary legislation, codes of practice, and MOH circulars. Officers must cross-reference multiple documents to determine applicable regulations for each case or inquiry. New circulars and amendments are issued frequently and inconsistently communicated.",
-  painPoints: ["Officers must manually search across 10+ documents to answer a single regulatory query.", "New amendments and circulars are not automatically surfaced to officers managing active cases.", "Knowledge is concentrated in senior officers \u2014 junior staff over-rely on informal advice channels.", "Inconsistent regulatory interpretation across teams leads to uneven enforcement."],
-  consequence: "Enforcement actions built on incorrect regulatory references are vulnerable to legal challenge. Officer productivity suffers. Junior officers are less confident and effective, increasing supervision burden on seniors.",
-  globalRef: "FDA's CDERGPT initiative (2025) \u2014 LLM over regulatory documents for drug evaluators. Singapore MOH/HSA AIHGle 2.0 (March 2026) acknowledges AI's role in regulatory knowledge management. Multiple jurisdictions exploring RAG-based regulatory assistants for compliance officers.",
-  aiSolution: "RAG (Retrieval-Augmented Generation) assistant trained on the full healthcare regulatory corpus. Officers query in plain English: 'What are the advertising requirements for a TCM clinic?' The system retrieves the exact clause, explains it, and flags any recent amendments. Integrated into CMS as a contextual sidebar.",
-  aiTechniques: ["RAG over regulatory documents", "Semantic search", "Citation-grounded responses", "Amendment change detection"],
-  northstar: ["Reduce average regulatory query resolution time from 25 mins to <2 mins", "100% of officers access consistent regulatory guidance", "Zero enforcement actions overturned due to incorrect regulatory reference"],
-  pocScope: "Claude RAG assistant over 5 core Acts + MOH circulars. Web interface with citation output. 1-week build."
-}, {
-  id: "PS-07",
-  title: "Automated Adverse Event & Pharmacovigilance Signal Detection",
-  tagline: "Drug and health product adverse event reports are processed manually, delaying safety signals that should trigger rapid regulatory action.",
-  priority: "High",
-  priorityScore: 7.7,
-  priorityReason: "Pharmacovigilance AI is globally validated and FDA/EMA are already deploying it. Directly protects public safety. Aligns with HSA's post-market surveillance mandate.",
-  users: "HSA pharmacovigilance officers, health product safety analysts, post-market surveillance teams.",
-  useCase: "Healthcare professionals and the public submit adverse event reports for drugs, medical devices, and health supplements via MedWatch-equivalent channels. These reports are manually reviewed to detect safety signals \u2014 patterns that indicate a product may be causing unexpected harm. The volume of reports, especially post-pandemic, has grown significantly while officer headcount has not.",
-  painPoints: ["Manual review cannot keep pace with report volume \u2014 signal detection lags by weeks.", "Reports from different channels (online portal, email, phone) are not automatically consolidated.", "Weak signals (individual low-severity reports that collectively indicate a pattern) are missed.", "International safety alerts from WHO, EMA, FDA are manually monitored and not systematically matched to local product registrations."],
-  consequence: "Delayed detection of safety signals allows harmful products to remain on the market longer than necessary. Missed international alerts mean Singapore may be slow to act on globally flagged risks.",
-  globalRef: "FDA Elsa (2025) \u2014 summarises adverse events to support safety profile assessments. PubMed research (Jan 2025) confirmed AI in pharmacovigilance has streamlined signal detection, surveillance, and ADR reporting automation. EMA and WHO are integrating ML-based signal detection into their pharmacovigilance frameworks.",
-  aiSolution: "AI pipeline that ingests adverse event reports, NLP-extracts structured data (product, batch, symptom, severity), runs statistical disproportionality analysis for signal detection, and automatically matches against WHO/EMA international alerts. Dashboard with signal strength scores and recommended regulatory actions.",
-  aiTechniques: ["NLP information extraction", "Disproportionality analysis (PRR/ROR)", "International alert matching", "Signal prioritisation dashboard"],
-  northstar: ["Detect safety signals 5\u00d7 faster than manual review", "100% of international alerts matched to local product registry within 24 hours", "Reduce time from signal detection to regulatory action by 50%"],
-  pocScope: "NLP extractor on sample adverse event reports \u2192 signal detection dashboard with severity scores. 2-week build."
-}, {
-  id: "PS-08",
-  title: "AI-Generated Enforcement Case Summaries & Decision Support",
-  tagline: "Enforcement officers spend hours preparing case summaries and investigation briefs that follow predictable structured formats.",
-  priority: "Medium",
-  priorityScore: 7.2,
-  priorityReason: "High time savings per case but lower urgency vs. safety-critical problems. Excellent quick-win POC that builds officer trust in AI tools before tackling more complex use cases.",
-  users: "Investigation officers, legal officers preparing cases for disciplinary committees, enforcement supervisors reviewing case files.",
-  useCase: "When an enforcement case reaches the stage of formal investigation or committee referral, officers must produce a comprehensive case summary: timeline of events, complaint history, inspection findings, regulatory breaches identified, evidence inventory, and recommended action. This document is critical for the disciplinary committee or legal proceedings. Officers currently compile this manually from disparate CMS records.",
-  painPoints: ["Average case summary preparation takes 4\u20138 hours per case regardless of complexity.", "Quality is highly variable depending on the officer's experience and writing ability.", "Officers miss relevant precedents or similar past cases that would strengthen the recommendation.", "Review and revision cycles between officers and supervisors are slow due to quality inconsistency."],
-  consequence: "Bottleneck in the investigation pipeline delays disciplinary outcomes. Poor-quality summaries reduce the credibility of enforcement actions before committees. Officers experience high administrative burden at the most critical stage of their work.",
-  globalRef: "ScienceDirect (Aug 2025) research confirms AI-driven NLP can automate analysis of medical records in malpractice investigations, improving efficiency and transparency. US DOJ AI Inventory (2025) includes AI for generating investigation briefs and analysing case documents.",
-  aiSolution: "AI case summary generator that reads all CMS case records (complaints, inspection reports, correspondence, evidence logs), synthesises a structured brief following the committee's required format, surfaces similar precedent cases with outcomes, and flags key legal references. Officer reviews, edits, and approves before submission.",
-  aiTechniques: ["LLM summarisation over case records", "Precedent retrieval (RAG)", "Structured document generation", "Human-in-the-loop review"],
-  northstar: ["Reduce case summary preparation time from 6 hours to <45 minutes", "Consistent quality score \u22654/5 from committee reviewers", "Increase precedent citation rate in enforcement briefs by 80%"],
-  pocScope: "Claude API: ingest structured case data JSON \u2192 generate committee-ready enforcement brief with precedent suggestions. 1-week build."
-}];
-const execSummaryData = [{
-  id: "PS-01",
-  title: "Field Inspection Documentation",
-  priority: "Critical",
-  score: 9.2,
-  reason: "Proven globally, fast POC, direct operational impact"
-}, {
-  id: "PS-02",
-  title: "Complaint Triage & Risk Prioritisation",
-  priority: "Critical",
-  score: 9.0,
-  reason: "Patient safety risk if missed. AI triage is mature and validated"
-}, {
-  id: "PS-03",
-  title: "Online Illegal Product Detection",
-  priority: "Critical",
-  score: 8.8,
-  reason: "Vaping enforcement priority; AI provides exponential detection scale"
-}, {
-  id: "PS-04",
-  title: "Misconduct Pattern Detection",
-  priority: "High",
-  score: 8.3,
-  reason: "Prevents practitioner harm cycles; cross-case blind spot"
-}, {
-  id: "PS-05",
-  title: "Risk-Based Inspection Planning",
-  priority: "High",
-  score: 8.1,
-  reason: "FDA-validated. Optimises scarce inspection resources"
-}, {
-  id: "PS-06",
-  title: "Regulatory Document Assistant",
-  priority: "High",
-  score: 7.9,
-  reason: "Foundational layer; immediate officer productivity win"
-}, {
-  id: "PS-07",
-  title: "Adverse Event Signal Detection",
-  priority: "High",
-  score: 7.7,
-  reason: "Globally validated pharmacovigilance AI; public safety critical"
-}, {
-  id: "PS-08",
-  title: "Enforcement Case Summary Generation",
-  priority: "Medium",
-  score: 7.2,
-  reason: "High time savings; trust-building quick win"
-}];
-const priorityBadge = p => {
-  const colors = {
-    Critical: "#e63946",
-    High: "#f4a261",
-    Medium: "#2a9d8f"
-  };
-  return /*#__PURE__*/React.createElement("span", {
-    style: {
-      background: colors[p],
-      color: "#fff",
-      borderRadius: 4,
-      padding: "2px 10px",
-      fontSize: 11,
-      fontWeight: 700,
-      letterSpacing: 1,
-      textTransform: "uppercase"
-    }
-  }, p);
-};
-function App() {
-  const [activePS, setActivePS] = useState(null);
-  const [tab, setTab] = useState("exec");
-  const accentColor = "#00b4d8";
-  const darkBg = "#0d1117";
-  const cardBg = "#161b22";
-  const borderColor = "#30363d";
-  const styles = {
-    app: {
-      background: darkBg,
-      minHeight: "100vh",
-      color: "#e6edf3",
-      fontFamily: "'Inter', system-ui, sans-serif",
-      fontSize: 14
-    },
-    header: {
-      background: "linear-gradient(135deg, #0d1117 0%, #161b22 60%, #1c2128 100%)",
-      borderBottom: `1px solid ${borderColor}`,
-      padding: "32px 40px 24px"
-    },
-    badge: {
-      background: "#e63946",
-      color: "#fff",
-      borderRadius: 3,
-      padding: "3px 10px",
-      fontSize: 10,
-      fontWeight: 800,
-      letterSpacing: 1.5,
-      textTransform: "uppercase",
-      display: "inline-block",
-      marginBottom: 12
-    },
-    h1: {
-      fontSize: 28,
-      fontWeight: 800,
-      color: "#e6edf3",
-      margin: "0 0 6px",
-      letterSpacing: -0.5
-    },
-    subtitle: {
-      color: "#8b949e",
-      fontSize: 13,
-      margin: 0
-    },
-    meta: {
-      display: "flex",
-      gap: 24,
-      marginTop: 16,
-      fontSize: 12,
-      color: "#8b949e"
-    },
-    metaItem: {
-      display: "flex",
-      alignItems: "center",
-      gap: 6
-    },
-    tabs: {
-      display: "flex",
-      gap: 0,
-      borderBottom: `1px solid ${borderColor}`,
-      padding: "0 40px",
-      background: cardBg
-    },
-    tab: active => ({
-      padding: "12px 20px",
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 600,
-      color: active ? accentColor : "#8b949e",
-      borderBottom: active ? `2px solid ${accentColor}` : "2px solid transparent",
-      background: "none",
-      border: "none",
-      outline: "none",
-      transition: "color 0.2s"
-    }),
-    body: {
-      padding: "32px 40px",
-      maxWidth: 1100,
-      margin: "0 auto"
-    },
-    execTable: {
-      width: "100%",
-      borderCollapse: "collapse"
-    },
-    execTh: {
-      textAlign: "left",
-      padding: "10px 14px",
-      fontSize: 11,
-      fontWeight: 700,
-      color: "#8b949e",
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      borderBottom: `1px solid ${borderColor}`
-    },
-    execTd: highlight => ({
-      padding: "12px 14px",
-      borderBottom: `1px solid ${borderColor}`,
-      fontSize: 13,
-      background: highlight ? "#1c2128" : "transparent",
-      cursor: "pointer"
-    }),
-    scoreBar: score => ({
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 8
-    }),
-    bar: score => ({
-      width: 80,
-      height: 6,
-      background: "#21262d",
-      borderRadius: 3,
-      overflow: "hidden",
-      display: "inline-block"
-    }),
-    barFill: score => ({
-      width: `${score / 10 * 100}%`,
-      height: "100%",
-      background: score >= 9 ? "#e63946" : score >= 8 ? "#f4a261" : score >= 7.5 ? "#2a9d8f" : "#8b949e",
-      borderRadius: 3
-    }),
-    card: {
-      background: cardBg,
-      border: `1px solid ${borderColor}`,
-      borderRadius: 8,
-      padding: 24,
-      marginBottom: 20
-    },
-    section: {
-      marginBottom: 24
-    },
-    sectionLabel: {
-      fontSize: 10,
-      fontWeight: 800,
-      letterSpacing: 2,
-      textTransform: "uppercase",
-      color: accentColor,
-      marginBottom: 8,
-      display: "block"
-    },
-    sectionTitle: {
-      fontSize: 18,
-      fontWeight: 700,
-      color: "#e6edf3",
-      margin: "0 0 4px"
-    },
-    pill: {
-      display: "inline-block",
-      background: "#21262d",
-      border: `1px solid ${borderColor}`,
-      borderRadius: 20,
-      padding: "3px 12px",
-      fontSize: 11,
-      color: "#8b949e",
-      margin: "3px 4px 3px 0"
-    },
-    pillHighlight: {
-      display: "inline-block",
-      background: "#0d2137",
-      border: `1px solid ${accentColor}40`,
-      borderRadius: 20,
-      padding: "3px 12px",
-      fontSize: 11,
-      color: accentColor,
-      margin: "3px 4px 3px 0"
-    },
-    bullet: {
-      margin: "4px 0",
-      paddingLeft: 0,
-      display: "flex",
-      gap: 8,
-      alignItems: "flex-start"
-    },
-    dot: {
-      color: accentColor,
-      marginTop: 1,
-      flexShrink: 0
-    },
-    twoCol: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 20
-    },
-    psGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-      gap: 16
-    },
-    psCard: priority => {
-      const colors = {
-        Critical: "#e63946",
-        High: "#f4a261",
-        Medium: "#2a9d8f"
-      };
-      return {
-        background: cardBg,
-        border: `1px solid ${borderColor}`,
-        borderTop: `3px solid ${colors[priority] || "#30363d"}`,
-        borderRadius: 8,
-        padding: 20,
-        cursor: "pointer",
-        transition: "border-color 0.2s, transform 0.1s"
-      };
-    },
-    backBtn: {
-      background: "none",
-      border: `1px solid ${borderColor}`,
-      color: "#8b949e",
-      padding: "6px 14px",
-      borderRadius: 6,
-      cursor: "pointer",
-      fontSize: 12,
-      marginBottom: 20,
-      display: "flex",
-      alignItems: "center",
-      gap: 6
-    },
-    divider: {
-      border: "none",
-      borderTop: `1px solid ${borderColor}`,
-      margin: "20px 0"
-    },
-    globalRef: {
-      background: "#0d2137",
-      border: `1px solid ${accentColor}20`,
-      borderRadius: 6,
-      padding: 14,
-      fontSize: 12,
-      color: "#8b949e",
-      lineHeight: 1.7
-    },
-    pocBox: {
-      background: "#0f1f0f",
-      border: `1px solid #238636`,
-      borderRadius: 6,
-      padding: 14
-    },
-    northstarBox: {
-      background: "#1a1420",
-      border: `1px solid #8957e520`,
-      borderRadius: 6,
-      padding: 14
-    }
-  };
-  const renderExecSummary = () => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: styles.section
-  }, /*#__PURE__*/React.createElement("span", {
-    style: styles.sectionLabel
-  }, "Executive Summary"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "#8b949e",
-      lineHeight: 1.7,
-      margin: "0 0 20px"
-    }
-  }, "This report identifies ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: "#e6edf3"
-    }
-  }, "8 prioritised AI problem statements"), " for the Health Ministry's enforcement ecosystem \u2014 spanning field operations, complaint management, online enforcement intelligence, professional conduct oversight, and regulatory knowledge. Problem statements were derived from global market research across FDA (USA), DOJ, UK regulators, Singapore MOH/HSA, and academic literature (2024\u20132026). Each is assessed against ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: "#e6edf3"
-    }
-  }, "impact, feasibility, urgency, and POC speed"), "."), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#161b22",
-      border: `1px solid ${borderColor}`,
-      borderRadius: 8,
-      overflow: "hidden"
-    }
-  }, /*#__PURE__*/React.createElement("table", {
-    style: styles.execTable
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
-    style: {
-      background: "#0d1117"
-    }
-  }, /*#__PURE__*/React.createElement("th", {
-    style: styles.execTh
-  }, "ID"), /*#__PURE__*/React.createElement("th", {
-    style: styles.execTh
-  }, "Problem Statement"), /*#__PURE__*/React.createElement("th", {
-    style: styles.execTh
-  }, "Priority"), /*#__PURE__*/React.createElement("th", {
-    style: styles.execTh
-  }, "Score /10"), /*#__PURE__*/React.createElement("th", {
-    style: styles.execTh
-  }, "Why It's a Priority"))), /*#__PURE__*/React.createElement("tbody", null, execSummaryData.map((ps, i) => /*#__PURE__*/React.createElement("tr", {
-    key: ps.id,
-    style: {
-      cursor: "pointer"
-    },
-    onClick: () => {
-      setActivePS(ps.id);
-      setTab("detail");
-    },
-    onMouseEnter: e => e.currentTarget.style.background = "#1c2128",
-    onMouseLeave: e => e.currentTarget.style.background = "transparent"
-  }, /*#__PURE__*/React.createElement("td", {
-    style: {
-      ...styles.execTd(false),
-      color: accentColor,
-      fontWeight: 700,
-      fontFamily: "monospace",
-      fontSize: 12
-    }
-  }, ps.id), /*#__PURE__*/React.createElement("td", {
-    style: styles.execTd(false)
-  }, /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: "#e6edf3"
-    }
-  }, ps.title)), /*#__PURE__*/React.createElement("td", {
-    style: styles.execTd(false)
-  }, priorityBadge(ps.priority)), /*#__PURE__*/React.createElement("td", {
-    style: styles.execTd(false)
-  }, /*#__PURE__*/React.createElement("div", {
-    style: styles.scoreBar(ps.score)
-  }, /*#__PURE__*/React.createElement("div", {
-    style: styles.bar(ps.score)
-  }, /*#__PURE__*/React.createElement("div", {
-    style: styles.barFill(ps.score)
-  })), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontWeight: 700,
-      color: ps.score >= 9 ? "#e63946" : ps.score >= 8 ? "#f4a261" : "#2a9d8f"
-    }
-  }, ps.score))), /*#__PURE__*/React.createElement("td", {
-    style: {
-      ...styles.execTd(false),
-      color: "#8b949e",
-      fontSize: 12
-    }
-  }, ps.reason)))))), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "#8b949e",
-      fontSize: 12,
-      marginTop: 10
-    }
-  }, "\u2191 Click any row to view the full problem statement pitch")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      ...styles.card,
-      marginTop: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: styles.sectionLabel
-  }, "Recommended POC Sequence"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 0,
-      flexWrap: "wrap"
-    }
-  }, [{
-    phase: "Week 1\u20132",
-    items: ["PS-02: Complaint Triage", "PS-06: Regulatory Assistant"],
-    color: "#e63946"
-  }, {
-    phase: "Week 3\u20134",
-    items: ["PS-01: Field Inspection Notes", "PS-08: Case Summary Gen"],
-    color: "#f4a261"
-  }, {
-    phase: "Week 5\u20136",
-    items: ["PS-03: Online Detection", "PS-05: Inspection Planning"],
-    color: "#2a9d8f"
-  }, {
-    phase: "Month 3+",
-    items: ["PS-04: Pattern Detection", "PS-07: Adverse Events"],
-    color: "#8957e5"
-  }].map(p => /*#__PURE__*/React.createElement("div", {
-    key: p.phase,
-    style: {
-      flex: "1 1 200px",
-      borderLeft: `3px solid ${p.color}`,
-      paddingLeft: 14,
-      paddingRight: 14,
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      fontWeight: 700,
-      color: p.color,
-      textTransform: "uppercase",
-      letterSpacing: 1
-    }
-  }, p.phase), p.items.map(it => /*#__PURE__*/React.createElement("div", {
-    key: it,
-    style: {
-      fontSize: 12,
-      color: "#8b949e",
-      marginTop: 4
-    }
-  }, it)))))));
-  const renderPSGrid = () => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: "#8b949e",
-      marginBottom: 20,
-      fontSize: 13
-    }
-  }, "Select a problem statement to view the full pitch:"), /*#__PURE__*/React.createElement("div", {
-    style: styles.psGrid
-  }, problemStatements.map(ps => /*#__PURE__*/React.createElement("div", {
-    key: ps.id,
-    style: styles.psCard(ps.priority),
-    onClick: () => {
-      setActivePS(ps.id);
-      setTab("detail");
-    },
-    onMouseEnter: e => {
-      e.currentTarget.style.borderColor = "#00b4d8";
-      e.currentTarget.style.transform = "translateY(-2px)";
-    },
-    onMouseLeave: e => {
-      e.currentTarget.style.borderColor = "#30363d";
-      e.currentTarget.style.transform = "none";
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "flex-start",
-      marginBottom: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: "monospace",
-      fontSize: 11,
-      color: accentColor,
-      fontWeight: 700
-    }
-  }, ps.id), priorityBadge(ps.priority)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontWeight: 700,
-      color: "#e6edf3",
-      fontSize: 14,
-      marginBottom: 8,
-      lineHeight: 1.4
-    }
-  }, ps.title), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "#8b949e",
-      lineHeight: 1.5,
-      marginBottom: 12
-    }
-  }, ps.tagline), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: styles.bar(ps.priorityScore)
-  }, /*#__PURE__*/React.createElement("div", {
-    style: styles.barFill(ps.priorityScore)
-  })), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      fontWeight: 700,
-      color: "#e6edf3"
-    }
-  }, ps.priorityScore, "/10"))))));
-  const renderDetail = () => {
-    const ps = problemStatements.find(p => p.id === activePS);
-    if (!ps) return null;
-    const accentMap = {
-      Critical: "#e63946",
-      High: "#f4a261",
-      Medium: "#2a9d8f"
-    };
-    const accent = accentMap[ps.priority];
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-      style: styles.backBtn,
-      onClick: () => {
-        setActivePS(null);
-        setTab("statements");
-      }
-    }, "\u2190 Back to all problem statements"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        borderLeft: `4px solid ${accent}`,
-        paddingLeft: 20,
-        marginBottom: 28
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontFamily: "monospace",
-        color: accentColor,
-        fontWeight: 800,
-        fontSize: 13
-      }
-    }, ps.id), priorityBadge(ps.priority), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        color: "#8b949e"
-      }
-    }, "Priority Score: ", /*#__PURE__*/React.createElement("strong", {
-      style: {
-        color: "#e6edf3"
-      }
-    }, ps.priorityScore, "/10"))), /*#__PURE__*/React.createElement("h2", {
-      style: {
-        margin: "0 0 6px",
-        fontSize: 22,
-        fontWeight: 800,
-        color: "#e6edf3"
-      }
-    }, ps.title), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: 0,
-        color: "#8b949e",
-        fontSize: 14,
-        fontStyle: "italic"
-      }
-    }, "\"", ps.tagline, "\"")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        ...styles.card,
-        borderLeft: `3px solid ${accent}`,
-        marginBottom: 20
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        ...styles.sectionLabel,
-        color: accent
-      }
-    }, "Why This Is A Priority"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: 0,
-        color: "#e6edf3",
-        lineHeight: 1.7,
-        fontSize: 13
-      }
-    }, ps.priorityReason)), /*#__PURE__*/React.createElement("div", {
-      style: styles.card
-    }, /*#__PURE__*/React.createElement("span", {
-      style: styles.sectionLabel
-    }, "Users"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: 0,
-        color: "#8b949e",
-        lineHeight: 1.7,
-        fontSize: 13
-      }
-    }, ps.users)), /*#__PURE__*/React.createElement("div", {
-      style: styles.twoCol
-    }, /*#__PURE__*/React.createElement("div", {
-      style: styles.card
-    }, /*#__PURE__*/React.createElement("span", {
-      style: styles.sectionLabel
-    }, "Use Case"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: 0,
-        color: "#8b949e",
-        lineHeight: 1.7,
-        fontSize: 13
-      }
-    }, ps.useCase)), /*#__PURE__*/React.createElement("div", {
-      style: styles.card
-    }, /*#__PURE__*/React.createElement("span", {
-      style: styles.sectionLabel
-    }, "Pain Points"), ps.painPoints.map((p, i) => /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        ...styles.bullet,
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: styles.dot
-    }, "\u25b8"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: "#8b949e",
-        lineHeight: 1.6,
-        fontSize: 13
-      }
-    }, p))))), /*#__PURE__*/React.createElement("div", {
-      style: {
-        ...styles.card,
-        background: "#1a0f0f",
-        borderColor: "#e6394640"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        ...styles.sectionLabel,
-        color: "#e63946"
-      }
-    }, "Consequence If Unsolved"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: 0,
-        color: "#c9848a",
-        lineHeight: 1.7,
-        fontSize: 13
-      }
-    }, ps.consequence)), /*#__PURE__*/React.createElement("div", {
-      style: styles.card
-    }, /*#__PURE__*/React.createElement("span", {
-      style: styles.sectionLabel
-    }, "Global Market Reference"), /*#__PURE__*/React.createElement("div", {
-      style: styles.globalRef
-    }, ps.globalRef)), /*#__PURE__*/React.createElement("div", {
-      style: styles.card
-    }, /*#__PURE__*/React.createElement("span", {
-      style: styles.sectionLabel
-    }, "Proposed AI Solution"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: "0 0 14px",
-        color: "#e6edf3",
-        lineHeight: 1.7,
-        fontSize: 13
-      }
-    }, ps.aiSolution), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 11,
-        fontWeight: 700,
-        color: "#8b949e",
-        textTransform: "uppercase",
-        letterSpacing: 1
-      }
-    }, "AI Techniques:"), /*#__PURE__*/React.createElement("div", {
-      style: {
-        marginTop: 6
-      }
-    }, ps.aiTechniques.map(t => /*#__PURE__*/React.createElement("span", {
-      key: t,
-      style: styles.pillHighlight
-    }, t)))), /*#__PURE__*/React.createElement("div", {
-      style: styles.twoCol
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        ...styles.card,
-        ...styles.northstarBox
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        ...styles.sectionLabel,
-        color: "#8957e5"
-      }
-    }, "Northstar Metrics"), ps.northstar.map((n, i) => /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        ...styles.bullet,
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: "#8957e5",
-        marginTop: 1,
-        flexShrink: 0
-      }
-    }, "\u2605"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: "#8b949e",
-        fontSize: 13,
-        lineHeight: 1.6
-      }
-    }, n)))), /*#__PURE__*/React.createElement("div", {
-      style: {
-        ...styles.card,
-        ...styles.pocBox
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        ...styles.sectionLabel,
-        color: "#3fb950"
-      }
-    }, "POC Scope (5-min Pitch Ready)"), /*#__PURE__*/React.createElement("p", {
-      style: {
-        margin: 0,
-        color: "#7ee787",
-        lineHeight: 1.7,
-        fontSize: 13
-      }
-    }, ps.pocScope), /*#__PURE__*/React.createElement("div", {
-      style: {
-        marginTop: 14,
-        padding: "8px 12px",
-        background: "#0d1f0d",
-        borderRadius: 6,
-        fontSize: 11,
-        color: "#3fb950"
-      }
-    }, "\u2713 Pitchable in 5 mins \xA0|\xA0 \u2713 CMS-ready integration path \xA0|\xA0 \u2713 Human-in-the-loop"))));
-  };
-  return /*#__PURE__*/React.createElement("div", {
-    style: styles.app
-  }, /*#__PURE__*/React.createElement("div", {
-    style: styles.header
-  }, /*#__PURE__*/React.createElement("span", {
-    style: styles.badge
-  }, "Health Ministry \u00b7 Enforcement Division"), /*#__PURE__*/React.createElement("h1", {
-    style: styles.h1
-  }, "AI in Healthcare Enforcement"), /*#__PURE__*/React.createElement("p", {
-    style: styles.subtitle
-  }, "Problem Statement Research Report \u00b7 8 Prioritised AI Opportunities \u00b7 June 2026"), /*#__PURE__*/React.createElement("div", {
-    style: styles.meta
-  }, /*#__PURE__*/React.createElement("span", {
-    style: styles.metaItem
-  }, "\ud83d\udccb 8 Problem Statements"), /*#__PURE__*/React.createElement("span", {
-    style: styles.metaItem
-  }, "\ud83c\udf10 Global Market Research"), /*#__PURE__*/React.createElement("span", {
-    style: styles.metaItem
-  }, "\ud83e\udd16 POC-Ready Scopes"), /*#__PURE__*/React.createElement("span", {
-    style: styles.metaItem
-  }, "\ud83d\udcca Priority Scored & Ranked"))), /*#__PURE__*/React.createElement("div", {
-    style: styles.tabs
-  }, [{
-    key: "exec",
-    label: "Executive Summary"
-  }, {
-    key: "statements",
-    label: "All Problem Statements"
-  }, {
-    key: "detail",
-    label: "Detail View",
-    disabled: !activePS
-  }].map(t => /*#__PURE__*/React.createElement("button", {
-    key: t.key,
-    style: styles.tab(tab === t.key),
-    disabled: t.disabled,
-    onClick: () => {
-      if (!t.disabled) setTab(t.key);
-    }
-  }, t.label))), /*#__PURE__*/React.createElement("div", {
-    style: styles.body
-  }, tab === "exec" && renderExecSummary(), tab === "statements" && renderPSGrid(), tab === "detail" && activePS && renderDetail()));
-}
+];
 
-const _root = ReactDOM.createRoot(document.getElementById("root"));
-_root.render(React.createElement(App));
+
+const execSummaryData = [
+  { id: "PS-01", title: "Field Inspection Documentation", priority: "Critical", score: 9.2, reason: "Proven globally, fast POC, direct operational impact" },
+  { id: "PS-02", title: "Complaint Triage & Risk Prioritisation", priority: "Critical", score: 9.0, reason: "Patient safety risk if missed. AI triage is mature and validated" },
+  { id: "PS-03", title: "Online Illegal Product Detection", priority: "Critical", score: 8.8, reason: "Vaping enforcement priority; AI provides exponential detection scale" },
+  { id: "PS-04", title: "Misconduct Pattern Detection", priority: "High", score: 8.3, reason: "Prevents practitioner harm cycles; cross-case blind spot" },
+  { id: "PS-05", title: "Risk-Based Inspection Planning", priority: "High", score: 8.1, reason: "FDA-validated. Optimises scarce inspection resources" },
+  { id: "PS-06", title: "Regulatory Document Assistant", priority: "High", score: 7.9, reason: "Foundational layer; immediate officer productivity win" },
+  { id: "PS-07", title: "Adverse Event Signal Detection", priority: "High", score: 7.7, reason: "Globally validated pharmacovigilance AI; public safety critical" },
+  { id: "PS-08", title: "Enforcement Case Summary Generation", priority: "Medium", score: 7.2, reason: "High time savings; trust-building quick win" },
+];
+
 
 
 var communityPS = [], adminToken = null;
 var PC = {Critical:'#e63946', High:'#f4a261', Medium:'#2a9d8f'};
 
-function sc(s) { return s>=9?'#e63946':s>=8?'#f4a261':s>=7?'#2a9d8f':'#8b949e'; }
+function sc(s){return s>=9?'#e63946':s>=8?'#f4a261':s>=7?'#2a9d8f':'#8b949e';}
+function sbar(s){var c=sc(s);return '<div class="score-bar"><div class="score-fill" style="width:'+(s/10*100)+'%;background:'+c+'"></div></div><strong style="color:'+c+'">'+s+'</strong>';}
+function esc(v){if(typeof v!=='string')return String(v||'');return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function sbar(s) {
-  var c = sc(s);
-  return '<div class="score-bar"><div class="score-fill" style="width:' + (s/10*100) + '%;background:' + c + '"></div></div><strong style="color:' + c + '">' + s + '</strong>';
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('pane-'+id).classList.add('active');
+  var labels=['exec','statements','detail','submit','admin'];
+  var btns=document.querySelectorAll('.tab-btn');
+  var idx=labels.indexOf(id);
+  if(idx>=0)btns[idx].classList.add('active');
+  if(id==='submit')document.getElementById('prompt-display').textContent=PROMPT_TEMPLATE;
 }
 
-function esc(v) {
-  if (typeof v !== 'string') return String(v || '');
-  return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function switchTab(id) {
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.querySelectorAll('.pane').forEach(function(p){ p.classList.remove('active'); });
-  document.getElementById('pane-' + id).classList.add('active');
-  var labels = ['exec','statements','detail','submit','admin'];
-  var btns = document.querySelectorAll('.tab-btn');
-  var idx = labels.indexOf(id);
-  if (idx >= 0) btns[idx].classList.add('active');
-  if (id === 'submit') document.getElementById('prompt-display').textContent = PROMPT_TEMPLATE;
-}
-
-// ── Event delegation: no inline onclick with string args ──────────
-function delegateClicks(containerId, selector, handler) {
-  var el = document.getElementById(containerId);
-  if (!el) return;
-  el.addEventListener('click', function(e) {
-    var target = e.target.closest(selector);
-    if (target && el.contains(target)) handler(target, e);
+function delegateClicks(containerId, selector, handler){
+  var el=document.getElementById(containerId);
+  if(!el)return;
+  el.addEventListener('click',function(e){
+    var t=e.target.closest(selector);
+    if(t&&el.contains(t))handler(t,e);
   });
 }
 
-function findPS(id, src) {
-  var list = src === 'community' ? communityPS : problemStatements;
-  for (var i = 0; i < list.length; i++) { if (list[i].id === id) return list[i]; }
+function findPS(id,src){
+  var list=src==='community'?communityPS:problemStatements;
+  for(var i=0;i<list.length;i++){if(list[i].id===id)return list[i];}
   return null;
 }
 
-// ── Exec table ────────────────────────────────────────────────────
-function renderExecTable() {
-  var all = problemStatements.concat(communityPS.filter(function(p){ return p.approved !== false; }));
-  document.getElementById('exec-tbody').innerHTML = all.map(function(ps) {
-    var iC = communityPS.indexOf(ps) >= 0;
-    var src = iC ? 'community' : 'base';
-    return '<tr class="ps-row" data-id="' + esc(ps.id) + '" data-src="' + src + '">'
-      + '<td class="id-cell">' + esc(ps.id) + '</td>'
-      + '<td><strong style="color:#e6edf3">' + esc(ps.title) + '</strong>'
-        + (iC ? ' <span class="community-pill">Community</span>' : '') + '</td>'
-      + '<td><span class="badge-' + ps.priority + '">' + ps.priority + '</span></td>'
-      + '<td>' + sbar(ps.priorityScore) + '</td>'
-      + '<td style="color:#8b949e;font-size:12px">' + esc((ps.priorityReason||'').slice(0,90)) + '...</td>'
-      + '</tr>';
+/* ── Exec Summary ── */
+function renderExecSummary(){
+  // Exec table — all PS
+  var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));
+  document.getElementById('exec-tbody').innerHTML=all.map(function(ps){
+    var iC=communityPS.indexOf(ps)>=0;
+    var src=iC?'community':'base';
+    return '<tr class="ps-row" data-id="'+esc(ps.id)+'" data-src="'+src+'">'
+      +'<td class="id-cell">'+esc(ps.id)+'</td>'
+      +'<td><strong style="color:#e6edf3">'+esc(ps.title)+'</strong>'+(iC?' <span class="community-pill">Community</span>':'')+'</td>'
+      +'<td><span class="badge-'+ps.priority+'">'+ps.priority+'</span></td>'
+      +'<td>'+sbar(ps.priorityScore)+'</td>'
+      +'<td style="color:#8b949e;font-size:12px">'+esc((ps.priorityReason||'').slice(0,90))+'...</td>'
+      +'</tr>';
   }).join('');
-  document.getElementById('ps-count').textContent = all.length;
+  document.getElementById('ps-count').textContent=all.length;
+
+  // POC sequence cards
+  var phases=[
+    {label:'Week 1-2',items:['PS-02: Complaint Triage','PS-06: Regulatory Assistant'],color:'#e63946'},
+    {label:'Week 3-4',items:['PS-01: Field Inspection Notes','PS-08: Case Summary Gen'],color:'#f4a261'},
+    {label:'Week 5-6',items:['PS-03: Online Detection','PS-05: Inspection Planning'],color:'#2a9d8f'},
+    {label:'Month 3+',items:['PS-04: Pattern Detection','PS-07: Adverse Events'],color:'#8957e5'}
+  ];
+  document.getElementById('poc-sequence').innerHTML=phases.map(function(p){
+    return '<div style="flex:1 1 160px;border-left:3px solid '+p.color+';padding:0 14px;margin-bottom:10px">'
+      +'<div style="font-size:10px;font-weight:700;color:'+p.color+';text-transform:uppercase;letter-spacing:1px">'+p.label+'</div>'
+      +p.items.map(function(it){return '<div style="font-size:12px;color:#8b949e;margin-top:4px">'+it+'</div>';}).join('')
+      +'</div>';
+  }).join('');
 }
 
-// ── PS Grid ───────────────────────────────────────────────────────
-function psCard(ps, iC) {
-  var c = PC[ps.priority] || '#8b949e';
-  var src = iC ? 'community' : 'base';
-  return '<div class="ps-card" style="border-top:3px solid ' + c + '" data-id="' + esc(ps.id) + '" data-src="' + src + '">'
-    + (iC ? '<div class="community-pill" style="margin-bottom:8px">Community</div>' : '')
-    + '<div style="font-family:monospace;font-size:11px;color:#00b4d8;font-weight:700">' + esc(ps.id) + '</div>'
-    + '<h3>' + esc(ps.title) + '</h3>'
-    + '<div class="ps-tag">' + esc(ps.tagline) + '</div>'
-    + '<div style="display:flex;align-items:center;gap:6px">'
-      + '<span class="badge-' + ps.priority + '">' + ps.priority + '</span>'
-      + sbar(ps.priorityScore)
-    + '</div>'
-    + (ps.submittedBy ? '<div style="font-size:11px;color:#8b949e;margin-top:8px">by ' + esc(ps.submittedBy) + '</div>' : '')
-    + '</div>';
+/* ── PS Grid ── */
+function psCard(ps,iC){
+  var c=PC[ps.priority]||'#8b949e';
+  var src=iC?'community':'base';
+  return '<div class="ps-card" style="border-top:3px solid '+c+'" data-id="'+esc(ps.id)+'" data-src="'+src+'">'
+    +(iC?'<div class="community-pill" style="margin-bottom:8px">Community</div>':'')
+    +'<div style="font-family:monospace;font-size:11px;color:#00b4d8;font-weight:700">'+esc(ps.id)+'</div>'
+    +'<h3>'+esc(ps.title)+'</h3>'
+    +'<div class="ps-tag">'+esc(ps.tagline)+'</div>'
+    +'<div style="display:flex;align-items:center;gap:6px"><span class="badge-'+ps.priority+'">'+ps.priority+'</span>'+sbar(ps.priorityScore)+'</div>'
+    +(ps.submittedBy?'<div style="font-size:11px;color:#8b949e;margin-top:8px">by '+esc(ps.submittedBy)+'</div>':'')
+    +'</div>';
 }
 
-function renderGrid() {
-  document.getElementById('pgrid').innerHTML = problemStatements.map(function(p){ return psCard(p, false); }).join('');
-  var ap = communityPS.filter(function(p){ return p.approved !== false; });
-  if (ap.length) {
-    document.getElementById('cs').style.display = 'block';
-    document.getElementById('cgrid').innerHTML = ap.map(function(p){ return psCard(p, true); }).join('');
-    document.getElementById('cmeta').style.display = 'inline';
-    document.getElementById('cnum').textContent = ap.length;
+function renderGrid(){
+  document.getElementById('pgrid').innerHTML=problemStatements.map(function(p){return psCard(p,false);}).join('');
+  var ap=communityPS.filter(function(p){return p.approved!==false;});
+  if(ap.length){
+    document.getElementById('cs').style.display='block';
+    document.getElementById('cgrid').innerHTML=ap.map(function(p){return psCard(p,true);}).join('');
+    document.getElementById('cmeta').style.display='inline';
+    document.getElementById('cnum').textContent=ap.length;
   } else {
-    document.getElementById('cs').style.display = 'none';
-    document.getElementById('cmeta').style.display = 'none';
+    document.getElementById('cs').style.display='none';
+    document.getElementById('cmeta').style.display='none';
   }
 }
 
-// ── Detail ────────────────────────────────────────────────────────
-function openDetail(id, src) {
-  var ps = findPS(id, src);
-  if (!ps) return;
-  var c = PC[ps.priority] || '#8b949e';
-  var iC = src === 'community';
-  document.getElementById('dc').innerHTML =
-    '<div class="detail-header" style="border-left-color:' + c + '">'
-      + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">'
-        + '<span style="font-family:monospace;font-size:12px;color:#00b4d8;font-weight:700">' + esc(ps.id) + '</span>'
-        + '<span class="badge-' + ps.priority + '">' + ps.priority + '</span>'
-        + '<span style="font-size:12px;color:#8b949e">Score: <strong style="color:#e6edf3">' + ps.priorityScore + '/10</strong></span>'
-        + (iC ? '<span class="community-pill">Community</span>' : '')
-      + '</div>'
-      + '<h2>' + esc(ps.title) + '</h2>'
-      + '<div class="tagline">&ldquo;' + esc(ps.tagline) + '&rdquo;</div>'
-      + (ps.submittedBy ? '<div style="font-size:11px;color:#8b949e;margin-top:4px">Submitted by: ' + esc(ps.submittedBy) + '</div>' : '')
-    + '</div>'
-    + '<div class="card" style="border-left:3px solid ' + c + '">'
-      + '<span class="card-label" style="color:' + c + '">Why This Is A Priority</span>'
-      + '<p style="color:#e6edf3;font-size:13px;line-height:1.7">' + esc(ps.priorityReason) + '</p></div>'
-    + '<div class="card"><span class="card-label">Users</span>'
-      + '<p style="color:#8b949e;font-size:13px;line-height:1.7">' + esc(ps.users) + '</p></div>'
-    + '<div class="two-col">'
-      + '<div class="card"><span class="card-label">Use Case</span>'
-        + '<p style="color:#8b949e;font-size:13px;line-height:1.7">' + esc(ps.useCase) + '</p></div>'
-      + '<div class="card"><span class="card-label">Pain Points</span>'
-        + (ps.painPoints||[]).map(function(p){
-            return '<div class="bullet-item"><span style="color:#00b4d8;flex-shrink:0">&#9658;</span>'
-              + '<span style="color:#8b949e;font-size:13px">' + esc(p) + '</span></div>';
-          }).join('')
-      + '</div>'
-    + '</div>'
-    + '<div class="card" style="background:#1a0f0f;border-color:rgba(230,57,70,.2)">'
-      + '<span class="card-label" style="color:#e63946">Consequence If Unsolved</span>'
-      + '<p style="color:#c9848a;font-size:13px;line-height:1.7">' + esc(ps.consequence) + '</p></div>'
-    + '<div class="card"><span class="card-label">Global Market Reference</span>'
-      + '<div class="global-ref">' + esc(ps.globalRef) + '</div></div>'
-    + '<div class="card"><span class="card-label">Proposed AI Solution</span>'
-      + '<p style="color:#e6edf3;font-size:13px;line-height:1.7;margin-bottom:12px">' + esc(ps.aiSolution) + '</p>'
-      + '<div style="margin-top:6px">'
-        + (ps.aiTechniques||[]).map(function(t){ return '<span class="ai-pill">' + esc(t) + '</span>'; }).join('')
-      + '</div></div>'
-    + '<div class="two-col">'
-      + '<div class="card northstar-box"><span class="card-label" style="color:#8957e5">Northstar Metrics</span>'
-        + (ps.northstar||[]).map(function(n){
-            return '<div class="bullet-item"><span style="color:#8957e5">&#9733;</span>'
-              + '<span style="color:#8b949e;font-size:13px">' + esc(n) + '</span></div>';
-          }).join('')
-      + '</div>'
-      + '<div class="card poc-box"><span class="card-label" style="color:#3fb950">POC Scope</span>'
-        + '<p style="color:#7ee787;font-size:13px;line-height:1.7">' + esc(ps.pocScope) + '</p>'
-        + '<div style="margin-top:10px;padding:7px 10px;background:#0d1f0d;border-radius:4px;font-size:11px;color:#3fb950">'
-          + '&#10003; Pitchable in 5 mins | &#10003; Human-in-the-loop'
-        + '</div>'
-      + '</div>'
-    + '</div>';
-  document.getElementById('dtb').disabled = false;
+/* ── Detail ── */
+function openDetail(id,src){
+  var ps=findPS(id,src);if(!ps)return;
+  var c=PC[ps.priority]||'#8b949e';var iC=src==='community';
+  document.getElementById('dc').innerHTML=
+    '<div class="detail-header" style="border-left-color:'+c+'">'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">'
+        +'<span style="font-family:monospace;font-size:12px;color:#00b4d8;font-weight:700">'+esc(ps.id)+'</span>'
+        +'<span class="badge-'+ps.priority+'">'+ps.priority+'</span>'
+        +'<span style="font-size:12px;color:#8b949e">Score: <strong style="color:#e6edf3">'+ps.priorityScore+'/10</strong></span>'
+        +(iC?'<span class="community-pill">Community</span>':'')
+      +'</div>'
+      +'<h2>'+esc(ps.title)+'</h2>'
+      +'<div class="tagline">&ldquo;'+esc(ps.tagline)+'&rdquo;</div>'
+      +(ps.submittedBy?'<div style="font-size:11px;color:#8b949e;margin-top:4px">Submitted by: '+esc(ps.submittedBy)+'</div>':'')
+    +'</div>'
+    +'<div class="card" style="border-left:3px solid '+c+'">'
+      +'<span class="card-label" style="color:'+c+'">Why This Is A Priority</span>'
+      +'<p style="color:#e6edf3;font-size:13px;line-height:1.7">'+esc(ps.priorityReason)+'</p></div>'
+    +'<div class="card"><span class="card-label">Users</span>'
+      +'<p style="color:#8b949e;font-size:13px;line-height:1.7">'+esc(ps.users)+'</p></div>'
+    +'<div class="two-col">'
+      +'<div class="card"><span class="card-label">Use Case</span>'
+        +'<p style="color:#8b949e;font-size:13px;line-height:1.7">'+esc(ps.useCase)+'</p></div>'
+      +'<div class="card"><span class="card-label">Pain Points</span>'
+        +(ps.painPoints||[]).map(function(p){
+          return '<div class="bullet-item"><span style="color:#00b4d8;flex-shrink:0">&#9658;</span>'
+            +'<span style="color:#8b949e;font-size:13px">'+esc(p)+'</span></div>';
+        }).join('')
+      +'</div>'
+    +'</div>'
+    +'<div class="card" style="background:#1a0f0f;border-color:rgba(230,57,70,.2)">'
+      +'<span class="card-label" style="color:#e63946">Consequence If Unsolved</span>'
+      +'<p style="color:#c9848a;font-size:13px;line-height:1.7">'+esc(ps.consequence)+'</p></div>'
+    +'<div class="card"><span class="card-label">Global Market Reference</span>'
+      +'<div class="global-ref">'+esc(ps.globalRef)+'</div></div>'
+    +'<div class="card"><span class="card-label">Proposed AI Solution</span>'
+      +'<p style="color:#e6edf3;font-size:13px;line-height:1.7;margin-bottom:12px">'+esc(ps.aiSolution)+'</p>'
+      +'<div style="margin-top:6px">'
+        +(ps.aiTechniques||[]).map(function(t){return '<span class="ai-pill">'+esc(t)+'</span>';}).join('')
+      +'</div></div>'
+    +'<div class="two-col">'
+      +'<div class="card northstar-box"><span class="card-label" style="color:#8957e5">Northstar Metrics</span>'
+        +(ps.northstar||[]).map(function(n){
+          return '<div class="bullet-item"><span style="color:#8957e5">&#9733;</span>'
+            +'<span style="color:#8b949e;font-size:13px">'+esc(n)+'</span></div>';
+        }).join('')
+      +'</div>'
+      +'<div class="card poc-box"><span class="card-label" style="color:#3fb950">POC Scope</span>'
+        +'<p style="color:#7ee787;font-size:13px;line-height:1.7">'+esc(ps.pocScope)+'</p>'
+        +'<div class="poc-badge">&#10003; Pitchable in 5 mins | &#10003; Human-in-the-loop</div>'
+      +'</div>'
+    +'</div>';
+  document.getElementById('dtb').disabled=false;
   switchTab('detail');
 }
 
-// ── Community load ────────────────────────────────────────────────
-async function loadCommunity() {
-  try {
-    var r = await fetch(WORKER + '/submissions');
-    if (!r.ok) return;
-    var d = await r.json();
-    communityPS = d.submissions || [];
-    renderExecTable();
-    renderGrid();
-  } catch(e) { console.warn('Community load failed', e); }
+/* ── Community ── */
+async function loadCommunity(){
+  try{
+    var r=await fetch(WORKER+'/submissions');if(!r.ok)return;
+    var d=await r.json();communityPS=d.submissions||[];
+    renderExecSummary();renderGrid();
+  }catch(e){console.warn('Community load failed',e);}
 }
 
-// ── Submit ────────────────────────────────────────────────────────
-var REQ = ['id','title','tagline','priority','priorityScore','priorityReason',
-  'users','useCase','painPoints','consequence','globalRef','aiSolution',
-  'aiTechniques','northstar','pocScope','submittedBy'];
-
-function vlog(type, msg) {
-  var b = document.getElementById('vb');
-  b.className = 'vbox on';
-  var el = document.createElement('div');
-  el.className = 'v-' + type;
-  el.textContent = ({ok:'V',err:'X',info:'>',warn:'!'}[type]||'>') + ' ' + msg;
-  b.appendChild(el);
-}
-function vclear() { var b = document.getElementById('vb'); b.innerHTML = ''; b.className = 'vbox'; }
-
-function liveVal() {
-  vclear();
-  var raw = document.getElementById('pzone').value.trim();
-  if (!raw) return;
-  var ps;
-  try { ps = JSON.parse(raw); vlog('ok','Valid JSON'); }
-  catch(e) { vlog('err','Not valid JSON - ' + e.message.slice(0,60)); return; }
-  var miss = REQ.filter(function(f){ return !ps[f] && ps[f] !== 0; });
-  if (miss.length) { vlog('err','Missing: ' + miss.join(', ')); return; }
-  if (['Critical','High','Medium'].indexOf(ps.priority) < 0) { vlog('err','priority must be Critical, High, or Medium'); return; }
-  var s = parseFloat(ps.priorityScore);
-  if (isNaN(s)||s<1||s>10) { vlog('err','priorityScore must be 1.0-10.0'); return; }
-  if (!Array.isArray(ps.painPoints)||!ps.painPoints.length) { vlog('err','painPoints must be non-empty array'); return; }
+/* ── Submit ── */
+var REQ=['id','title','tagline','priority','priorityScore','priorityReason','users','useCase','painPoints','consequence','globalRef','aiSolution','aiTechniques','northstar','pocScope','submittedBy'];
+function vlog(type,msg){var b=document.getElementById('vb');b.className='vbox on';var el=document.createElement('div');el.className='v-'+type;el.textContent=({ok:'V',err:'X',info:'>',warn:'!'}[type]||'>')+' '+msg;b.appendChild(el);}
+function vclear(){var b=document.getElementById('vb');b.innerHTML='';b.className='vbox';}
+function liveVal(){
+  vclear();var raw=document.getElementById('pzone').value.trim();if(!raw)return;
+  var ps;try{ps=JSON.parse(raw);vlog('ok','Valid JSON');}catch(e){vlog('err','Not valid JSON - '+e.message.slice(0,60));return;}
+  var miss=REQ.filter(function(f){return !ps[f]&&ps[f]!==0;});
+  if(miss.length){vlog('err','Missing: '+miss.join(', '));return;}
+  if(['Critical','High','Medium'].indexOf(ps.priority)<0){vlog('err','priority must be Critical, High, or Medium');return;}
+  var s=parseFloat(ps.priorityScore);
+  if(isNaN(s)||s<1||s>10){vlog('err','priorityScore must be 1.0-10.0');return;}
+  if(!Array.isArray(ps.painPoints)||!ps.painPoints.length){vlog('err','painPoints must be non-empty array');return;}
   vlog('ok','Schema valid');
-  vlog('info','Title: "' + ps.title.slice(0,60) + '"');
-  vlog('info','Priority: ' + ps.priority + ' (' + ps.priorityScore + '/10) by ' + (ps.submittedBy||'(none)'));
+  vlog('info','Title: "'+ps.title.slice(0,60)+'"');
+  vlog('info','Priority: '+ps.priority+' ('+ps.priorityScore+'/10) by '+(ps.submittedBy||'(none)'));
 }
-
-async function submitPS() {
+async function submitPS(){
   vclear();
-  var raw = document.getElementById('pzone').value.trim();
-  var pc  = document.getElementById('spc').value.trim();
-  if (!raw) { vlog('err','Paste the JSON from Claude first.'); return; }
-  if (!pc)  { vlog('err','Enter the passcode.'); return; }
-  var ps;
-  try { ps = JSON.parse(raw); } catch(e) { vlog('err','Invalid JSON'); return; }
-  var miss = REQ.filter(function(f){ return !ps[f] && ps[f] !== 0; });
-  if (miss.length) { vlog('err','Missing: ' + miss.join(', ')); return; }
-  var btn = document.getElementById('sbtn');
-  btn.disabled = true; btn.textContent = 'Submitting...';
+  var raw=document.getElementById('pzone').value.trim();
+  var pc=document.getElementById('spc').value.trim();
+  if(!raw){vlog('err','Paste your generated JSON output first.');return;}
+  if(!pc){vlog('err','Enter the passcode.');return;}
+  var ps;try{ps=JSON.parse(raw);}catch(e){vlog('err','Invalid JSON');return;}
+  var miss=REQ.filter(function(f){return !ps[f]&&ps[f]!==0;});
+  if(miss.length){vlog('err','Missing: '+miss.join(', '));return;}
+  var btn=document.getElementById('sbtn');btn.disabled=true;btn.textContent='Submitting...';
   vlog('info','Sending to server...');
-  try {
-    var r = await fetch(WORKER + '/submit', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({passcode: pc, content: ps})
-    });
-    var d = await r.json();
-    if (d.ok) {
-      vlog('ok','Accepted! ID: ' + d.id);
-      document.getElementById('suc').className = 'suc on';
-      document.getElementById('pzone').value = '';
-      document.getElementById('spc').value = '';
-      setTimeout(loadCommunity, 3000);
-    } else { vlog('err', d.error || 'Submission failed'); }
-  } catch(e) { vlog('err','Network error: ' + e.message); }
-  btn.disabled = false; btn.textContent = 'Submit Problem Statement';
+  try{
+    var r=await fetch(WORKER+'/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:pc,content:ps})});
+    var d=await r.json();
+    if(d.ok){vlog('ok','Accepted! ID: '+d.id);document.getElementById('suc').className='suc on';document.getElementById('pzone').value='';document.getElementById('spc').value='';setTimeout(loadCommunity,3000);}
+    else{vlog('err',d.error||'Submission failed');}
+  }catch(e){vlog('err','Network error: '+e.message);}
+  btn.disabled=false;btn.textContent='Submit Problem Statement';
 }
-
-function copyPrompt() {
-  navigator.clipboard.writeText(PROMPT_TEMPLATE).then(function() {
-    var b = document.getElementById('cbtn');
-    b.textContent = 'Copied!'; b.className = 'copy-btn copied';
-    setTimeout(function(){ b.textContent = 'Copy Prompt'; b.className = 'copy-btn'; }, 2000);
+function copyPrompt(){
+  navigator.clipboard.writeText(PROMPT_TEMPLATE).then(function(){
+    var b=document.getElementById('cbtn');b.textContent='Copied!';b.className='copy-btn copied';
+    setTimeout(function(){b.textContent='Copy Prompt';b.className='copy-btn';},2000);
   });
 }
 
-// ── Admin ─────────────────────────────────────────────────────────
-async function adminLogin() {
-  var code = document.getElementById('acode').value.trim();
-  document.getElementById('als').textContent = 'Verifying...';
-  try {
-    var r = await fetch(WORKER + '/admin', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({passcode: code, action: 'list'})
-    });
-    var d = await r.json();
-    if (d.ok) {
-      adminToken = code;
-      document.getElementById('alog').style.display = 'none';
-      document.getElementById('apanel').style.display = 'block';
-      renderAdminList(d.submissions);
-    } else { document.getElementById('als').textContent = 'X ' + (d.error||'Invalid passcode'); }
-  } catch(e) { document.getElementById('als').textContent = 'X Network error'; }
+/* ── Admin ── */
+async function adminLogin(){
+  var code=document.getElementById('acode').value.trim();
+  document.getElementById('als').textContent='Verifying...';
+  try{
+    var r=await fetch(WORKER+'/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:code,action:'list'})});
+    var d=await r.json();
+    if(d.ok){adminToken=code;document.getElementById('alog').style.display='none';document.getElementById('apanel').style.display='block';renderAdminList(d.submissions);}
+    else{document.getElementById('als').textContent='X '+(d.error||'Invalid passcode');}
+  }catch(e){document.getElementById('als').textContent='X Network error';}
 }
-
-async function adminRefresh() {
-  if (!adminToken) return;
-  setAS('Refreshing...');
-  try {
-    var r = await fetch(WORKER + '/admin', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({passcode: adminToken, action: 'list'})
-    });
-    var d = await r.json();
-    if (d.ok) renderAdminList(d.submissions); else setAS('Error: ' + d.error);
-  } catch(e) { setAS('Network error'); }
+async function adminRefresh(){
+  if(!adminToken)return;setAS('Refreshing...');
+  try{var r=await fetch(WORKER+'/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'list'})});var d=await r.json();if(d.ok)renderAdminList(d.submissions);else setAS('Error: '+d.error);}
+  catch(e){setAS('Network error');}
 }
-
-function renderAdminList(subs) {
-  var el = document.getElementById('alist');
-  if (!subs.length) { el.innerHTML = '<div class="empty">No community submissions yet.</div>'; setAS(''); return; }
-  el.innerHTML = subs.map(function(ps) {
-    var approved = ps.approved !== false;
-    return '<div class="aitem' + (approved ? '' : ' dim') + '" data-admin-id="' + esc(ps.id) + '">'
-      + '<div class="aitem-t">' + esc(ps.id) + ' - ' + esc(ps.title) + '</div>'
-      + '<div class="aitem-m">' + ps.priority + ' (' + ps.priorityScore + ') by ' + esc(ps.submittedBy||'anon')
-        + ' | ' + (ps.submittedAt ? new Date(ps.submittedAt).toLocaleDateString() : '?')
-        + ' | Status: <strong style="color:' + (approved ? '#3fb950' : '#e63946') + '">' + (approved ? 'Approved' : 'Hidden') + '</strong></div>'
-      + '<div style="display:flex;gap:8px;flex-wrap:wrap">'
-        + '<button class="ab ab-t" data-action="toggle" data-id="' + esc(ps.id) + '">' + (approved ? 'Hide' : 'Show') + '</button>'
-        + '<button class="ab ab-e" data-action="edit"   data-id="' + esc(ps.id) + '">Edit</button>'
-        + '<button class="ab ab-d" data-action="delete" data-id="' + esc(ps.id) + '">Delete</button>'
-      + '</div>'
-      + '<div class="edit-zone" id="ez-' + esc(ps.id) + '" style="display:none;margin-top:12px">'
-        + '<label style="font-size:11px;color:#8b949e;display:block;margin-bottom:3px">Title</label>'
-        + '<input class="ef" id="et-' + esc(ps.id) + '" value="' + esc(ps.title) + '" />'
-        + '<label style="font-size:11px;color:#8b949e;display:block;margin-bottom:3px">Tagline</label>'
-        + '<input class="ef" id="eg-' + esc(ps.id) + '" value="' + esc(ps.tagline) + '" />'
-        + '<div style="display:flex;gap:8px;margin-top:4px">'
-          + '<button class="ab ab-s" data-action="save"   data-id="' + esc(ps.id) + '">Save</button>'
-          + '<button class="ab ab-c" data-action="cancel" data-id="' + esc(ps.id) + '">Cancel</button>'
-        + '</div>'
-      + '</div>'
-    + '</div>';
+function renderAdminList(subs){
+  var el=document.getElementById('alist');
+  if(!subs.length){el.innerHTML='<div class="empty">No community submissions yet.</div>';setAS('');return;}
+  el.innerHTML=subs.map(function(ps){
+    var approved=ps.approved!==false;
+    return '<div class="aitem'+(approved?'':' dim')+'" data-admin-id="'+esc(ps.id)+'">'
+      +'<div class="aitem-t">'+esc(ps.id)+' - '+esc(ps.title)+'</div>'
+      +'<div class="aitem-m">'+ps.priority+' ('+ps.priorityScore+') by '+esc(ps.submittedBy||'anon')
+        +' | '+(ps.submittedAt?new Date(ps.submittedAt).toLocaleDateString():'?')
+        +' | Status: <strong style="color:'+(approved?'#3fb950':'#e63946')+'">'+(approved?'Approved':'Hidden')+'</strong></div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap">'
+        +'<button class="ab ab-t" data-action="toggle" data-id="'+esc(ps.id)+'">'+(approved?'Hide':'Show')+'</button>'
+        +'<button class="ab ab-e" data-action="edit"   data-id="'+esc(ps.id)+'">Edit</button>'
+        +'<button class="ab ab-d" data-action="delete" data-id="'+esc(ps.id)+'">Delete</button>'
+      +'</div>'
+      +'<div id="ez-'+esc(ps.id)+'" style="display:none;margin-top:12px">'
+        +'<label style="font-size:11px;color:#8b949e;display:block;margin-bottom:3px">Title</label>'
+        +'<input class="ef" id="et-'+esc(ps.id)+'" value="'+esc(ps.title)+'" />'
+        +'<label style="font-size:11px;color:#8b949e;display:block;margin-bottom:3px">Tagline</label>'
+        +'<input class="ef" id="eg-'+esc(ps.id)+'" value="'+esc(ps.tagline)+'" />'
+        +'<div style="display:flex;gap:8px;margin-top:4px">'
+          +'<button class="ab ab-s" data-action="save"   data-id="'+esc(ps.id)+'">Save</button>'
+          +'<button class="ab ab-c" data-action="cancel" data-id="'+esc(ps.id)+'">Cancel</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
   }).join('');
-  setAS(subs.length + ' total | ' + subs.filter(function(s){ return s.approved !== false; }).length + ' approved');
+  setAS(subs.length+' total | '+subs.filter(function(s){return s.approved!==false;}).length+' approved');
 }
-
-async function adminDelete(id) {
-  if (!confirm('Delete ' + id + '? Cannot be undone.')) return;
-  setAS('Deleting...');
-  var r = await fetch(WORKER + '/admin', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'delete',id:id})});
-  var d = await r.json();
-  if (d.ok) { setAS('Deleted.'); adminRefresh(); loadCommunity(); } else setAS('Error: ' + d.error);
+async function adminDelete(id){
+  if(!confirm('Delete '+id+'? Cannot be undone.'))return;setAS('Deleting...');
+  var r=await fetch(WORKER+'/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'delete',id:id})});
+  var d=await r.json();if(d.ok){setAS('Deleted.');adminRefresh();loadCommunity();}else setAS('Error: '+d.error);
 }
-async function adminToggle(id) {
+async function adminToggle(id){
   setAS('Updating...');
-  var r = await fetch(WORKER + '/admin', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'toggle',id:id})});
-  var d = await r.json();
-  if (d.ok) { setAS('Updated.'); adminRefresh(); loadCommunity(); } else setAS('Error: ' + d.error);
+  var r=await fetch(WORKER+'/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'toggle',id:id})});
+  var d=await r.json();if(d.ok){setAS('Updated.');adminRefresh();loadCommunity();}else setAS('Error: '+d.error);
 }
-async function adminSaveEdit(id) {
-  var title   = document.getElementById('et-' + id).value.trim();
-  var tagline = document.getElementById('eg-' + id).value.trim();
+async function adminSaveEdit(id){
+  var title=document.getElementById('et-'+id).value.trim();
+  var tagline=document.getElementById('eg-'+id).value.trim();
   setAS('Saving...');
-  var r = await fetch(WORKER + '/admin', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'edit',id:id,updates:{title:title,tagline:tagline}})});
-  var d = await r.json();
-  if (d.ok) { setAS('Saved.'); adminRefresh(); loadCommunity(); } else setAS('Error: ' + d.error);
+  var r=await fetch(WORKER+'/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'edit',id:id,updates:{title:title,tagline:tagline}})});
+  var d=await r.json();if(d.ok){setAS('Saved.');adminRefresh();loadCommunity();}else setAS('Error: '+d.error);
 }
-function adminLogout() {
-  adminToken = null;
-  document.getElementById('apanel').style.display = 'none';
-  document.getElementById('alog').style.display = 'block';
-  document.getElementById('acode').value = '';
-  document.getElementById('als').textContent = '';
+function adminLogout(){
+  adminToken=null;document.getElementById('apanel').style.display='none';
+  document.getElementById('alog').style.display='block';
+  document.getElementById('acode').value='';document.getElementById('als').textContent='';
 }
-function setAS(m) { document.getElementById('ast').textContent = m; }
+function setAS(m){document.getElementById('ast').textContent=m;}
 
-// ── Wire up all click handlers via delegation (NO inline onclick strings) ──
-function initDelegation() {
-  // Exec table rows
-  delegateClicks('exec-tbody', '.ps-row', function(el) {
-    openDetail(el.dataset.id, el.dataset.src);
+/* ── Event delegation ── */
+function initDelegation(){
+  delegateClicks('exec-tbody','.ps-row',function(el){openDetail(el.dataset.id,el.dataset.src);});
+  ['pgrid','cgrid'].forEach(function(gid){
+    delegateClicks(gid,'.ps-card',function(el){openDetail(el.dataset.id,el.dataset.src);});
   });
-  // PS grid cards (core + community)
-  ['pgrid','cgrid'].forEach(function(gid) {
-    delegateClicks(gid, '.ps-card', function(el) {
-      openDetail(el.dataset.id, el.dataset.src);
-    });
-  });
-  // Admin buttons
-  delegateClicks('alist', '[data-action]', function(el) {
-    var action = el.dataset.action;
-    var id     = el.dataset.id;
-    if (action === 'delete') adminDelete(id);
-    else if (action === 'toggle') adminToggle(id);
-    else if (action === 'edit')   document.getElementById('ez-' + id).style.display = 'block';
-    else if (action === 'cancel') document.getElementById('ez-' + id).style.display = 'none';
-    else if (action === 'save')   adminSaveEdit(id);
+  delegateClicks('alist','[data-action]',function(el){
+    var action=el.dataset.action,id=el.dataset.id;
+    if(action==='delete')adminDelete(id);
+    else if(action==='toggle')adminToggle(id);
+    else if(action==='edit')document.getElementById('ez-'+id).style.display='block';
+    else if(action==='cancel')document.getElementById('ez-'+id).style.display='none';
+    else if(action==='save')adminSaveEdit(id);
   });
 }
 
-// ── Init ──────────────────────────────────────────────────────────
-renderExecTable();
+/* ── Init ── */
+renderExecSummary();
 renderGrid();
 initDelegation();
 loadCommunity();
