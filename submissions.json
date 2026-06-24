@@ -31,6 +31,6 @@
     "pocScope": "Build a licence expiry dashboard using synthetic registry data: ingest a CSV of 500 mock licences with expiry dates and types, apply risk scoring, surface top 20 at-risk licences with recommended actions, and generate a sample enforcement alert email. 1-week build using Python + Claude API for alert text generation.",
     "submittedBy": "CS",
     "submittedAt": "2026-06-24T21:05:50.411Z",
-    "approved": true
+    "approved": false
   }
 ]
