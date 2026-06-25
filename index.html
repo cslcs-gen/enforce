@@ -97,6 +97,22 @@ input.pi:focus{border-color:#00b4d8}
 .core-ps-item .ps-meta{font-size:11px;color:#8b949e;margin-top:2px}
 .deploy-log{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px 14px;font-size:12px;font-family:monospace;min-height:40px;max-height:200px;overflow-y:auto}
 .dl-ok{color:#3fb950}.dl-er{color:#e63946}.dl-in{color:#8b949e}.dl-wa{color:#f4a261}
+.edit-ps-form{background:#0d1117;border:1px solid #00b4d8;border-radius:8px;padding:16px;margin-top:10px;display:none}
+.edit-ps-form.on{display:block}
+.edit-ps-form .ef-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8b949e;display:block;margin-bottom:4px;margin-top:10px}
+.edit-ps-form .ef-label:first-child{margin-top:0}
+.edit-ps-form input,.edit-ps-form textarea,.edit-ps-form select{width:100%;background:#161b22;border:1px solid #30363d;border-radius:5px;color:#e6edf3;padding:8px 10px;font-family:inherit;font-size:12px;margin-bottom:2px;outline:none}
+.edit-ps-form input:focus,.edit-ps-form textarea:focus{border-color:#00b4d8}
+.edit-ps-form textarea{min-height:70px;resize:vertical;line-height:1.5}
+.edit-ps-form .arr-item{display:flex;gap:6px;margin-bottom:6px;align-items:flex-start}
+.edit-ps-form .arr-item textarea{min-height:50px;margin-bottom:0}
+.edit-ps-form .arr-btn{background:#21262d;border:1px solid #30363d;color:#8b949e;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.edit-ps-form .arr-btn:hover{color:#e6edf3}
+.edit-ps-form .form-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.core-ps-item{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px 14px;margin-bottom:8px}
+.core-ps-item-header{display:flex;justify-content:space-between;align-items:center}
+.copy-json-box{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:14px;font-family:monospace;font-size:11px;color:#8b949e;white-space:pre-wrap;max-height:200px;overflow-y:auto;margin-top:10px;display:none}
+.copy-json-box.on{display:block}
 .admin-section-divider{border:none;border-top:2px solid #30363d;margin:28px 0}
 .pat-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:4px}
 .pat-row input{margin-bottom:0;flex:1}</style>
@@ -196,7 +212,19 @@ input.pi:focus{border-color:#00b4d8}
       </div>
       <span id="pat-saved-badge" style="display:none;font-size:11px;color:#3fb950">&#10003; PAT loaded from storage</span>
     </div>
-    <div class="card"><span class="card-label">Current Core Problem Statements</span><div id="core-ps-list"></div></div>
+    <div class="card">
+      <span class="card-label">Current Core Problem Statements</span>
+      <p style="color:#8b949e;font-size:12px;margin-bottom:12px">Click Edit to modify any field inline. Save triggers AI exec summary regeneration and redeploy.</p>
+      <div id="core-ps-list"></div>
+      <hr style="border:none;border-top:1px solid #30363d;margin:16px 0">
+      <span class="card-label">Export Full PS JSON</span>
+      <p style="color:#8b949e;font-size:12px;margin-bottom:10px">Copy the entire core problem statements array to paste elsewhere or back up.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="ab ab-s" onclick="copyAllJSON()">&#128203; Copy Full PS JSON</button>
+        <button class="ab ab-e" onclick="toggleJSONPreview()">&#128065; Preview JSON</button>
+      </div>
+      <div class="copy-json-box" id="json-preview"></div>
+    </div>
     <div class="card" style="border-color:#8957e5">
       <span class="card-label" style="color:#8957e5">Import &amp; Rationalise New PS</span>
       <p style="color:#8b949e;font-size:12px;margin-bottom:12px">Paste any PS JSON. Claude will improve it to match core quality, check overlaps, suggest a score. Review and approve before adding.</p>
@@ -595,14 +623,116 @@ function getPat(){var f=document.getElementById('admin-pat');if(f.dataset.saved=
 
 function renderCorePS(){
   document.getElementById('core-ps-list').innerHTML=problemStatements.map(function(ps,i){
-    return '<div class="core-ps-item">'
-      +'<div style="flex:1"><div class="ps-title">'+esc(ps.id)+' &mdash; '+esc(ps.title)+'</div>'
-        +'<div class="ps-meta"><span class="badge-'+ps.priority+'">'+ps.priority+'</span> &nbsp;'+ps.priorityScore+'/10</div></div>'
-      +'<button class="ab ab-d" style="margin-left:12px;flex-shrink:0" data-core-action="remove" data-idx="'+i+'">Remove</button>'
+    return '<div class="core-ps-item" id="core-item-'+i+'">'
+      +'<div class="core-ps-item-header">'
+        +'<div style="flex:1">'
+          +'<div class="ps-title">'+esc(ps.id)+' &mdash; '+esc(ps.title)+'</div>'
+          +'<div class="ps-meta"><span class="badge-'+ps.priority+'">'+ps.priority+'</span> &nbsp;'+ps.priorityScore+'/10</div>'
+        +'</div>'
+        +'<div style="display:flex;gap:6px;margin-left:12px;flex-shrink:0">'
+          +'<button class="ab ab-e" data-core-action="edit" data-idx="'+i+'">Edit</button>'
+          +'<button class="ab ab-d" data-core-action="remove" data-idx="'+i+'">Remove</button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="edit-ps-form" id="edit-form-'+i+'"></div>'
     +'</div>';
   }).join('');
 }
 
+function openEditForm(idx){
+  var ps=problemStatements[idx];if(!ps)return;
+  document.querySelectorAll('.edit-ps-form.on').forEach(function(f){f.className='edit-ps-form';});
+  var form=document.getElementById('edit-form-'+idx);if(!form)return;
+  function arrF(arr,name){
+    return (arr||[]).map(function(v,j){
+      return '<div class="arr-item"><textarea id="'+name+'-'+idx+'-'+j+'" rows="2">'+esc(v)+'</textarea>'
+        +'<button class="arr-btn" onclick="removeArrItem(\''+name+'\','+idx+','+j+')">&#10005;</button></div>';
+    }).join('')+'<button class="arr-btn" style="margin-top:2px" onclick="addArrItem(\''+name+'\','+idx+')">+ Add</button>';
+  }
+  form.innerHTML=
+    '<span class="ef-label">ID</span><input id="ef-id-'+idx+'" value="'+esc(ps.id)+'" />'
+    +'<span class="ef-label">Title</span><input id="ef-title-'+idx+'" value="'+esc(ps.title)+'" />'
+    +'<span class="ef-label">Tagline</span><input id="ef-tagline-'+idx+'" value="'+esc(ps.tagline)+'" />'
+    +'<span class="ef-label">Priority</span>'
+    +'<select id="ef-priority-'+idx+'">'
+      +['Critical','High','Medium'].map(function(p){return '<option'+(ps.priority===p?' selected':'')+'>'+p+'</option>';}).join('')
+    +'</select>'
+    +'<span class="ef-label">Priority Score (1-10)</span><input id="ef-score-'+idx+'" type="number" min="1" max="10" step="0.1" value="'+ps.priorityScore+'" />'
+    +'<span class="ef-label">Priority Reason</span><textarea id="ef-reason-'+idx+'">'+esc(ps.priorityReason)+'</textarea>'
+    +'<span class="ef-label">Users</span><textarea id="ef-users-'+idx+'">'+esc(ps.users)+'</textarea>'
+    +'<span class="ef-label">Use Case</span><textarea id="ef-useCase-'+idx+'" rows="3">'+esc(ps.useCase)+'</textarea>'
+    +'<span class="ef-label">Pain Points</span><div id="arr-painPoints-'+idx+'">'+arrF(ps.painPoints,'painPoints')+'</div>'
+    +'<span class="ef-label">Consequence</span><textarea id="ef-consequence-'+idx+'">'+esc(ps.consequence)+'</textarea>'
+    +'<span class="ef-label">Global Reference</span><textarea id="ef-globalRef-'+idx+'">'+esc(ps.globalRef)+'</textarea>'
+    +'<span class="ef-label">AI Solution</span><textarea id="ef-aiSolution-'+idx+'" rows="3">'+esc(ps.aiSolution)+'</textarea>'
+    +'<span class="ef-label">AI Techniques</span><div id="arr-aiTechniques-'+idx+'">'+arrF(ps.aiTechniques,'aiTechniques')+'</div>'
+    +'<span class="ef-label">Northstar Metrics</span><div id="arr-northstar-'+idx+'">'+arrF(ps.northstar,'northstar')+'</div>'
+    +'<span class="ef-label">POC Scope</span><textarea id="ef-pocScope-'+idx+'">'+esc(ps.pocScope)+'</textarea>'
+    +'<span class="ef-label">Submitted By</span><input id="ef-submittedBy-'+idx+'" value="'+esc(ps.submittedBy||'')+'" />'
+    +'<div class="form-actions">'
+      +'<button class="ab ab-s" data-core-action="save-edit" data-idx="'+idx+'">&#10003; Save &amp; Redeploy</button>'
+      +'<button class="ab ab-c" data-core-action="close-edit" data-idx="'+idx+'">Cancel</button>'
+    +'</div>';
+  form.className='edit-ps-form on';
+}
+
+function getArrValues(name,idx){
+  var c=document.getElementById('arr-'+name+'-'+idx);if(!c)return[];
+  var vals=[];c.querySelectorAll('textarea').forEach(function(t){if(t.value.trim())vals.push(t.value.trim());});
+  return vals;
+}
+function removeArrItem(name,idx,j){var el=document.getElementById(name+'-'+idx+'-'+j);if(el&&el.parentElement)el.parentElement.remove();}
+function addArrItem(name,idx){
+  var c=document.getElementById('arr-'+name+'-'+idx);if(!c)return;
+  var j=c.querySelectorAll('.arr-item').length;
+  var div=document.createElement('div');div.className='arr-item';
+  div.innerHTML='<textarea id="'+name+'-'+idx+'-'+j+'" rows="2"></textarea>'
+    +'<button class="arr-btn" onclick="removeArrItem(\''+name+'\','+idx+','+j+')">&#10005;</button>';
+  c.insertBefore(div,c.querySelector('.arr-btn:last-child'));
+}
+
+function saveEditAndDeploy(idx){
+  var pat=getPat();if(!pat){dlog('er','Enter your GitHub PAT first.');return;}
+  var ps=problemStatements[idx];if(!ps)return;
+  function gv(id){var el=document.getElementById(id);return el?el.value.trim():'';}
+  ps.id=gv('ef-id-'+idx)||ps.id;
+  ps.title=gv('ef-title-'+idx)||ps.title;
+  ps.tagline=gv('ef-tagline-'+idx)||ps.tagline;
+  ps.priority=gv('ef-priority-'+idx)||ps.priority;
+  ps.priorityScore=parseFloat(gv('ef-score-'+idx))||ps.priorityScore;
+  ps.priorityReason=gv('ef-reason-'+idx)||ps.priorityReason;
+  ps.users=gv('ef-users-'+idx)||ps.users;
+  ps.useCase=gv('ef-useCase-'+idx)||ps.useCase;
+  ps.painPoints=getArrValues('painPoints',idx);
+  ps.consequence=gv('ef-consequence-'+idx)||ps.consequence;
+  ps.globalRef=gv('ef-globalRef-'+idx)||ps.globalRef;
+  ps.aiSolution=gv('ef-aiSolution-'+idx)||ps.aiSolution;
+  ps.aiTechniques=getArrValues('aiTechniques',idx);
+  ps.northstar=getArrValues('northstar',idx);
+  ps.pocScope=gv('ef-pocScope-'+idx)||ps.pocScope;
+  ps.submittedBy=gv('ef-submittedBy-'+idx);
+  problemStatements[idx]=ps;
+  document.getElementById('edit-form-'+idx).className='edit-ps-form';
+  dlog('in',ps.id+' updated. Regenerating exec summary and deploying...');
+  regenAndDeploy(pat);
+}
+
+function copyAllJSON(){
+  var txt=JSON.stringify(problemStatements,null,2);
+  navigator.clipboard.writeText(txt).then(function(){
+    dlog('ok','Copied! '+problemStatements.length+' problem statements in clipboard.');
+  }).catch(function(){
+    document.getElementById('json-preview').textContent=txt;
+    document.getElementById('json-preview').className='copy-json-box on';
+    dlog('wa','Clipboard blocked - JSON shown in preview below. Select all and copy manually.');
+  });
+}
+
+function toggleJSONPreview(){
+  var box=document.getElementById('json-preview');
+  if(box.className==='copy-json-box on'){box.className='copy-json-box';}
+  else{box.textContent=JSON.stringify(problemStatements,null,2);box.className='copy-json-box on';}
+}
 async function rationalisePS(){
   var raw=document.getElementById('import-ps-json').value.trim();
   if(!raw){dlog('er','Paste a PS JSON first.');return;}
@@ -724,7 +854,11 @@ function initDelegation(){
     else if(a==='save')adminSaveEdit(id);
   });
   delegateClicks('core-ps-list','[data-core-action]',function(el){
-    if(el.dataset.coreAction==='remove')removeCorePS(parseInt(el.dataset.idx));
+    var action=el.dataset.coreAction,idx=parseInt(el.dataset.idx);
+    if(action==='remove')removeCorePS(idx);
+    else if(action==='edit')openEditForm(idx);
+    else if(action==='save-edit')saveEditAndDeploy(idx);
+    else if(action==='close-edit'){var f=document.getElementById('edit-form-'+idx);if(f)f.className='edit-ps-form';}
   });
 }
 
