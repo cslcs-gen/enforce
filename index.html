@@ -3,238 +3,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI in Healthcare Enforcement - enforce.buildjoynow.com</title>
-<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',system-ui,sans-serif;background:#0d1117;color:#e6edf3;font-size:14px;line-height:1.6}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0d1117}::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
-.app-header{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border-bottom:1px solid #30363d;padding:28px 40px 20px}
-.app-header .badge{display:inline-block;background:#e63946;color:#fff;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:3px;margin-bottom:10px}
-.app-header h1{font-size:24px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
-.app-header .sub{color:#8b949e;font-size:12px}
-.app-header .meta{display:flex;gap:20px;margin-top:12px;font-size:11px;color:#8b949e;flex-wrap:wrap}
-.tabs{display:flex;background:#161b22;border-bottom:1px solid #30363d;padding:0 40px;overflow-x:auto}
-.tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:#8b949e;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;padding:12px 16px;white-space:nowrap}
-.tab-btn:hover{color:#e6edf3}.tab-btn.active{color:#00b4d8;border-bottom-color:#00b4d8}.tab-btn:disabled{opacity:.35;cursor:default}
-.pane{display:none;padding:32px 40px;max-width:1100px;margin:0 auto}.pane.active{display:block}
-.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:22px;margin-bottom:16px}
-.card-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#00b4d8;display:block;margin-bottom:8px}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:700px){.two-col{grid-template-columns:1fr}.pane{padding:20px 16px}.tabs,.app-header{padding-left:16px;padding-right:16px}}
-.badge-Critical{background:#e63946;color:#fff;border-radius:3px;padding:2px 8px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.badge-High{background:#f4a261;color:#0d1117;border-radius:3px;padding:2px 8px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.badge-Medium{background:#2a9d8f;color:#fff;border-radius:3px;padding:2px 8px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.score-bar{display:inline-block;width:60px;height:5px;background:#21262d;border-radius:3px;overflow:hidden;vertical-align:middle;margin-right:5px}
-.score-fill{height:100%;border-radius:3px}
-.exec-table{width:100%;border-collapse:collapse}
-.exec-table th{text-align:left;padding:9px 12px;font-size:10px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #30363d}
-.exec-table td{padding:11px 12px;border-bottom:1px solid #21262d;font-size:13px;vertical-align:middle}
-.exec-table .ps-row:hover td{background:#1c2128;cursor:pointer}
-.id-cell{font-family:monospace;font-size:11px;color:#00b4d8;font-weight:700}
-.ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.ps-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:18px;cursor:pointer;transition:border-color .15s,transform .1s}
-.ps-card:hover{border-color:#00b4d8;transform:translateY(-2px)}
-.ps-card h3{font-size:14px;font-weight:700;margin:8px 0;line-height:1.4}
-.ps-tag{font-size:12px;color:#8b949e;margin-bottom:10px;line-height:1.5}
-.community-pill{display:inline-block;background:#1a0f2e;border:1px solid rgba(137,87,229,.3);border-radius:20px;padding:2px 10px;font-size:10px;color:#8957e5;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.back-btn{background:none;border:1px solid #30363d;color:#8b949e;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-family:inherit;margin-bottom:20px}
-.back-btn:hover{border-color:#8b949e;color:#e6edf3}
-.detail-header{border-left:4px solid #00b4d8;padding-left:18px;margin-bottom:24px}
-.detail-header h2{font-size:20px;font-weight:800;margin:6px 0 4px}
-.detail-header .tagline{color:#8b949e;font-style:italic;font-size:13px}
-.bullet-item{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start}
-.global-ref{background:#0d2137;border:1px solid rgba(0,180,216,.12);border-radius:6px;padding:12px;font-size:12px;color:#8b949e;line-height:1.7}
-.poc-box{background:#0f1f0f;border:1px solid #238636;border-radius:6px;padding:14px}
-.northstar-box{background:#1a1420;border:1px solid rgba(137,87,229,.12);border-radius:6px;padding:14px}
-.ai-pill{display:inline-block;background:#0d2137;border:1px solid rgba(0,180,216,.25);border-radius:20px;padding:3px 12px;font-size:11px;color:#00b4d8;margin:3px 4px 3px 0}
-.section-title{font-size:12px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #30363d}
-.info-note{background:#0d1f0d;border:1px solid rgba(35,134,54,.25);border-radius:6px;padding:12px 14px;font-size:12px;color:#7ee787;margin-bottom:16px;line-height:1.7}
-.step-block{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:22px;margin-bottom:16px}
-.step-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:#00b4d8;color:#0d1117;border-radius:50%;font-size:12px;font-weight:800;margin-bottom:12px}
-.prompt-box{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:14px;font-family:monospace;font-size:11px;color:#8b949e;line-height:1.7;white-space:pre-wrap;max-height:240px;overflow-y:auto;margin-bottom:10px}
-.copy-btn{background:#21262d;border:1px solid #30363d;color:#e6edf3;padding:7px 14px;border-radius:5px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600}
-.copy-btn:hover{background:#2d333b}.copy-btn.copied{background:#238636;border-color:#3fb950;color:#fff}
-textarea.pz{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;color:#e6edf3;padding:12px;font-family:monospace;font-size:12px;min-height:180px;resize:vertical;outline:none;line-height:1.6;transition:border-color .2s}
-textarea.pz:focus{border-color:#00b4d8}
-input.pi{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;color:#e6edf3;padding:10px 14px;font-family:monospace;font-size:13px;letter-spacing:2px;outline:none;transition:border-color .2s}
-input.pi:focus{border-color:#00b4d8}
-.sbtn{width:100%;background:#238636;color:#fff;border:none;border-radius:8px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px}
-.sbtn:hover{opacity:.88}.sbtn:disabled{opacity:.4;cursor:not-allowed}
-.abtn{border:none;border-radius:6px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
-.abtn:hover{opacity:.85}.abtn:disabled{opacity:.4;cursor:not-allowed}
-.abtn-blue{background:#00b4d8;color:#0d1117}
-.abtn-green{background:#238636;color:#fff}
-.abtn-grey{background:#21262d;color:#e6edf3;border:1px solid #30363d}
-.vbox{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px 14px;font-size:12px;font-family:monospace;min-height:40px;margin-top:10px;display:none}
-.vbox.on{display:block}
-.v-ok{color:#3fb950}.v-err{color:#e63946}.v-info{color:#8b949e}.v-warn{color:#f4a261}
-.suc{background:#0f2a0f;border:1px solid #3fb950;border-radius:8px;padding:18px;margin-top:12px;display:none}
-.suc.on{display:block}.suc h3{color:#3fb950;margin-bottom:8px;font-size:14px}.suc p{color:#7ee787;font-size:12px;line-height:1.7}
-.aw{max-width:620px;margin:0 auto}
-.aitem{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:10px}
-.aitem.dim{opacity:.45}
-.aitem-t{font-weight:700;color:#e6edf3;margin-bottom:3px;font-size:13px}
-.aitem-m{font-size:11px;color:#8b949e;margin-bottom:10px}
-.ab{border:none;border-radius:5px;padding:6px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
-.ab:hover{opacity:.8}
-.ab-d{background:#e63946;color:#fff}.ab-t{background:#f4a261;color:#0d1117}
-.ab-e{background:#00b4d8;color:#0d1117}.ab-s{background:#238636;color:#fff}
-.ab-c{background:#21262d;color:#e6edf3;border:1px solid #30363d}
-.ef{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:5px;color:#e6edf3;padding:8px 10px;font-family:inherit;font-size:12px;margin-bottom:8px;outline:none}
-.ef:focus{border-color:#00b4d8}
-.ast{font-family:monospace;font-size:12px;color:#8b949e;margin-top:10px;min-height:18px}
-.empty{text-align:center;padding:40px;color:#8b949e;font-size:13px}
-.poc-badge{margin-top:10px;padding:7px 10px;background:#0d1f0d;border-radius:4px;font-size:11px;color:#3fb950}
-.ai-result-box{background:#0d1117;border:1px solid #8957e5;border-radius:8px;padding:18px;margin-top:14px;display:none}
-.ai-result-box.on{display:block}
-.ai-result-box h4{color:#8957e5;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-.ai-section{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #21262d}
-.ai-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.ai-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8b949e;margin-bottom:6px}
-.ai-section-content{font-size:13px;color:#e6edf3;line-height:1.7}
-.overlap-tag{display:inline-block;background:#1a0f0f;border:1px solid #e6394640;border-radius:4px;padding:2px 8px;font-size:11px;color:#e63946;margin:2px}
-.core-ps-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0d1117;border:1px solid #30363d;border-radius:6px;margin-bottom:8px}
-.core-ps-item .ps-title{font-size:13px;font-weight:600;color:#e6edf3}
-.core-ps-item .ps-meta{font-size:11px;color:#8b949e;margin-top:2px}
-.deploy-log{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px 14px;font-size:12px;font-family:monospace;min-height:40px;max-height:200px;overflow-y:auto}
-.dl-ok{color:#3fb950}.dl-er{color:#e63946}.dl-in{color:#8b949e}.dl-wa{color:#f4a261}
-.edit-ps-form{background:#0d1117;border:1px solid #00b4d8;border-radius:8px;padding:16px;margin-top:10px;display:none}
-.edit-ps-form.on{display:block}
-.edit-ps-form .ef-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8b949e;display:block;margin-bottom:4px;margin-top:10px}
-.edit-ps-form .ef-label:first-child{margin-top:0}
-.edit-ps-form input,.edit-ps-form textarea,.edit-ps-form select{width:100%;background:#161b22;border:1px solid #30363d;border-radius:5px;color:#e6edf3;padding:8px 10px;font-family:inherit;font-size:12px;margin-bottom:2px;outline:none}
-.edit-ps-form input:focus,.edit-ps-form textarea:focus{border-color:#00b4d8}
-.edit-ps-form textarea{min-height:70px;resize:vertical;line-height:1.5}
-.edit-ps-form .arr-item{display:flex;gap:6px;margin-bottom:6px;align-items:flex-start}
-.edit-ps-form .arr-item textarea{min-height:50px;margin-bottom:0}
-.edit-ps-form .arr-btn{background:#21262d;border:1px solid #30363d;color:#8b949e;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.edit-ps-form .arr-btn:hover{color:#e6edf3}
-.edit-ps-form .form-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.core-ps-item{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px 14px;margin-bottom:8px}
-.core-ps-item-header{display:flex;justify-content:space-between;align-items:center}
-.copy-json-box{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:14px;font-family:monospace;font-size:11px;color:#8b949e;white-space:pre-wrap;max-height:200px;overflow-y:auto;margin-top:10px;display:none}
-.copy-json-box.on{display:block}
-.admin-section-divider{border:none;border-top:2px solid #30363d;margin:28px 0}
-.pat-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:4px}
-.pat-row input{margin-bottom:0;flex:1}</style>
+<title>AI in Healthcare Enforcement &mdash; enforce.buildjoynow.com</title>
+<style>
+:root {
+  --ink: #0a0c10;
+  --paper: #f7f6f2;
+  --mid: #e8e5de;
+  --rule: #c8c4b8;
+  --accent: #1a4fd6;
+  --accent-light: #e8eeff;
+  --danger: #c0392b;
+  --success: #1a7a4a;
+  --warn: #b8620a;
+  --muted: #6b6860;
+  --mono: 'Courier New', Courier, monospace;
+  --Critical: #c0392b;
+  --High: #b8620a;
+  --Medium: #1a7a4a;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; scroll-behavior: smooth; }
+body { font-family: Georgia,'Times New Roman',serif; background: var(--paper); color: var(--ink); line-height: 1.65; }
+/* MASTHEAD */
+.masthead { border-bottom: 3px solid var(--ink); padding: 2rem 2rem 1.2rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.masthead-left .eyebrow { font-family: Arial,sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+.masthead-left h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.masthead-left h1 span { color: var(--accent); }
+.masthead-meta { text-align: right; font-family: Arial,sans-serif; font-size: 0.72rem; color: var(--muted); line-height: 1.8; }
+/* TABS NAV */
+.tab-nav { background: var(--ink); color: var(--paper); padding: 0 2rem; display: flex; gap: 0; flex-wrap: nowrap; overflow-x: auto; font-family: Arial,sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; }
+.tab-nav button { background: none; border: none; border-bottom: 3px solid transparent; color: rgba(247,246,242,0.65); cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; padding: 0.8rem 1.2rem; white-space: nowrap; transition: color 0.15s; text-transform: uppercase; }
+.tab-nav button:hover { color: var(--paper); }
+.tab-nav button.active { color: var(--paper); border-bottom-color: var(--accent); }
+/* PANES */
+.pane { display: none; }
+.pane.active { display: block; }
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+/* SECTION HEADERS */
+.section-header { border-top: 2px solid var(--ink); padding-top: 0.8rem; margin-bottom: 1.5rem; }
+.section-header .step-label { font-family: Arial,sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.2rem; }
+.section-header h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+.section-header p { color: var(--muted); font-family: Arial,sans-serif; font-size: 0.82rem; margin-top: 0.3rem; }
+/* EXEC TABLE */
+.exec-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 1rem; }
+.exec-table th { background: var(--ink); color: var(--paper); font-family: Arial,sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.6rem 0.8rem; text-align: left; }
+.exec-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--mid); font-family: Arial,sans-serif; font-size: 0.78rem; vertical-align: middle; }
+.exec-table tr:nth-child(even) td { background: #fafaf8; }
+.exec-table tr:hover td { background: var(--accent-light); cursor: pointer; }
+.exec-table .id-cell { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--accent); }
+.priority-badge { font-family: Arial,sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 2px; }
+.priority-Critical { background: #fce4e4; color: var(--danger); }
+.priority-High { background: #fff3cd; color: var(--warn); }
+.priority-Medium { background: #e8f5e9; color: var(--success); }
+.score-bar { display: inline-block; width: 60px; height: 4px; background: var(--mid); vertical-align: middle; margin-right: 6px; }
+.score-fill { height: 4px; background: var(--accent); }
+.community-tag { font-family: Arial,sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: #f0e8ff; color: #5b21b6; padding: 0.1rem 0.4rem; margin-left: 6px; border-radius: 2px; }
+/* PS GRID */
+.ps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+.ps-card { border: 1px solid var(--rule); background: white; padding: 1.2rem; cursor: pointer; position: relative; transition: border-color 0.15s, box-shadow 0.15s; }
+.ps-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(26,79,214,0.12); }
+.ps-card .card-id { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-bottom: 0.4rem; }
+.ps-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.35; padding-right: 2rem; }
+.ps-card .card-tag { font-size: 0.77rem; color: var(--muted); font-family: Arial,sans-serif; line-height: 1.4; margin-bottom: 0.8rem; }
+.ps-card .card-foot { display: flex; align-items: center; gap: 0.6rem; }
+.ps-card .card-rank { position: absolute; top: 1rem; right: 1rem; font-family: Arial,sans-serif; font-size: 0.6rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+.section-label-bar { font-family: Arial,sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper); background: var(--ink); display: inline-block; padding: 0.15rem 0.6rem; margin-bottom: 0.8rem; }
+/* POC SEQUENCE */
+.poc-sequence { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
+.poc-phase { border-left: 3px solid var(--accent); padding: 0.6rem 0.8rem; background: white; border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.poc-phase .phase-label { font-family: Arial,sans-serif; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.4rem; }
+.poc-phase .phase-item { font-family: Arial,sans-serif; font-size: 0.75rem; color: var(--ink); padding: 0.2rem 0; border-bottom: 1px solid var(--mid); }
+.poc-phase .phase-item:last-child { border-bottom: none; }
+/* DETAIL VIEW */
+.back-btn { background: none; border: 1px solid var(--rule); color: var(--muted); padding: 0.3rem 0.8rem; font-family: Arial,sans-serif; font-size: 0.72rem; cursor: pointer; margin-bottom: 1.5rem; font-weight: 700; }
+.back-btn:hover { border-color: var(--ink); color: var(--ink); }
+.detail-header { border: 2px solid var(--ink); padding: 1.5rem; margin-bottom: 1.5rem; }
+.detail-header .rec-number { background: var(--accent); color: white; font-family: Arial,sans-serif; font-size: 1.2rem; font-weight: 900; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.detail-header .rec-number.Critical { background: var(--danger); }
+.detail-header .rec-number.High { background: var(--warn); }
+.detail-header .rec-number.Medium { background: var(--success); }
+.detail-top { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.8rem; }
+.detail-top h2 { font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+.detail-top .tagline { font-family: Arial,sans-serif; font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; font-style: italic; }
+.detail-meta { display: flex; gap: 1rem; flex-wrap: wrap; font-family: Arial,sans-serif; font-size: 0.72rem; }
+.detail-meta-item .dm-label { color: var(--muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; display: block; }
+.detail-meta-item .dm-value { font-weight: 700; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+.detail-section { background: white; border: 1px solid var(--rule); padding: 1rem 1.2rem; }
+.detail-section.full-width { grid-column: 1 / -1; }
+.detail-section h4 { font-family: Arial,sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--mid); }
+.detail-section p { font-family: Arial,sans-serif; font-size: 0.8rem; line-height: 1.6; color: var(--ink); }
+.detail-section ul { padding-left: 1.1rem; font-family: Arial,sans-serif; font-size: 0.78rem; line-height: 1.8; }
+.arch-box { background: var(--accent-light); border-left: 3px solid var(--accent); padding: 0.8rem 1rem; font-family: var(--mono); font-size: 0.7rem; line-height: 1.7; margin-top: 0.4rem; overflow-x: auto; }
+.tech-pill { display: inline-block; background: var(--ink); color: var(--paper); font-family: Arial,sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.15rem 0.5rem; margin: 0.15rem; text-transform: uppercase; }
+.agent-item { border-bottom: 1px solid var(--mid); padding: 0.4rem 0; font-family: Arial,sans-serif; font-size: 0.77rem; }
+.agent-item:last-child { border-bottom: none; }
+.agent-item strong { color: var(--accent); }
+.token-box { background: #fff8e1; border: 1px solid #f4c842; padding: 0.8rem 1rem; font-family: Arial,sans-serif; font-size: 0.78rem; line-height: 1.6; }
+/* SUBMIT TAB */
+.callout { background: var(--accent-light); border: 1px solid var(--accent); padding: 1rem 1.2rem; margin: 1rem 0; font-family: Arial,sans-serif; font-size: 0.8rem; line-height: 1.6; }
+.callout strong { color: var(--accent); }
+.step-block { border: 1px solid var(--rule); background: white; padding: 1.2rem; margin-bottom: 1rem; }
+.step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--accent); color: white; font-family: Arial,sans-serif; font-size: 0.72rem; font-weight: 900; margin-bottom: 0.8rem; }
+.prompt-box { background: #fafaf8; border: 1px solid var(--mid); padding: 1rem; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); line-height: 1.7; white-space: pre-wrap; max-height: 220px; overflow-y: auto; margin-bottom: 0.8rem; }
+.copy-btn { background: var(--ink); color: var(--paper); border: none; padding: 0.4rem 1rem; font-family: Arial,sans-serif; font-size: 0.72rem; font-weight: 700; cursor: pointer; letter-spacing: 0.06em; text-transform: uppercase; }
+.copy-btn:hover { opacity: 0.85; }
+.copy-btn.copied { background: var(--success); }
+textarea.pz { width: 100%; background: #fafaf8; border: 1px solid var(--mid); color: var(--ink); padding: 0.8rem; font-family: var(--mono); font-size: 0.72rem; min-height: 160px; resize: vertical; outline: none; line-height: 1.6; }
+textarea.pz:focus { border-color: var(--accent); }
+input.pi { width: 100%; background: #fafaf8; border: 1px solid var(--mid); color: var(--ink); padding: 0.6rem 0.8rem; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; outline: none; }
+input.pi:focus { border-color: var(--accent); }
+.submit-btn { width: 100%; background: var(--success); color: white; border: none; padding: 0.9rem; font-family: Arial,sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.4rem; }
+.submit-btn:hover { opacity: 0.88; }
+.submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.vbox { background: #fafaf8; border: 1px solid var(--mid); padding: 0.8rem; font-family: var(--mono); font-size: 0.7rem; margin-top: 0.8rem; min-height: 40px; display: none; }
+.vbox.on { display: block; }
+.v-ok { color: var(--success); } .v-err { color: var(--danger); } .v-info { color: var(--muted); }
+.suc { background: #e8f5e9; border: 1px solid var(--success); padding: 1rem; margin-top: 0.8rem; display: none; }
+.suc.on { display: block; }
+.suc h3 { color: var(--success); font-size: 0.9rem; margin-bottom: 0.4rem; font-family: Arial,sans-serif; }
+.suc p { font-family: Arial,sans-serif; font-size: 0.78rem; color: var(--ink); }
+/* ADMIN TAB */
+.admin-wrap { max-width: 640px; margin: 0 auto; }
+.aitem { border: 1px solid var(--rule); background: white; padding: 1rem; margin-bottom: 0.8rem; }
+.aitem.dim { opacity: 0.45; }
+.aitem-t { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.2rem; }
+.aitem-m { font-family: Arial,sans-serif; font-size: 0.72rem; color: var(--muted); margin-bottom: 0.6rem; }
+.ab { border: 1px solid var(--rule); background: white; padding: 0.3rem 0.8rem; font-family: Arial,sans-serif; font-size: 0.7rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; }
+.ab:hover { background: var(--mid); }
+.ab-d { border-color: var(--danger); color: var(--danger); }
+.ab-d:hover { background: #fce4e4; }
+.ab-t { border-color: var(--warn); color: var(--warn); }
+.ab-s { border-color: var(--success); color: var(--success); }
+.ab-s:hover { background: #e8f5e9; }
+.ab-e { border-color: var(--accent); color: var(--accent); }
+.ab-c { color: var(--muted); }
+.ef { width: 100%; background: #fafaf8; border: 1px solid var(--mid); color: var(--ink); padding: 0.4rem 0.6rem; font-family: Arial,sans-serif; font-size: 0.78rem; margin-bottom: 0.5rem; outline: none; }
+.ef:focus { border-color: var(--accent); }
+.ast { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; min-height: 16px; }
+.empty { text-align: center; padding: 3rem; color: var(--muted); font-family: Arial,sans-serif; font-size: 0.82rem; }
+.pat-row { display: flex; gap: 0.6rem; align-items: flex-start; margin-bottom: 0.4rem; }
+.pat-row input { margin-bottom: 0; flex: 1; }
+.admin-section-divider { border: none; border-top: 2px solid var(--ink); margin: 2rem 0; }
+.core-ps-item { border-bottom: 1px solid var(--mid); padding: 0.7rem 0; display: flex; justify-content: space-between; align-items: center; }
+.core-ps-item:last-child { border-bottom: none; }
+.core-ps-item .ps-title { font-weight: 700; font-size: 0.82rem; }
+.core-ps-item .ps-meta { font-family: Arial,sans-serif; font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+.edit-ps-form { background: #fafaf8; border: 1px solid var(--accent); padding: 1rem; margin-top: 0.8rem; display: none; }
+.edit-ps-form.on { display: block; }
+.ef-label { font-family: Arial,sans-serif; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: block; margin-bottom: 0.25rem; margin-top: 0.7rem; }
+.ef-label:first-child { margin-top: 0; }
+.edit-ps-form input, .edit-ps-form textarea, .edit-ps-form select { width: 100%; background: white; border: 1px solid var(--mid); color: var(--ink); padding: 0.4rem 0.6rem; font-family: Arial,sans-serif; font-size: 0.78rem; margin-bottom: 2px; outline: none; }
+.edit-ps-form input:focus, .edit-ps-form textarea:focus { border-color: var(--accent); }
+.edit-ps-form textarea { min-height: 60px; resize: vertical; line-height: 1.4; }
+.arr-item { display: flex; gap: 0.4rem; margin-bottom: 0.4rem; align-items: flex-start; }
+.arr-item textarea { min-height: 44px; margin-bottom: 0; }
+.arr-btn { background: var(--mid); border: none; color: var(--ink); padding: 0.3rem 0.6rem; font-family: Arial,sans-serif; font-size: 0.68rem; cursor: pointer; flex-shrink: 0; }
+.arr-btn:hover { background: var(--rule); }
+.form-actions { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+.copy-json-box { background: #fafaf8; border: 1px solid var(--mid); padding: 0.8rem; font-family: var(--mono); font-size: 0.68rem; white-space: pre-wrap; max-height: 180px; overflow-y: auto; margin-top: 0.8rem; display: none; }
+.copy-json-box.on { display: block; }
+.ai-result-box { border: 1px solid var(--accent); background: var(--accent-light); padding: 1rem; margin-top: 1rem; display: none; }
+.ai-result-box.on { display: block; }
+.ai-result-box h4 { font-family: Arial,sans-serif; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 0.8rem; }
+.ai-section { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
+.ai-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.ai-section-label { font-family: Arial,sans-serif; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.4rem; }
+.ai-section-content { font-family: Arial,sans-serif; font-size: 0.8rem; }
+.overlap-tag { display: inline-block; background: #fce4e4; color: var(--danger); font-family: Arial,sans-serif; font-size: 0.65rem; font-weight: 700; padding: 0.1rem 0.4rem; margin: 0.1rem; border-radius: 2px; }
+.abtn { border: none; padding: 0.5rem 1rem; font-family: Arial,sans-serif; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.06em; }
+.abtn:hover { opacity: 0.85; }
+.abtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.abtn-blue { background: var(--accent); color: white; }
+.abtn-green { background: var(--success); color: white; }
+.abtn-grey { background: var(--mid); color: var(--ink); border: 1px solid var(--rule); }
+/* FOOTER */
+.site-footer { border-top: 2px solid var(--ink); margin-top: 3rem; padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-family: Arial,sans-serif; font-size: 0.72rem; color: var(--muted); }
+@media(max-width:700px){
+  .masthead{flex-direction:column}.masthead-meta{text-align:left}
+  .detail-grid{grid-template-columns:1fr}
+  .detail-section.full-width{grid-column:1}
+  .container{padding:1rem}
+  .ps-grid{grid-template-columns:1fr}
+  .poc-sequence{grid-template-columns:1fr}
+}</style>
 </head>
 <body>
-<div class="app-header">
-  <div class="badge">Health Ministry - Enforcement Division</div>
-  <h1>AI in Healthcare Enforcement</h1>
-  <p class="sub">Problem Statement Research - enforce.buildjoynow.com</p>
-  <div class="meta">
-    <span>&#128203; <span id="ps-count">8</span> Problem Statements</span>
-    <span>&#127760; Global Market Research</span>
-    <span>&#129302; POC-Ready Scopes</span>
-    <span id="cmeta" style="display:none">&#128161; <span id="cnum">0</span> Community</span>
+<div class="masthead">
+  <div class="masthead-left">
+    <div class="eyebrow">Health Ministry &middot; Enforcement Division &middot; Singapore</div>
+    <h1>AI in <span>Healthcare</span> Enforcement</h1>
+  </div>
+  <div class="masthead-meta">
+    Problem Statement Research Report<br>
+    enforce.buildjoynow.com<br>
+    Research: FDA &middot; DOJ &middot; UK &middot; MOH/HSA &middot; 2024&ndash;2026
   </div>
 </div>
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('exec')">Executive Summary</button>
-  <button class="tab-btn" onclick="switchTab('statements')">All Problem Statements</button>
-  <button class="tab-btn" id="dtb" onclick="switchTab('detail')" disabled>Detail View</button>
-  <button class="tab-btn" onclick="switchTab('submit')">&#128161; Submit Idea</button>
-  <button class="tab-btn" onclick="switchTab('admin')">&#128274; Admin</button>
+<div class="tab-nav">
+  <button class="active" onclick="switchTab('exec')">Executive Summary</button>
+  <button onclick="switchTab('statements')">All Problem Statements</button>
+  <button id="detail-tab-btn" onclick="switchTab('detail')" disabled>Deep Dive</button>
+  <button onclick="switchTab('submit')">Submit Idea</button>
+  <button onclick="switchTab('admin')">Admin</button>
 </div>
 <div class="pane active" id="pane-exec">
-  <div class="card">
-    <span class="card-label">Executive Summary</span>
-    <p id="exec-summary-text" style="color:#8b949e;line-height:1.7;margin-bottom:20px">This report identifies 8 prioritised AI problem statements for the Health Ministry enforcement ecosystem covering field operations, complaint management, online enforcement intelligence, professional conduct oversight, and regulatory knowledge. Derived from global research across FDA, DOJ, UK, Singapore MOH/HSA (2024-2026). Each scored against impact, feasibility, urgency, and POC speed.</p>
-    <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;overflow:hidden">
-      <table class="exec-table"><thead><tr style="background:#0d1117">
-        <th>ID</th><th>Problem Statement</th><th>Priority</th><th>Score</th><th>Why It's a Priority</th>
-      </tr></thead><tbody id="exec-tbody"></tbody></table>
-    </div>
-    <p style="color:#8b949e;font-size:11px;margin-top:8px">Click any row to view full pitch</p>
-  </div>
-  <div class="card">
-    <span class="card-label">Recommended POC Sequence</span>
-    <div id="poc-sequence" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-  </div>
-</div>
+<div class="container">
+  <div class="section-header"><div class="step-label">Report Overview</div><h2>Executive Summary</h2><p>9 prioritised AI problem statements for the Health Ministry enforcement ecosystem.</p></div>
+  <p id="exec-summary-text" style="font-family:Arial,sans-serif;font-size:0.88rem;line-height:1.7;margin-bottom:2rem;color:#0a0c10">This report presents 9 prioritised AI problem statements developed for the Health Ministry’s enforcement division, spanning six key domains: field inspection operations, complaint management, online enforcement intelligence, professional conduct oversight, regulatory knowledge management, and licence lifecycle monitoring. Each problem statement is grounded in global research drawn from the FDA (USA), US DOJ, UK Care Quality Commission, Singapore MOH/HSA, Australia TGA/AHPRA, WHO/EMA, and peer-reviewed academic literature published between 2024 and 2026. Problem statements are individually scored against four evaluation dimensions — impact, feasibility, urgency, and proof-of-concept speed — to support prioritised investment and sequencing decisions.</p>
+  <table class="exec-table">
+    <thead><tr><th>Score</th><th>ID</th><th>Problem Statement</th><th>Priority</th><th>Why It's a Priority</th></tr></thead>
+    <tbody id="exec-tbody"></tbody>
+  </table>
+  <div class="section-header" style="margin-top:2.5rem"><div class="step-label">Implementation</div><h2>Recommended POC Sequence</h2></div>
+  <div class="poc-sequence" id="poc-sequence"></div>
+</div></div>
 <div class="pane" id="pane-statements">
-  <p style="color:#8b949e;margin-bottom:16px;font-size:13px">Click a card to view the full pitch:</p>
-  <div id="cs" style="display:none;margin-bottom:24px"><div class="section-title">Community Submissions</div><div class="ps-grid" id="cgrid"></div></div>
-  <div class="section-title">Core Problem Statements</div>
+<div class="container">
+  <div class="section-header"><div class="step-label"><span id="ps-count">9</span> Problem Statements</div><h2>All Problem Statements</h2><p>Click any card to view detailed architecture, stack, and implementation plan.</p></div>
+  <div id="cs" style="display:none;margin-bottom:2rem">
+    <div class="section-label-bar">Community Submissions &mdash; <span id="cnum">0</span></div>
+    <span id="cmeta" style="display:none"></span>
+    <div class="ps-grid" id="cgrid"></div>
+  </div>
+  <div class="section-label-bar">Core Problem Statements</div>
   <div class="ps-grid" id="pgrid"></div>
-</div>
+</div></div>
 <div class="pane" id="pane-detail">
-  <button class="back-btn" onclick="switchTab('statements')">&larr; Back to all</button>
-  <div id="dc"></div>
-</div>
+<div class="container">
+  <button class="back-btn" onclick="switchTab('statements')">&larr; Back to all problem statements</button>
+  <div id="detail-content"></div>
+</div></div>
 <div class="pane" id="pane-submit">
-  <div class="info-note"><strong>How this works:</strong> Use Claude (claude.ai) with the prompt format below. Paste the JSON output back here with the passcode to publish your idea.</div>
-  <div class="step-block"><div class="step-num">1</div>
-    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Add this on top of your prompt to generate same idea format for submission</div>
-    <div style="color:#8b949e;font-size:12px;margin-bottom:12px">Open claude.ai, paste this at the top, then describe your healthcare enforcement problem below it.</div>
+<div class="container">
+  <div class="section-header"><div class="step-label">Contribute</div><h2>Submit Idea</h2><p>Use Claude with the prompt template below to generate a compatible problem statement.</p></div>
+  <div class="callout"><strong>How this works:</strong> Copy the prompt, add it to the top of your message in Claude, describe your healthcare enforcement problem below it, then paste the JSON output back here with the shared passcode.</div>
+  <div class="step-block">
+    <div class="step-num">1</div>
+    <p style="font-family:Arial,sans-serif;font-size:0.82rem;font-weight:700;margin-bottom:0.6rem">Add this on top of your prompt to generate the same idea format for submission</p>
     <div class="prompt-box" id="prompt-display"></div>
     <button class="copy-btn" id="cbtn" onclick="copyPrompt()">Copy Prompt</button>
   </div>
-  <div class="step-block"><div class="step-num">2</div>
-    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Paste your generated output JSON here</div>
-    <div style="color:#8b949e;font-size:12px;margin-bottom:10px">Copy the entire JSON block (starting { ending }) and paste below.</div>
-    <textarea class="pz" id="pzone" placeholder="Paste your generated JSON output here..." oninput="liveVal()"></textarea>
+  <div class="step-block">
+    <div class="step-num">2</div>
+    <p style="font-family:Arial,sans-serif;font-size:0.82rem;font-weight:700;margin-bottom:0.6rem">Paste your generated output JSON here</p>
+    <textarea class="pz" id="pzone" placeholder="Paste the JSON from Claude here..." oninput="liveVal()"></textarea>
     <div class="vbox" id="vb"></div>
   </div>
-  <div class="step-block"><div class="step-num">3</div>
-    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Enter the shared passcode</div>
+  <div class="step-block">
+    <div class="step-num">3</div>
+    <p style="font-family:Arial,sans-serif;font-size:0.82rem;font-weight:700;margin-bottom:0.6rem">Enter the shared passcode</p>
     <input class="pi" type="password" id="spc" placeholder="Passcode..." autocomplete="off" />
   </div>
-  <div class="step-block"><div class="step-num">4</div>
-    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Submit</div>
-    <button class="sbtn" id="sbtn" onclick="submitPS()">Submit Problem Statement</button>
-    <div class="suc" id="suc"><h3>Submission Accepted!</h3><p>Published. Refresh in ~2 minutes.</p></div>
+  <div class="step-block">
+    <div class="step-num">4</div>
+    <button class="submit-btn" id="sbtn" onclick="submitPS()">Submit Problem Statement</button>
+    <div class="suc" id="suc"><h3>Submission Accepted</h3><p>Published. Refresh in ~2 minutes to see it in Community Submissions.</p></div>
   </div>
-</div>
+</div></div>
 <div class="pane" id="pane-admin">
-  <div id="alog" class="aw"><div class="card">
-    <span class="card-label">Admin Access</span>
-    <p style="color:#8b949e;font-size:13px;margin-bottom:14px">Enter admin passcode to manage submissions and core PS.</p>
-    <input class="pi" type="password" id="acode" placeholder="Admin passcode..." autocomplete="off" onkeydown="if(event.key==='Enter')adminLogin()" />
-    <button class="sbtn" style="margin-top:10px" onclick="adminLogin()">Access Admin</button>
-    <div class="ast" id="als"></div>
-  </div></div>
+<div class="container">
+  <div class="section-header"><div class="step-label">Administration</div><h2>Admin Panel</h2></div>
+  <div id="alog" class="admin-wrap">
+    <div style="border:1px solid #c8c4b8;background:white;padding:1.5rem">
+      <p style="font-family:Arial,sans-serif;font-size:0.82rem;margin-bottom:1rem;color:#6b6860">Enter admin passcode to manage submissions and core problem statements.</p>
+      <input class="pi" type="password" id="acode" placeholder="Admin passcode..." autocomplete="off" onkeydown="if(event.key==='Enter')adminLogin()" style="margin-bottom:0.8rem" />
+      <button class="submit-btn" onclick="adminLogin()">Access Admin</button>
+      <div class="ast" id="als"></div>
+    </div>
+  </div>
   <div id="apanel" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
-      <div><div style="font-size:16px;font-weight:800">Community Submissions</div><div style="font-size:12px;color:#8b949e">Hide, edit or delete public submissions</div></div>
-      <div style="display:flex;gap:8px"><button class="ab ab-s" onclick="adminRefresh()">Refresh</button><button class="ab ab-c" onclick="adminLogout()">Logout</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem">
+      <div><strong style="font-size:1rem">Community Submissions</strong><div style="font-family:Arial,sans-serif;font-size:0.72rem;color:#6b6860">Hide, edit or delete public submissions</div></div>
+      <div style="display:flex;gap:0.5rem"><button class="ab ab-s" onclick="adminRefresh()">Refresh</button><button class="ab ab-c" onclick="adminLogout()">Logout</button></div>
     </div>
     <div id="alist"></div><div class="ast" id="ast"></div>
     <hr class="admin-section-divider">
-    <div style="margin-bottom:14px"><div style="font-size:16px;font-weight:800;margin-bottom:4px">Core PS Manager</div>
-      <div style="font-size:12px;color:#8b949e">Import, improve with AI, and redeploy. Executive summary auto-regenerates on every deploy.</div></div>
-    <div class="card" style="border-color:#238636">
-      <span class="card-label" style="color:#3fb950">GitHub PAT for Deployment</span>
+    <div style="margin-bottom:1rem"><strong style="font-size:1rem">Core PS Manager</strong><div style="font-family:Arial,sans-serif;font-size:0.72rem;color:#6b6860">Edit any core problem statement and redeploy. Changes regenerate the exec summary.</div></div>
+    <div style="border:1px solid #c8c4b8;background:white;padding:1.2rem;margin-bottom:1rem">
+      <div style="font-family:Arial,sans-serif;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:#6b6860;margin-bottom:0.6rem">GitHub PAT for Deployment</div>
       <div class="pat-row">
         <input class="pi" type="password" id="admin-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" style="letter-spacing:normal" />
         <button class="ab ab-s" onclick="savePat()">Save</button>
         <button class="ab ab-d" onclick="forgetPat()">Forget</button>
       </div>
-      <span id="pat-saved-badge" style="display:none;font-size:11px;color:#3fb950">&#10003; PAT loaded from storage</span>
+      <span id="pat-saved-badge" style="display:none;font-family:Arial,sans-serif;font-size:0.72rem;color:#1a7a4a">&#10003; PAT loaded from storage</span>
     </div>
-    <div class="card">
-      <span class="card-label">Current Core Problem Statements</span>
-      <p style="color:#8b949e;font-size:12px;margin-bottom:12px">Click Edit to modify any field inline. Save triggers AI exec summary regeneration and redeploy.</p>
+    <div style="border:1px solid #c8c4b8;background:white;padding:1.2rem;margin-bottom:1rem">
+      <div style="font-family:Arial,sans-serif;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:#6b6860;margin-bottom:0.8rem">Current Core Problem Statements</div>
       <div id="core-ps-list"></div>
-      <hr style="border:none;border-top:1px solid #30363d;margin:16px 0">
-      <span class="card-label">Export Full PS JSON</span>
-      <p style="color:#8b949e;font-size:12px;margin-bottom:10px">Copy the entire core problem statements array to paste elsewhere or back up.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="ab ab-s" onclick="copyAllJSON()">&#128203; Copy Full PS JSON</button>
-        <button class="ab ab-e" onclick="toggleJSONPreview()">&#128065; Preview JSON</button>
+      <hr style="border:none;border-top:1px solid #e8e5de;margin:1rem 0">
+      <div style="font-family:Arial,sans-serif;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:#6b6860;margin-bottom:0.6rem">Export Full PS JSON (Core + Community)</div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem">
+        <button class="ab ab-s" onclick="copyAllJSON()">Copy Full PS JSON</button>
+        <button class="ab ab-e" onclick="toggleJSONPreview()">Preview JSON</button>
       </div>
       <div class="copy-json-box" id="json-preview"></div>
     </div>
-    <div class="card" style="border-color:#8957e5">
-      <span class="card-label" style="color:#8957e5">Prompt for Rationalise into Executive Summary</span>
-      <p style="color:#8b949e;font-size:12px;margin-bottom:12px">Use this prompt in Claude to rationalise any PS JSON and generate an updated executive summary matching the format of the Executive Summary tab.</p>
-      <div class="prompt-box" id="rationalise-prompt-display" style="max-height:300px"></div>
+    <div style="border:1px solid #1a4fd6;background:#e8eeff;padding:1.2rem;margin-bottom:1rem">
+      <div style="font-family:Arial,sans-serif;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:#1a4fd6;margin-bottom:0.6rem">Prompt for Rationalise into Executive Summary</div>
+      <p style="font-family:Arial,sans-serif;font-size:0.78rem;color:#6b6860;margin-bottom:0.8rem">Copy this prompt into Claude to get an updated executive summary, ranked table, and POC sequence covering all PS including community submissions.</p>
+      <div class="prompt-box" id="rationalise-prompt-display" style="max-height:240px"></div>
       <button class="copy-btn" id="cbtn-rationalise" onclick="copyRationalisePrompt()">Copy Prompt</button>
     </div>
-
   </div>
-</div>
+</div></div>
+<div class="container"><div class="site-footer">
+  <div>AI in Healthcare Enforcement &middot; enforce.buildjoynow.com &middot; Health Ministry Singapore</div>
+  <div>Research: FDA &middot; DOJ &middot; UK CQC &middot; MOH/HSA &middot; TGA/AHPRA &middot; WHO/EMA &middot; 2024&ndash;2026</div>
+</div></div>
 <script>
+var WORKER="https://enforce-api.buildjoynow.com";
+var PROMPT_TEMPLATE="You are helping a team contribute a problem statement to a healthcare enforcement AI research project run by a health ministry. Generate a structured problem statement in EXACT JSON format.\n\nIMPORTANT: Output ONLY the JSON object. No explanation, no markdown, no preamble. Start with { and end with }.\n\n{\n  \"id\": \"PS-C[short 3-letter topic code e.g. PS-CVAX]\",\n  \"title\": \"Clear concise title of the AI problem statement (max 80 chars)\",\n  \"tagline\": \"One sentence describing the core pain (max 120 chars)\",\n  \"priority\": \"[Critical | High | Medium]\",\n  \"priorityScore\": 7.5,\n  \"priorityReason\": \"2-3 sentences explaining why this is a priority for healthcare enforcement\",\n  \"users\": \"Who are the primary users affected (enforcement officers, inspectors, etc.)\",\n  \"useCase\": \"Describe the current workflow and where the problem occurs (3-5 sentences)\",\n  \"painPoints\": [\n    \"Pain point 1 - specific and concrete\",\n    \"Pain point 2\",\n    \"Pain point 3\",\n    \"Pain point 4\"\n  ],\n  \"consequence\": \"What happens if unsolved - patient safety, public trust, operational impact\",\n  \"globalRef\": \"How other countries/agencies (FDA, UK CQC, WHO, EU, TGA) have addressed this\",\n  \"aiSolution\": \"Describe the proposed AI solution - what it does, how, what data (3-5 sentences)\",\n  \"aiTechniques\": [\n    \"AI technique 1 e.g. NLP classification\",\n    \"AI technique 2\",\n    \"AI technique 3\"\n  ],\n  \"northstar\": [\n    \"Measurable outcome 1 e.g. Reduce X by Y%\",\n    \"Measurable outcome 2\",\n    \"Measurable outcome 3\"\n  ],\n  \"pocScope\": \"What a 1-2 week POC looks like - specific deliverable and tech approach\",\n  \"submittedBy\": \"Your name or team name\"\n}\n\nNOW generate the JSON for this healthcare enforcement problem:\n[CONTRIBUTOR: Replace this line with your problem description. Be specific about the pain, who suffers, and what an AI solution might look like.]";
+var EXEC_SUMMARY_TEXT="This report presents 9 prioritised AI problem statements developed for the Health Ministry\u2019s enforcement division, spanning six key domains: field inspection operations, complaint management, online enforcement intelligence, professional conduct oversight, regulatory knowledge management, and licence lifecycle monitoring. Each problem statement is grounded in global research drawn from the FDA (USA), US DOJ, UK Care Quality Commission, Singapore MOH/HSA, Australia TGA/AHPRA, WHO/EMA, and peer-reviewed academic literature published between 2024 and 2026. Problem statements are individually scored against four evaluation dimensions \u2014 impact, feasibility, urgency, and proof-of-concept speed \u2014 to support prioritised investment and sequencing decisions.";
+
 var WORKER="https://enforce-api.buildjoynow.com";
 var PROMPT_TEMPLATE="You are helping a team contribute a problem statement to a healthcare enforcement AI research project run by a health ministry. Generate a structured problem statement in EXACT JSON format.\n\nIMPORTANT: Output ONLY the JSON object. No explanation, no markdown, no preamble. Start with { and end with }.\n\n{\n  \"id\": \"PS-C[short 3-letter topic code e.g. PS-CVAX]\",\n  \"title\": \"Clear concise title of the AI problem statement (max 80 chars)\",\n  \"tagline\": \"One sentence describing the core pain (max 120 chars)\",\n  \"priority\": \"[Critical | High | Medium]\",\n  \"priorityScore\": 7.5,\n  \"priorityReason\": \"2-3 sentences explaining why this is a priority for healthcare enforcement\",\n  \"users\": \"Who are the primary users affected (enforcement officers, inspectors, etc.)\",\n  \"useCase\": \"Describe the current workflow and where the problem occurs (3-5 sentences)\",\n  \"painPoints\": [\n    \"Pain point 1 - specific and concrete\",\n    \"Pain point 2\",\n    \"Pain point 3\",\n    \"Pain point 4\"\n  ],\n  \"consequence\": \"What happens if unsolved - patient safety, public trust, operational impact\",\n  \"globalRef\": \"How other countries/agencies (FDA, UK CQC, WHO, EU, TGA) have addressed this\",\n  \"aiSolution\": \"Describe the proposed AI solution - what it does, how, what data (3-5 sentences)\",\n  \"aiTechniques\": [\n    \"AI technique 1 e.g. NLP classification\",\n    \"AI technique 2\",\n    \"AI technique 3\"\n  ],\n  \"northstar\": [\n    \"Measurable outcome 1 e.g. Reduce X by Y%\",\n    \"Measurable outcome 2\",\n    \"Measurable outcome 3\"\n  ],\n  \"pocScope\": \"What a 1-2 week POC looks like - specific deliverable and tech approach\",\n  \"submittedBy\": \"Your name or team name\"\n}\n\nNOW generate the JSON for this healthcare enforcement problem:\n[CONTRIBUTOR: Replace this line with your problem description. Be specific about the pain, who suffers, and what an AI solution might look like.]";
 const problemStatements = [
@@ -431,122 +513,304 @@ const execSummaryData = [
 
 var SITE_SHELL_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+QUkgaW4gSGVhbHRoY2FyZSBFbmZvcmNlbWVudCAtIGVuZm9yY2UuYnVpbGRqb3lub3cuY29tPC90aXRsZT4KPHN0eWxlPiosKjo6YmVmb3JlLCo6OmFmdGVye2JveC1zaXppbmc6Ym9yZGVyLWJveDttYXJnaW46MDtwYWRkaW5nOjB9CmJvZHl7Zm9udC1mYW1pbHk6J0ludGVyJyxzeXN0ZW0tdWksc2Fucy1zZXJpZjtiYWNrZ3JvdW5kOiMwZDExMTc7Y29sb3I6I2U2ZWRmMztmb250LXNpemU6MTRweDtsaW5lLWhlaWdodDoxLjZ9Cjo6LXdlYmtpdC1zY3JvbGxiYXJ7d2lkdGg6NnB4fTo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2t7YmFja2dyb3VuZDojMGQxMTE3fTo6LXdlYmtpdC1zY3JvbGxiYXItdGh1bWJ7YmFja2dyb3VuZDojMzAzNjNkO2JvcmRlci1yYWRpdXM6M3B4fQouYXBwLWhlYWRlcntiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCgxMzVkZWcsIzBkMTExNyAwJSwjMTYxYjIyIDEwMCUpO2JvcmRlci1ib3R0b206MXB4IHNvbGlkICMzMDM2M2Q7cGFkZGluZzoyOHB4IDQwcHggMjBweH0KLmFwcC1oZWFkZXIgLmJhZGdle2Rpc3BsYXk6aW5saW5lLWJsb2NrO2JhY2tncm91bmQ6I2U2Mzk0Njtjb2xvcjojZmZmO2ZvbnQtc2l6ZToxMHB4O2ZvbnQtd2VpZ2h0OjgwMDtsZXR0ZXItc3BhY2luZzoycHg7dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlO3BhZGRpbmc6M3B4IDEwcHg7Ym9yZGVyLXJhZGl1czozcHg7bWFyZ2luLWJvdHRvbToxMHB4fQouYXBwLWhlYWRlciBoMXtmb250LXNpemU6MjRweDtmb250LXdlaWdodDo4MDA7bGV0dGVyLXNwYWNpbmc6LTAuNXB4O21hcmdpbi1ib3R0b206NHB4fQouYXBwLWhlYWRlciAuc3Vie2NvbG9yOiM4Yjk0OWU7Zm9udC1zaXplOjEycHh9Ci5hcHAtaGVhZGVyIC5tZXRhe2Rpc3BsYXk6ZmxleDtnYXA6MjBweDttYXJnaW4tdG9wOjEycHg7Zm9udC1zaXplOjExcHg7Y29sb3I6IzhiOTQ5ZTtmbGV4LXdyYXA6d3JhcH0KLnRhYnN7ZGlzcGxheTpmbGV4O2JhY2tncm91bmQ6IzE2MWIyMjtib3JkZXItYm90dG9tOjFweCBzb2xpZCAjMzAzNjNkO3BhZGRpbmc6MCA0MHB4O292ZXJmbG93LXg6YXV0b30KLnRhYi1idG57YmFja2dyb3VuZDpub25lO2JvcmRlcjpub25lO2JvcmRlci1ib3R0b206MnB4IHNvbGlkIHRyYW5zcGFyZW50O2NvbG9yOiM4Yjk0OWU7Y3Vyc29yOnBvaW50ZXI7Zm9udC1mYW1pbHk6aW5oZXJpdDtmb250LXNpemU6MTNweDtmb250LXdlaWdodDo2MDA7cGFkZGluZzoxMnB4IDE2cHg7d2hpdGUtc3BhY2U6bm93cmFwfQoudGFiLWJ0bjpob3Zlcntjb2xvcjojZTZlZGYzfS50YWItYnRuLmFjdGl2ZXtjb2xvcjojMDBiNGQ4O2JvcmRlci1ib3R0b20tY29sb3I6IzAwYjRkOH0udGFiLWJ0bjpkaXNhYmxlZHtvcGFjaXR5Oi4zNTtjdXJzb3I6ZGVmYXVsdH0KLnBhbmV7ZGlzcGxheTpub25lO3BhZGRpbmc6MzJweCA0MHB4O21heC13aWR0aDoxMTAwcHg7bWFyZ2luOjAgYXV0b30ucGFuZS5hY3RpdmV7ZGlzcGxheTpibG9ja30KLmNhcmR7YmFja2dyb3VuZDojMTYxYjIyO2JvcmRlcjoxcHggc29saWQgIzMwMzYzZDtib3JkZXItcmFkaXVzOjhweDtwYWRkaW5nOjIycHg7bWFyZ2luLWJvdHRvbToxNnB4fQouY2FyZC1sYWJlbHtmb250LXNpemU6MTBweDtmb250LXdlaWdodDo4MDA7bGV0dGVyLXNwYWNpbmc6MnB4O3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtjb2xvcjojMDBiNGQ4O2Rpc3BsYXk6YmxvY2s7bWFyZ2luLWJvdHRvbTo4cHh9Ci50d28tY29se2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDFmcjtnYXA6MTZweH0KQG1lZGlhKG1heC13aWR0aDo3MDBweCl7LnR3by1jb2x7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmcn0ucGFuZXtwYWRkaW5nOjIwcHggMTZweH0udGFicywuYXBwLWhlYWRlcntwYWRkaW5nLWxlZnQ6MTZweDtwYWRkaW5nLXJpZ2h0OjE2cHh9fQouYmFkZ2UtQ3JpdGljYWx7YmFja2dyb3VuZDojZTYzOTQ2O2NvbG9yOiNmZmY7Ym9yZGVyLXJhZGl1czozcHg7cGFkZGluZzoycHggOHB4O2ZvbnQtc2l6ZToxMHB4O2ZvbnQtd2VpZ2h0OjcwMDtsZXR0ZXItc3BhY2luZzoxcHg7dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlfQouYmFkZ2UtSGlnaHtiYWNrZ3JvdW5kOiNmNGEyNjE7Y29sb3I6IzBkMTExNztib3JkZXItcmFkaXVzOjNweDtwYWRkaW5nOjJweCA4cHg7Zm9udC1zaXplOjEwcHg7Zm9udC13ZWlnaHQ6NzAwO2xldHRlci1zcGFjaW5nOjFweDt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2V9Ci5iYWRnZS1NZWRpdW17YmFja2dyb3VuZDojMmE5ZDhmO2NvbG9yOiNmZmY7Ym9yZGVyLXJhZGl1czozcHg7cGFkZGluZzoycHggOHB4O2ZvbnQtc2l6ZToxMHB4O2ZvbnQtd2VpZ2h0OjcwMDtsZXR0ZXItc3BhY2luZzoxcHg7dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlfQouc2NvcmUtYmFye2Rpc3BsYXk6aW5saW5lLWJsb2NrO3dpZHRoOjYwcHg7aGVpZ2h0OjVweDtiYWNrZ3JvdW5kOiMyMTI2MmQ7Ym9yZGVyLXJhZGl1czozcHg7b3ZlcmZsb3c6aGlkZGVuO3ZlcnRpY2FsLWFsaWduOm1pZGRsZTttYXJnaW4tcmlnaHQ6NXB4fQouc2NvcmUtZmlsbHtoZWlnaHQ6MTAwJTtib3JkZXItcmFkaXVzOjNweH0KLmV4ZWMtdGFibGV7d2lkdGg6MTAwJTtib3JkZXItY29sbGFwc2U6Y29sbGFwc2V9Ci5leGVjLXRhYmxlIHRoe3RleHQtYWxpZ246bGVmdDtwYWRkaW5nOjlweCAxMnB4O2ZvbnQtc2l6ZToxMHB4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojOGI5NDllO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzoxcHg7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgIzMwMzYzZH0KLmV4ZWMtdGFibGUgdGR7cGFkZGluZzoxMXB4IDEycHg7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgIzIxMjYyZDtmb250LXNpemU6MTNweDt2ZXJ0aWNhbC1hbGlnbjptaWRkbGV9Ci5leGVjLXRhYmxlIC5wcy1yb3c6aG92ZXIgdGR7YmFja2dyb3VuZDojMWMyMTI4O2N1cnNvcjpwb2ludGVyfQouaWQtY2VsbHtmb250LWZhbWlseTptb25vc3BhY2U7Zm9udC1zaXplOjExcHg7Y29sb3I6IzAwYjRkODtmb250LXdlaWdodDo3MDB9Ci5wcy1ncmlke2Rpc3BsYXk6Z3JpZDtncmlkLXRlbXBsYXRlLWNvbHVtbnM6cmVwZWF0KGF1dG8tZmlsbCxtaW5tYXgoMjYwcHgsMWZyKSk7Z2FwOjE0cHh9Ci5wcy1jYXJke2JhY2tncm91bmQ6IzE2MWIyMjtib3JkZXI6MXB4IHNvbGlkICMzMDM2M2Q7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzoxOHB4O2N1cnNvcjpwb2ludGVyO3RyYW5zaXRpb246Ym9yZGVyLWNvbG9yIC4xNXMsdHJhbnNmb3JtIC4xc30KLnBzLWNhcmQ6aG92ZXJ7Ym9yZGVyLWNvbG9yOiMwMGI0ZDg7dHJhbnNmb3JtOnRyYW5zbGF0ZVkoLTJweCl9Ci5wcy1jYXJkIGgze2ZvbnQtc2l6ZToxNHB4O2ZvbnQtd2VpZ2h0OjcwMDttYXJnaW46OHB4IDA7bGluZS1oZWlnaHQ6MS40fQoucHMtdGFne2ZvbnQtc2l6ZToxMnB4O2NvbG9yOiM4Yjk0OWU7bWFyZ2luLWJvdHRvbToxMHB4O2xpbmUtaGVpZ2h0OjEuNX0KLmNvbW11bml0eS1waWxse2Rpc3BsYXk6aW5saW5lLWJsb2NrO2JhY2tncm91bmQ6IzFhMGYyZTtib3JkZXI6MXB4IHNvbGlkIHJnYmEoMTM3LDg3LDIyOSwuMyk7Ym9yZGVyLXJhZGl1czoyMHB4O3BhZGRpbmc6MnB4IDEwcHg7Zm9udC1zaXplOjEwcHg7Y29sb3I6Izg5NTdlNTtmb250LXdlaWdodDo3MDA7bGV0dGVyLXNwYWNpbmc6MXB4O3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZX0KLmJhY2stYnRue2JhY2tncm91bmQ6bm9uZTtib3JkZXI6MXB4IHNvbGlkICMzMDM2M2Q7Y29sb3I6IzhiOTQ5ZTtwYWRkaW5nOjZweCAxNHB4O2JvcmRlci1yYWRpdXM6NnB4O2N1cnNvcjpwb2ludGVyO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OmluaGVyaXQ7bWFyZ2luLWJvdHRvbToyMHB4fQouYmFjay1idG46aG92ZXJ7Ym9yZGVyLWNvbG9yOiM4Yjk0OWU7Y29sb3I6I2U2ZWRmM30KLmRldGFpbC1oZWFkZXJ7Ym9yZGVyLWxlZnQ6NHB4IHNvbGlkICMwMGI0ZDg7cGFkZGluZy1sZWZ0OjE4cHg7bWFyZ2luLWJvdHRvbToyNHB4fQouZGV0YWlsLWhlYWRlciBoMntmb250LXNpemU6MjBweDtmb250LXdlaWdodDo4MDA7bWFyZ2luOjZweCAwIDRweH0KLmRldGFpbC1oZWFkZXIgLnRhZ2xpbmV7Y29sb3I6IzhiOTQ5ZTtmb250LXN0eWxlOml0YWxpYztmb250LXNpemU6MTNweH0KLmJ1bGxldC1pdGVte2Rpc3BsYXk6ZmxleDtnYXA6OHB4O21hcmdpbi1ib3R0b206OHB4O2FsaWduLWl0ZW1zOmZsZXgtc3RhcnR9Ci5nbG9iYWwtcmVme2JhY2tncm91bmQ6IzBkMjEzNztib3JkZXI6MXB4IHNvbGlkIHJnYmEoMCwxODAsMjE2LC4xMik7Ym9yZGVyLXJhZGl1czo2cHg7cGFkZGluZzoxMnB4O2ZvbnQtc2l6ZToxMnB4O2NvbG9yOiM4Yjk0OWU7bGluZS1oZWlnaHQ6MS43fQoucG9jLWJveHtiYWNrZ3JvdW5kOiMwZjFmMGY7Ym9yZGVyOjFweCBzb2xpZCAjMjM4NjM2O2JvcmRlci1yYWRpdXM6NnB4O3BhZGRpbmc6MTRweH0KLm5vcnRoc3Rhci1ib3h7YmFja2dyb3VuZDojMWExNDIwO2JvcmRlcjoxcHggc29saWQgcmdiYSgxMzcsODcsMjI5LC4xMik7Ym9yZGVyLXJhZGl1czo2cHg7cGFkZGluZzoxNHB4fQouYWktcGlsbHtkaXNwbGF5OmlubGluZS1ibG9jaztiYWNrZ3JvdW5kOiMwZDIxMzc7Ym9yZGVyOjFweCBzb2xpZCByZ2JhKDAsMTgwLDIxNiwuMjUpO2JvcmRlci1yYWRpdXM6MjBweDtwYWRkaW5nOjNweCAxMnB4O2ZvbnQtc2l6ZToxMXB4O2NvbG9yOiMwMGI0ZDg7bWFyZ2luOjNweCA0cHggM3B4IDB9Ci5zZWN0aW9uLXRpdGxle2ZvbnQtc2l6ZToxMnB4O2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojOGI5NDllO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzoxcHg7bWFyZ2luLWJvdHRvbToxNHB4O3BhZGRpbmctYm90dG9tOjhweDtib3JkZXItYm90dG9tOjFweCBzb2xpZCAjMzAzNjNkfQouaW5mby1ub3Rle2JhY2tncm91bmQ6IzBkMWYwZDtib3JkZXI6MXB4IHNvbGlkIHJnYmEoMzUsMTM0LDU0LC4yNSk7Ym9yZGVyLXJhZGl1czo2cHg7cGFkZGluZzoxMnB4IDE0cHg7Zm9udC1zaXplOjEycHg7Y29sb3I6IzdlZTc4NzttYXJnaW4tYm90dG9tOjE2cHg7bGluZS1oZWlnaHQ6MS43fQouc3RlcC1ibG9ja3tiYWNrZ3JvdW5kOiMxNjFiMjI7Ym9yZGVyOjFweCBzb2xpZCAjMzAzNjNkO2JvcmRlci1yYWRpdXM6OHB4O3BhZGRpbmc6MjJweDttYXJnaW4tYm90dG9tOjE2cHh9Ci5zdGVwLW51bXtkaXNwbGF5OmlubGluZS1mbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyO3dpZHRoOjI2cHg7aGVpZ2h0OjI2cHg7YmFja2dyb3VuZDojMDBiNGQ4O2NvbG9yOiMwZDExMTc7Ym9yZGVyLXJhZGl1czo1MCU7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwO21hcmdpbi1ib3R0b206MTJweH0KLnByb21wdC1ib3h7YmFja2dyb3VuZDojMGQxMTE3O2JvcmRlcjoxcHggc29saWQgIzMwMzYzZDtib3JkZXItcmFkaXVzOjZweDtwYWRkaW5nOjE0cHg7Zm9udC1mYW1pbHk6bW9ub3NwYWNlO2ZvbnQtc2l6ZToxMXB4O2NvbG9yOiM4Yjk0OWU7bGluZS1oZWlnaHQ6MS43O3doaXRlLXNwYWNlOnByZS13cmFwO21heC1oZWlnaHQ6MjQwcHg7b3ZlcmZsb3cteTphdXRvO21hcmdpbi1ib3R0b206MTBweH0KLmNvcHktYnRue2JhY2tncm91bmQ6IzIxMjYyZDtib3JkZXI6MXB4IHNvbGlkICMzMDM2M2Q7Y29sb3I6I2U2ZWRmMztwYWRkaW5nOjdweCAxNHB4O2JvcmRlci1yYWRpdXM6NXB4O2N1cnNvcjpwb2ludGVyO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OmluaGVyaXQ7Zm9udC13ZWlnaHQ6NjAwfQouY29weS1idG46aG92ZXJ7YmFja2dyb3VuZDojMmQzMzNifS5jb3B5LWJ0bi5jb3BpZWR7YmFja2dyb3VuZDojMjM4NjM2O2JvcmRlci1jb2xvcjojM2ZiOTUwO2NvbG9yOiNmZmZ9CnRleHRhcmVhLnB6e3dpZHRoOjEwMCU7YmFja2dyb3VuZDojMGQxMTE3O2JvcmRlcjoxcHggc29saWQgIzMwMzYzZDtib3JkZXItcmFkaXVzOjZweDtjb2xvcjojZTZlZGYzO3BhZGRpbmc6MTJweDtmb250LWZhbWlseTptb25vc3BhY2U7Zm9udC1zaXplOjEycHg7bWluLWhlaWdodDoxODBweDtyZXNpemU6dmVydGljYWw7b3V0bGluZTpub25lO2xpbmUtaGVpZ2h0OjEuNjt0cmFuc2l0aW9uOmJvcmRlci1jb2xvciAuMnN9CnRleHRhcmVhLnB6OmZvY3Vze2JvcmRlci1jb2xvcjojMDBiNGQ4fQppbnB1dC5waXt3aWR0aDoxMDAlO2JhY2tncm91bmQ6IzBkMTExNztib3JkZXI6MXB4IHNvbGlkICMzMDM2M2Q7Ym9yZGVyLXJhZGl1czo2cHg7Y29sb3I6I2U2ZWRmMztwYWRkaW5nOjEwcHggMTRweDtmb250LWZhbWlseTptb25vc3BhY2U7Zm9udC1zaXplOjEzcHg7bGV0dGVyLXNwYWNpbmc6MnB4O291dGxpbmU6bm9uZTt0cmFuc2l0aW9uOmJvcmRlci1jb2xvciAuMnN9CmlucHV0LnBpOmZvY3Vze2JvcmRlci1jb2xvcjojMDBiNGQ4fQouc2J0bnt3aWR0aDoxMDAlO2JhY2tncm91bmQ6IzIzODYzNjtjb2xvcjojZmZmO2JvcmRlcjpub25lO2JvcmRlci1yYWRpdXM6OHB4O3BhZGRpbmc6MTRweDtmb250LXNpemU6MTVweDtmb250LXdlaWdodDo3MDA7Y3Vyc29yOnBvaW50ZXI7Zm9udC1mYW1pbHk6aW5oZXJpdDttYXJnaW4tdG9wOjRweH0KLnNidG46aG92ZXJ7b3BhY2l0eTouODh9LnNidG46ZGlzYWJsZWR7b3BhY2l0eTouNDtjdXJzb3I6bm90LWFsbG93ZWR9Ci5hYnRue2JvcmRlcjpub25lO2JvcmRlci1yYWRpdXM6NnB4O3BhZGRpbmc6MTBweCAxOHB4O2ZvbnQtc2l6ZToxM3B4O2ZvbnQtd2VpZ2h0OjcwMDtjdXJzb3I6cG9pbnRlcjtmb250LWZhbWlseTppbmhlcml0fQouYWJ0bjpob3ZlcntvcGFjaXR5Oi44NX0uYWJ0bjpkaXNhYmxlZHtvcGFjaXR5Oi40O2N1cnNvcjpub3QtYWxsb3dlZH0KLmFidG4tYmx1ZXtiYWNrZ3JvdW5kOiMwMGI0ZDg7Y29sb3I6IzBkMTExN30KLmFidG4tZ3JlZW57YmFja2dyb3VuZDojMjM4NjM2O2NvbG9yOiNmZmZ9Ci5hYnRuLWdyZXl7YmFja2dyb3VuZDojMjEyNjJkO2NvbG9yOiNlNmVkZjM7Ym9yZGVyOjFweCBzb2xpZCAjMzAzNjNkfQoudmJveHtiYWNrZ3JvdW5kOiMwZDExMTc7Ym9yZGVyOjFweCBzb2xpZCAjMzAzNjNkO2JvcmRlci1yYWRpdXM6NnB4O3BhZGRpbmc6MTJweCAxNHB4O2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5Om1vbm9zcGFjZTttaW4taGVpZ2h0OjQwcHg7bWFyZ2luLXRvcDoxMHB4O2Rpc3BsYXk6bm9uZX0KLnZib3gub257ZGlzcGxheTpibG9ja30KLnYtb2t7Y29sb3I6IzNmYjk1MH0udi1lcnJ7Y29sb3I6I2U2Mzk0Nn0udi1pbmZve2NvbG9yOiM4Yjk0OWV9LnYtd2Fybntjb2xvcjojZjRhMjYxfQouc3Vje2JhY2tncm91bmQ6IzBmMmEwZjtib3JkZXI6MXB4IHNvbGlkICMzZmI5NTA7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzoxOHB4O21hcmdpbi10b3A6MTJweDtkaXNwbGF5Om5vbmV9Ci5zdWMub257ZGlzcGxheTpibG9ja30uc3VjIGgze2NvbG9yOiMzZmI5NTA7bWFyZ2luLWJvdHRvbTo4cHg7Zm9udC1zaXplOjE0cHh9LnN1YyBwe2NvbG9yOiM3ZWU3ODc7Zm9udC1zaXplOjEycHg7bGluZS1oZWlnaHQ6MS43fQouYXd7bWF4LXdpZHRoOjYyMHB4O21hcmdpbjowIGF1dG99Ci5haXRlbXtiYWNrZ3JvdW5kOiMxNjFiMjI7Ym9yZGVyOjFweCBzb2xpZCAjMzAzNjNkO2JvcmRlci1yYWRpdXM6OHB4O3BhZGRpbmc6MTZweDttYXJnaW4tYm90dG9tOjEwcHh9Ci5haXRlbS5kaW17b3BhY2l0eTouNDV9Ci5haXRlbS10e2ZvbnQtd2VpZ2h0OjcwMDtjb2xvcjojZTZlZGYzO21hcmdpbi1ib3R0b206M3B4O2ZvbnQtc2l6ZToxM3B4fQouYWl0ZW0tbXtmb250LXNpemU6MTFweDtjb2xvcjojOGI5NDllO21hcmdpbi1ib3R0b206MTBweH0KLmFie2JvcmRlcjpub25lO2JvcmRlci1yYWRpdXM6NXB4O3BhZGRpbmc6NnB4IDEzcHg7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6NzAwO2N1cnNvcjpwb2ludGVyO2ZvbnQtZmFtaWx5OmluaGVyaXR9Ci5hYjpob3ZlcntvcGFjaXR5Oi44fQouYWItZHtiYWNrZ3JvdW5kOiNlNjM5NDY7Y29sb3I6I2ZmZn0uYWItdHtiYWNrZ3JvdW5kOiNmNGEyNjE7Y29sb3I6IzBkMTExN30KLmFiLWV7YmFja2dyb3VuZDojMDBiNGQ4O2NvbG9yOiMwZDExMTd9LmFiLXN7YmFja2dyb3VuZDojMjM4NjM2O2NvbG9yOiNmZmZ9Ci5hYi1je2JhY2tncm91bmQ6IzIxMjYyZDtjb2xvcjojZTZlZGYzO2JvcmRlcjoxcHggc29saWQgIzMwMzYzZH0KLmVme3dpZHRoOjEwMCU7YmFja2dyb3VuZDojMGQxMTE3O2JvcmRlcjoxcHggc29saWQgIzMwMzYzZDtib3JkZXItcmFkaXVzOjVweDtjb2xvcjojZTZlZGYzO3BhZGRpbmc6OHB4IDEwcHg7Zm9udC1mYW1pbHk6aW5oZXJpdDtmb250LXNpemU6MTJweDttYXJnaW4tYm90dG9tOjhweDtvdXRsaW5lOm5vbmV9Ci5lZjpmb2N1c3tib3JkZXItY29sb3I6IzAwYjRkOH0KLmFzdHtmb250LWZhbWlseTptb25vc3BhY2U7Zm9udC1zaXplOjEycHg7Y29sb3I6IzhiOTQ5ZTttYXJnaW4tdG9wOjEwcHg7bWluLWhlaWdodDoxOHB4fQouZW1wdHl7dGV4dC1hbGlnbjpjZW50ZXI7cGFkZGluZzo0MHB4O2NvbG9yOiM4Yjk0OWU7Zm9udC1zaXplOjEzcHh9Ci5wb2MtYmFkZ2V7bWFyZ2luLXRvcDoxMHB4O3BhZGRpbmc6N3B4IDEwcHg7YmFja2dyb3VuZDojMGQxZjBkO2JvcmRlci1yYWRpdXM6NHB4O2ZvbnQtc2l6ZToxMXB4O2NvbG9yOiMzZmI5NTB9Ci5haS1yZXN1bHQtYm94e2JhY2tncm91bmQ6IzBkMTExNztib3JkZXI6MXB4IHNvbGlkICM4OTU3ZTU7Ym9yZGVyLXJhZGl1czo4cHg7cGFkZGluZzoxOHB4O21hcmdpbi10b3A6MTRweDtkaXNwbGF5Om5vbmV9Ci5haS1yZXN1bHQtYm94Lm9ue2Rpc3BsYXk6YmxvY2t9Ci5haS1yZXN1bHQtYm94IGg0e2NvbG9yOiM4OTU3ZTU7Zm9udC1zaXplOjEycHg7Zm9udC13ZWlnaHQ6ODAwO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzoxcHg7bWFyZ2luLWJvdHRvbToxMHB4fQouYWktc2VjdGlvbnttYXJnaW4tYm90dG9tOjE0cHg7cGFkZGluZy1ib3R0b206MTRweDtib3JkZXItYm90dG9tOjFweCBzb2xpZCAjMjEyNjJkfQouYWktc2VjdGlvbjpsYXN0LWNoaWxke2JvcmRlci1ib3R0b206bm9uZTttYXJnaW4tYm90dG9tOjA7cGFkZGluZy1ib3R0b206MH0KLmFpLXNlY3Rpb24tbGFiZWx7Zm9udC1zaXplOjEwcHg7Zm9udC13ZWlnaHQ6NzAwO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzoxcHg7Y29sb3I6IzhiOTQ5ZTttYXJnaW4tYm90dG9tOjZweH0KLmFpLXNlY3Rpb24tY29udGVudHtmb250LXNpemU6MTNweDtjb2xvcjojZTZlZGYzO2xpbmUtaGVpZ2h0OjEuN30KLm92ZXJsYXAtdGFne2Rpc3BsYXk6aW5saW5lLWJsb2NrO2JhY2tncm91bmQ6IzFhMGYwZjtib3JkZXI6MXB4IHNvbGlkICNlNjM5NDY0MDtib3JkZXItcmFkaXVzOjRweDtwYWRkaW5nOjJweCA4cHg7Zm9udC1zaXplOjExcHg7Y29sb3I6I2U2Mzk0NjttYXJnaW46MnB4fQouY29yZS1wcy1pdGVte2Rpc3BsYXk6ZmxleDtqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2VlbjthbGlnbi1pdGVtczpjZW50ZXI7cGFkZGluZzoxMHB4IDE0cHg7YmFja2dyb3VuZDojMGQxMTE3O2JvcmRlcjoxcHggc29saWQgIzMwMzYzZDtib3JkZXItcmFkaXVzOjZweDttYXJnaW4tYm90dG9tOjhweH0KLmNvcmUtcHMtaXRlbSAucHMtdGl0bGV7Zm9udC1zaXplOjEzcHg7Zm9udC13ZWlnaHQ6NjAwO2NvbG9yOiNlNmVkZjN9Ci5jb3JlLXBzLWl0ZW0gLnBzLW1ldGF7Zm9udC1zaXplOjExcHg7Y29sb3I6IzhiOTQ5ZTttYXJnaW4tdG9wOjJweH0KLmRlcGxveS1sb2d7YmFja2dyb3VuZDojMGQxMTE3O2JvcmRlcjoxcHggc29saWQgIzMwMzYzZDtib3JkZXItcmFkaXVzOjZweDtwYWRkaW5nOjEycHggMTRweDtmb250LXNpemU6MTJweDtmb250LWZhbWlseTptb25vc3BhY2U7bWluLWhlaWdodDo0MHB4O21heC1oZWlnaHQ6MjAwcHg7b3ZlcmZsb3cteTphdXRvfQouZGwtb2t7Y29sb3I6IzNmYjk1MH0uZGwtZXJ7Y29sb3I6I2U2Mzk0Nn0uZGwtaW57Y29sb3I6IzhiOTQ5ZX0uZGwtd2F7Y29sb3I6I2Y0YTI2MX0KLmFkbWluLXNlY3Rpb24tZGl2aWRlcntib3JkZXI6bm9uZTtib3JkZXItdG9wOjJweCBzb2xpZCAjMzAzNjNkO21hcmdpbjoyOHB4IDB9Ci5wYXQtcm93e2Rpc3BsYXk6ZmxleDtnYXA6OHB4O2FsaWduLWl0ZW1zOmZsZXgtc3RhcnQ7bWFyZ2luLWJvdHRvbTo0cHh9Ci5wYXQtcm93IGlucHV0e21hcmdpbi1ib3R0b206MDtmbGV4OjF9PC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KPGRpdiBjbGFzcz0iYXBwLWhlYWRlciI+CiAgPGRpdiBjbGFzcz0iYmFkZ2UiPkhlYWx0aCBNaW5pc3RyeSAtIEVuZm9yY2VtZW50IERpdmlzaW9uPC9kaXY+CiAgPGgxPkFJIGluIEhlYWx0aGNhcmUgRW5mb3JjZW1lbnQ8L2gxPgogIDxwIGNsYXNzPSJzdWIiPlByb2JsZW0gU3RhdGVtZW50IFJlc2VhcmNoIC0gZW5mb3JjZS5idWlsZGpveW5vdy5jb208L3A+CiAgPGRpdiBjbGFzcz0ibWV0YSI+CiAgICA8c3Bhbj4mIzEyODIwMzsgPHNwYW4gaWQ9InBzLWNvdW50Ij44PC9zcGFuPiBQcm9ibGVtIFN0YXRlbWVudHM8L3NwYW4+CiAgICA8c3Bhbj4mIzEyNzc2MDsgR2xvYmFsIE1hcmtldCBSZXNlYXJjaDwvc3Bhbj4KICAgIDxzcGFuPiYjMTI5MzAyOyBQT0MtUmVhZHkgU2NvcGVzPC9zcGFuPgogICAgPHNwYW4gaWQ9ImNtZXRhIiBzdHlsZT0iZGlzcGxheTpub25lIj4mIzEyODE2MTsgPHNwYW4gaWQ9ImNudW0iPjA8L3NwYW4+IENvbW11bml0eTwvc3Bhbj4KICA8L2Rpdj4KPC9kaXY+CjxkaXYgY2xhc3M9InRhYnMiPgogIDxidXR0b24gY2xhc3M9InRhYi1idG4gYWN0aXZlIiBvbmNsaWNrPSJzd2l0Y2hUYWIoJ2V4ZWMnKSI+RXhlY3V0aXZlIFN1bW1hcnk8L2J1dHRvbj4KICA8YnV0dG9uIGNsYXNzPSJ0YWItYnRuIiBvbmNsaWNrPSJzd2l0Y2hUYWIoJ3N0YXRlbWVudHMnKSI+QWxsIFByb2JsZW0gU3RhdGVtZW50czwvYnV0dG9uPgogIDxidXR0b24gY2xhc3M9InRhYi1idG4iIGlkPSJkdGIiIG9uY2xpY2s9InN3aXRjaFRhYignZGV0YWlsJykiIGRpc2FibGVkPkRldGFpbCBWaWV3PC9idXR0b24+CiAgPGJ1dHRvbiBjbGFzcz0idGFiLWJ0biIgb25jbGljaz0ic3dpdGNoVGFiKCdzdWJtaXQnKSI+JiMxMjgxNjE7IFN1Ym1pdCBJZGVhPC9idXR0b24+CiAgPGJ1dHRvbiBjbGFzcz0idGFiLWJ0biIgb25jbGljaz0ic3dpdGNoVGFiKCdhZG1pbicpIj4mIzEyODI3NDsgQWRtaW48L2J1dHRvbj4KPC9kaXY+CjxkaXYgY2xhc3M9InBhbmUgYWN0aXZlIiBpZD0icGFuZS1leGVjIj4KICA8ZGl2IGNsYXNzPSJjYXJkIj4KICAgIDxzcGFuIGNsYXNzPSJjYXJkLWxhYmVsIj5FeGVjdXRpdmUgU3VtbWFyeTwvc3Bhbj4KICAgIDxwIGlkPSJleGVjLXN1bW1hcnktdGV4dCIgc3R5bGU9ImNvbG9yOiM4Yjk0OWU7bGluZS1oZWlnaHQ6MS43O21hcmdpbi1ib3R0b206MjBweCI+RVhFQ19TVU1NQVJZX01BUktFUjwvcD4KICAgIDxkaXYgc3R5bGU9ImJhY2tncm91bmQ6IzBkMTExNztib3JkZXI6MXB4IHNvbGlkICMzMDM2M2Q7Ym9yZGVyLXJhZGl1czo4cHg7b3ZlcmZsb3c6aGlkZGVuIj4KICAgICAgPHRhYmxlIGNsYXNzPSJleGVjLXRhYmxlIj48dGhlYWQ+PHRyIHN0eWxlPSJiYWNrZ3JvdW5kOiMwZDExMTciPgogICAgICAgIDx0aD5JRDwvdGg+PHRoPlByb2JsZW0gU3RhdGVtZW50PC90aD48dGg+UHJpb3JpdHk8L3RoPjx0aD5TY29yZTwvdGg+PHRoPldoeSBJdCdzIGEgUHJpb3JpdHk8L3RoPgogICAgICA8L3RyPjwvdGhlYWQ+PHRib2R5IGlkPSJleGVjLXRib2R5Ij48L3Rib2R5PjwvdGFibGU+CiAgICA8L2Rpdj4KICAgIDxwIHN0eWxlPSJjb2xvcjojOGI5NDllO2ZvbnQtc2l6ZToxMXB4O21hcmdpbi10b3A6OHB4Ij5DbGljayBhbnkgcm93IHRvIHZpZXcgZnVsbCBwaXRjaDwvcD4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJjYXJkIj4KICAgIDxzcGFuIGNsYXNzPSJjYXJkLWxhYmVsIj5SZWNvbW1lbmRlZCBQT0MgU2VxdWVuY2U8L3NwYW4+CiAgICA8ZGl2IGlkPSJwb2Mtc2VxdWVuY2UiIHN0eWxlPSJkaXNwbGF5OmZsZXg7ZmxleC13cmFwOndyYXA7Z2FwOjRweCI+PC9kaXY+CiAgPC9kaXY+CjwvZGl2Pgo8ZGl2IGNsYXNzPSJwYW5lIiBpZD0icGFuZS1zdGF0ZW1lbnRzIj4KICA8cCBzdHlsZT0iY29sb3I6IzhiOTQ5ZTttYXJnaW4tYm90dG9tOjE2cHg7Zm9udC1zaXplOjEzcHgiPkNsaWNrIGEgY2FyZCB0byB2aWV3IHRoZSBmdWxsIHBpdGNoOjwvcD4KICA8ZGl2IGlkPSJjcyIgc3R5bGU9ImRpc3BsYXk6bm9uZTttYXJnaW4tYm90dG9tOjI0cHgiPjxkaXYgY2xhc3M9InNlY3Rpb24tdGl0bGUiPkNvbW11bml0eSBTdWJtaXNzaW9uczwvZGl2PjxkaXYgY2xhc3M9InBzLWdyaWQiIGlkPSJjZ3JpZCI+PC9kaXY+PC9kaXY+CiAgPGRpdiBjbGFzcz0ic2VjdGlvbi10aXRsZSI+Q29yZSBQcm9ibGVtIFN0YXRlbWVudHM8L2Rpdj4KICA8ZGl2IGNsYXNzPSJwcy1ncmlkIiBpZD0icGdyaWQiPjwvZGl2Pgo8L2Rpdj4KPGRpdiBjbGFzcz0icGFuZSIgaWQ9InBhbmUtZGV0YWlsIj4KICA8YnV0dG9uIGNsYXNzPSJiYWNrLWJ0biIgb25jbGljaz0ic3dpdGNoVGFiKCdzdGF0ZW1lbnRzJykiPiZsYXJyOyBCYWNrIHRvIGFsbDwvYnV0dG9uPgogIDxkaXYgaWQ9ImRjIj48L2Rpdj4KPC9kaXY+CjxkaXYgY2xhc3M9InBhbmUiIGlkPSJwYW5lLXN1Ym1pdCI+CiAgPGRpdiBjbGFzcz0iaW5mby1ub3RlIj48c3Ryb25nPkhvdyB0aGlzIHdvcmtzOjwvc3Ryb25nPiBVc2UgQ2xhdWRlIChjbGF1ZGUuYWkpIHdpdGggdGhlIHByb21wdCBmb3JtYXQgYmVsb3cuIFBhc3RlIHRoZSBKU09OIG91dHB1dCBiYWNrIGhlcmUgd2l0aCB0aGUgcGFzc2NvZGUgdG8gcHVibGlzaCB5b3VyIGlkZWEuPC9kaXY+CiAgPGRpdiBjbGFzcz0ic3RlcC1ibG9jayI+PGRpdiBjbGFzcz0ic3RlcC1udW0iPjE8L2Rpdj4KICAgIDxkaXYgc3R5bGU9ImZvbnQtd2VpZ2h0OjcwMDtmb250LXNpemU6MTRweDttYXJnaW4tYm90dG9tOjRweCI+QWRkIHRoaXMgb24gdG9wIG9mIHlvdXIgcHJvbXB0IHRvIGdlbmVyYXRlIHNhbWUgaWRlYSBmb3JtYXQgZm9yIHN1Ym1pc3Npb248L2Rpdj4KICAgIDxkaXYgc3R5bGU9ImNvbG9yOiM4Yjk0OWU7Zm9udC1zaXplOjEycHg7bWFyZ2luLWJvdHRvbToxMnB4Ij5PcGVuIGNsYXVkZS5haSwgcGFzdGUgdGhpcyBhdCB0aGUgdG9wLCB0aGVuIGRlc2NyaWJlIHlvdXIgaGVhbHRoY2FyZSBlbmZvcmNlbWVudCBwcm9ibGVtIGJlbG93IGl0LjwvZGl2PgogICAgPGRpdiBjbGFzcz0icHJvbXB0LWJveCIgaWQ9InByb21wdC1kaXNwbGF5Ij48L2Rpdj4KICAgIDxidXR0b24gY2xhc3M9ImNvcHktYnRuIiBpZD0iY2J0biIgb25jbGljaz0iY29weVByb21wdCgpIj5Db3B5IFByb21wdDwvYnV0dG9uPgogIDwvZGl2PgogIDxkaXYgY2xhc3M9InN0ZXAtYmxvY2siPjxkaXYgY2xhc3M9InN0ZXAtbnVtIj4yPC9kaXY+CiAgICA8ZGl2IHN0eWxlPSJmb250LXdlaWdodDo3MDA7Zm9udC1zaXplOjE0cHg7bWFyZ2luLWJvdHRvbTo0cHgiPlBhc3RlIHlvdXIgZ2VuZXJhdGVkIG91dHB1dCBKU09OIGhlcmU8L2Rpdj4KICAgIDxkaXYgc3R5bGU9ImNvbG9yOiM4Yjk0OWU7Zm9udC1zaXplOjEycHg7bWFyZ2luLWJvdHRvbToxMHB4Ij5Db3B5IHRoZSBlbnRpcmUgSlNPTiBibG9jayAoc3RhcnRpbmcgeyBlbmRpbmcgfSkgYW5kIHBhc3RlIGJlbG93LjwvZGl2PgogICAgPHRleHRhcmVhIGNsYXNzPSJweiIgaWQ9InB6b25lIiBwbGFjZWhvbGRlcj0iUGFzdGUgeW91ciBnZW5lcmF0ZWQgSlNPTiBvdXRwdXQgaGVyZS4uLiIgb25pbnB1dD0ibGl2ZVZhbCgpIj48L3RleHRhcmVhPgogICAgPGRpdiBjbGFzcz0idmJveCIgaWQ9InZiIj48L2Rpdj4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJzdGVwLWJsb2NrIj48ZGl2IGNsYXNzPSJzdGVwLW51bSI+MzwvZGl2PgogICAgPGRpdiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZvbnQtc2l6ZToxNHB4O21hcmdpbi1ib3R0b206NHB4Ij5FbnRlciB0aGUgc2hhcmVkIHBhc3Njb2RlPC9kaXY+CiAgICA8aW5wdXQgY2xhc3M9InBpIiB0eXBlPSJwYXNzd29yZCIgaWQ9InNwYyIgcGxhY2Vob2xkZXI9IlBhc3Njb2RlLi4uIiBhdXRvY29tcGxldGU9Im9mZiIgLz4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJzdGVwLWJsb2NrIj48ZGl2IGNsYXNzPSJzdGVwLW51bSI+NDwvZGl2PgogICAgPGRpdiBzdHlsZT0iZm9udC13ZWlnaHQ6NzAwO2ZvbnQtc2l6ZToxNHB4O21hcmdpbi1ib3R0b206NHB4Ij5TdWJtaXQ8L2Rpdj4KICAgIDxidXR0b24gY2xhc3M9InNidG4iIGlkPSJzYnRuIiBvbmNsaWNrPSJzdWJtaXRQUygpIj5TdWJtaXQgUHJvYmxlbSBTdGF0ZW1lbnQ8L2J1dHRvbj4KICAgIDxkaXYgY2xhc3M9InN1YyIgaWQ9InN1YyI+PGgzPlN1Ym1pc3Npb24gQWNjZXB0ZWQhPC9oMz48cD5QdWJsaXNoZWQuIFJlZnJlc2ggaW4gfjIgbWludXRlcy48L3A+PC9kaXY+CiAgPC9kaXY+CjwvZGl2Pgo8ZGl2IGNsYXNzPSJwYW5lIiBpZD0icGFuZS1hZG1pbiI+CiAgPGRpdiBpZD0iYWxvZyIgY2xhc3M9ImF3Ij48ZGl2IGNsYXNzPSJjYXJkIj4KICAgIDxzcGFuIGNsYXNzPSJjYXJkLWxhYmVsIj5BZG1pbiBBY2Nlc3M8L3NwYW4+CiAgICA8cCBzdHlsZT0iY29sb3I6IzhiOTQ5ZTtmb250LXNpemU6MTNweDttYXJnaW4tYm90dG9tOjE0cHgiPkVudGVyIGFkbWluIHBhc3Njb2RlIHRvIG1hbmFnZSBzdWJtaXNzaW9ucyBhbmQgY29yZSBQUy48L3A+CiAgICA8aW5wdXQgY2xhc3M9InBpIiB0eXBlPSJwYXNzd29yZCIgaWQ9ImFjb2RlIiBwbGFjZWhvbGRlcj0iQWRtaW4gcGFzc2NvZGUuLi4iIGF1dG9jb21wbGV0ZT0ib2ZmIiBvbmtleWRvd249ImlmKGV2ZW50LmtleT09PSdFbnRlcicpYWRtaW5Mb2dpbigpIiAvPgogICAgPGJ1dHRvbiBjbGFzcz0ic2J0biIgc3R5bGU9Im1hcmdpbi10b3A6MTBweCIgb25jbGljaz0iYWRtaW5Mb2dpbigpIj5BY2Nlc3MgQWRtaW48L2J1dHRvbj4KICAgIDxkaXYgY2xhc3M9ImFzdCIgaWQ9ImFscyI+PC9kaXY+CiAgPC9kaXY+PC9kaXY+CiAgPGRpdiBpZD0iYXBhbmVsIiBzdHlsZT0iZGlzcGxheTpub25lIj4KICAgIDxkaXYgc3R5bGU9ImRpc3BsYXk6ZmxleDtqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2VlbjthbGlnbi1pdGVtczpjZW50ZXI7bWFyZ2luLWJvdHRvbToxNHB4O2ZsZXgtd3JhcDp3cmFwO2dhcDoxMHB4Ij4KICAgICAgPGRpdj48ZGl2IHN0eWxlPSJmb250LXNpemU6MTZweDtmb250LXdlaWdodDo4MDAiPkNvbW11bml0eSBTdWJtaXNzaW9uczwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtc2l6ZToxMnB4O2NvbG9yOiM4Yjk0OWUiPkhpZGUsIGVkaXQgb3IgZGVsZXRlIHB1YmxpYyBzdWJtaXNzaW9uczwvZGl2PjwvZGl2PgogICAgICA8ZGl2IHN0eWxlPSJkaXNwbGF5OmZsZXg7Z2FwOjhweCI+PGJ1dHRvbiBjbGFzcz0iYWIgYWItcyIgb25jbGljaz0iYWRtaW5SZWZyZXNoKCkiPlJlZnJlc2g8L2J1dHRvbj48YnV0dG9uIGNsYXNzPSJhYiBhYi1jIiBvbmNsaWNrPSJhZG1pbkxvZ291dCgpIj5Mb2dvdXQ8L2J1dHRvbj48L2Rpdj4KICAgIDwvZGl2PgogICAgPGRpdiBpZD0iYWxpc3QiPjwvZGl2PjxkaXYgY2xhc3M9ImFzdCIgaWQ9ImFzdCI+PC9kaXY+CiAgICA8aHIgY2xhc3M9ImFkbWluLXNlY3Rpb24tZGl2aWRlciI+CiAgICA8ZGl2IHN0eWxlPSJtYXJnaW4tYm90dG9tOjE0cHgiPjxkaXYgc3R5bGU9ImZvbnQtc2l6ZToxNnB4O2ZvbnQtd2VpZ2h0OjgwMDttYXJnaW4tYm90dG9tOjRweCI+Q29yZSBQUyBNYW5hZ2VyPC9kaXY+CiAgICAgIDxkaXYgc3R5bGU9ImZvbnQtc2l6ZToxMnB4O2NvbG9yOiM4Yjk0OWUiPkltcG9ydCwgaW1wcm92ZSB3aXRoIEFJLCBhbmQgcmVkZXBsb3kuIEV4ZWN1dGl2ZSBzdW1tYXJ5IGF1dG8tcmVnZW5lcmF0ZXMgb24gZXZlcnkgZGVwbG95LjwvZGl2PjwvZGl2PgogICAgPGRpdiBjbGFzcz0iY2FyZCIgc3R5bGU9ImJvcmRlci1jb2xvcjojMjM4NjM2Ij4KICAgICAgPHNwYW4gY2xhc3M9ImNhcmQtbGFiZWwiIHN0eWxlPSJjb2xvcjojM2ZiOTUwIj5HaXRIdWIgUEFUIGZvciBEZXBsb3ltZW50PC9zcGFuPgogICAgICA8ZGl2IGNsYXNzPSJwYXQtcm93Ij4KICAgICAgICA8aW5wdXQgY2xhc3M9InBpIiB0eXBlPSJwYXNzd29yZCIgaWQ9ImFkbWluLXBhdCIgcGxhY2Vob2xkZXI9ImdocF94eHh4eHh4eHh4eHh4eHh4eHh4eCIgYXV0b2NvbXBsZXRlPSJvZmYiIHN0eWxlPSJsZXR0ZXItc3BhY2luZzpub3JtYWwiIC8+CiAgICAgICAgPGJ1dHRvbiBjbGFzcz0iYWIgYWItcyIgb25jbGljaz0ic2F2ZVBhdCgpIj5TYXZlPC9idXR0b24+CiAgICAgICAgPGJ1dHRvbiBjbGFzcz0iYWIgYWItZCIgb25jbGljaz0iZm9yZ2V0UGF0KCkiPkZvcmdldDwvYnV0dG9uPgogICAgICA8L2Rpdj4KICAgICAgPHNwYW4gaWQ9InBhdC1zYXZlZC1iYWRnZSIgc3R5bGU9ImRpc3BsYXk6bm9uZTtmb250LXNpemU6MTFweDtjb2xvcjojM2ZiOTUwIj4mIzEwMDAzOyBQQVQgbG9hZGVkIGZyb20gc3RvcmFnZTwvc3Bhbj4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0iY2FyZCI+PHNwYW4gY2xhc3M9ImNhcmQtbGFiZWwiPkN1cnJlbnQgQ29yZSBQcm9ibGVtIFN0YXRlbWVudHM8L3NwYW4+PGRpdiBpZD0iY29yZS1wcy1saXN0Ij48L2Rpdj48L2Rpdj4KICAgIDxkaXYgY2xhc3M9ImNhcmQiIHN0eWxlPSJib3JkZXItY29sb3I6Izg5NTdlNSI+CiAgICAgIDxzcGFuIGNsYXNzPSJjYXJkLWxhYmVsIiBzdHlsZT0iY29sb3I6Izg5NTdlNSI+SW1wb3J0ICZhbXA7IFJhdGlvbmFsaXNlIE5ldyBQUzwvc3Bhbj4KICAgICAgPHAgc3R5bGU9ImNvbG9yOiM4Yjk0OWU7Zm9udC1zaXplOjEycHg7bWFyZ2luLWJvdHRvbToxMnB4Ij5QYXN0ZSBhbnkgUFMgSlNPTi4gQ2xhdWRlIHdpbGwgaW1wcm92ZSBpdCB0byBtYXRjaCBjb3JlIHF1YWxpdHksIGNoZWNrIG92ZXJsYXBzLCBzdWdnZXN0IGEgc2NvcmUuIFJldmlldyBhbmQgYXBwcm92ZSBiZWZvcmUgYWRkaW5nLjwvcD4KICAgICAgPHRleHRhcmVhIGNsYXNzPSJweiIgaWQ9ImltcG9ydC1wcy1qc29uIiBwbGFjZWhvbGRlcj0iUGFzdGUgUFMgSlNPTiBoZXJlLi4uIiBzdHlsZT0ibWluLWhlaWdodDoxNDBweCI+PC90ZXh0YXJlYT4KICAgICAgPGRpdiBzdHlsZT0ibWFyZ2luLXRvcDoxMHB4Ij48YnV0dG9uIGNsYXNzPSJhYnRuIGFidG4tYmx1ZSIgaWQ9ImJ0bi1yYXRpb25hbGlzZSIgb25jbGljaz0icmF0aW9uYWxpc2VQUygpIj4mIzEyOTMwMjsgUmF0aW9uYWxpc2UgJmFtcDsgSW1wcm92ZSB3aXRoIEFJPC9idXR0b24+PC9kaXY+CiAgICAgIDxkaXYgaWQ9ImFpLXJlc3VsdCIgY2xhc3M9ImFpLXJlc3VsdC1ib3giPjwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJjYXJkIiBzdHlsZT0iYm9yZGVyLWNvbG9yOiMyMzg2MzYiPgogICAgICA8c3BhbiBjbGFzcz0iY2FyZC1sYWJlbCIgc3R5bGU9ImNvbG9yOiMzZmI5NTAiPkRlcGxveW1lbnQgTG9nPC9zcGFuPgogICAgICA8ZGl2IGNsYXNzPSJkZXBsb3ktbG9nIiBpZD0iZGVwbG95LWxvZyIgc3R5bGU9Im1pbi1oZWlnaHQ6NDBweCI+PGRpdiBjbGFzcz0iZGwtaW4iPiZndDsgUmVhZHkuIEFkZCBvciByZW1vdmUgYSBQUyB0byB0cmlnZ2VyIHJlZGVwbG95IHdpdGggcmVnZW5lcmF0ZWQgZXhlYyBzdW1tYXJ5LjwvZGl2PjwvZGl2PgogICAgPC9kaXY+CiAgPC9kaXY+CjwvZGl2Pgo8c2NyaXB0Pgp2YXIgV09SS0VSPVdPUktFUl9NQVJLRVI7CnZhciBQUk9NUFRfVEVNUExBVEU9UFRfTUFSS0VSOwpEQVRBX0pTX01BUktFUgpTSVRFX1NIRUxMX0I2NF9NQVJLRVIKVUlfSlNfTUFSS0VSCjwvc2NyaXB0Pgo8L2JvZHk+CjwvaHRtbD4=";
 
-var communityPS=[], adminToken=null;
-var PC={Critical:'#e63946',High:'#f4a261',Medium:'#2a9d8f'};
-function sc(s){return s>=9?'#e63946':s>=8?'#f4a261':s>=7?'#2a9d8f':'#8b949e';}
-function sbar(s){var c=sc(s);return '<div class="score-bar"><div class="score-fill" style="width:'+(s/10*100)+'%;background:'+c+'"></div></div><strong style="color:'+c+'">'+s+'</strong>';}
+
+var deepDive = {
+  "PS-01": {
+    whyBuild: "Field inspection documentation is the single biggest bottleneck in the enforcement pipeline. Every enforcement action depends on accurate, timely documentation — yet the tools officers use today are built for a desktop environment, not a field environment. AI-assisted capture eliminates the cognitive lag between observation and record, directly improving the legal defensibility of enforcement actions.",
+    whoBenefits: "118 MOH SED enforcement officers spend an estimated 30-40% of their time on post-inspection paperwork. Supervisors gain real-time visibility into field findings. Legal teams receive higher-quality records for disciplinary proceedings. The public benefits from faster enforcement closure.",
+    successMetrics: ["Post-inspection documentation time reduced by 60%", "CMS draft created within 5 minutes of inspection end", "Violation record accuracy rate >95% vs. current ~78%", "Officer satisfaction score >4/5 for field tools"],
+    security: "All voice data processed in-memory, never persisted. CMS export uses ministry-authenticated API tokens. No PHI stored on device. Compliant with IM8 data classification for official use.",
+    architecture: "Officer opens mobile web app on phone \u2192 Taps Record during inspection \u2192 Whisper-class STT transcribes speech in real-time \u2192 Claude NLP synthesises transcript into structured enforcement report (violation type, severity, regulatory reference) \u2192 Officer reviews on-screen \u2192 One-tap export to CMS draft via REST API \u2192 Supervisor receives push notification",
+    techStack: ["Azure Speech Services (STT)", "Azure OpenAI Service (GPT-4o)", "Azure Static Web Apps (frontend)", "Azure API Management (CMS proxy)", "Progressive Web App (mobile)", "Azure AD (authentication)"],
+    foundryAgents: ["InspectionCapture Agent: real-time transcription + field tagging", "ViolationClassifier Agent: maps observations to regulatory taxonomy", "CMSWriter Agent: structures and exports to case management system"],
+    tokenEstimate: "~2,500 tokens per inspection session (500 context + 1,500 transcript + 500 synthesis). At ~$0.003/1K tokens: ~$0.008 per inspection. 118 officers x 5 inspections/week = ~$24/month.",
+    parallelWorkflows: ["Voice capture runs parallel to officer conversation (no interruption)", "NLP synthesis runs while officer photographs evidence", "CMS export queued and synced when connectivity restores"]
+  },
+  "PS-02": {
+    whyBuild: "A single missed critical complaint — a contaminated drug batch, an unlicensed surgeon — can result in patient death. Manual triage at scale is humanly impossible. AI triage is the highest-ROI intervention available: it costs almost nothing to operate and the downside of not having it is catastrophic.",
+    whoBenefits: "Complaint intake officers eliminate repetitive classification work. Supervisors get a live risk dashboard. The public receives faster responses to urgent complaints. Enforcement teams receive pre-classified, de-duplicated queues with recommended SLAs.",
+    successMetrics: ["Triage accuracy >90% vs. manual benchmark", "Critical complaints actioned within 24 hours (up from 72h)", "Officer triage time per complaint reduced by 75%", "Duplicate complaint rate detected and collapsed >85%"],
+    security: "Complaint data classified as Restricted. Processed within Azure government tenant. No complaint data leaves ministry boundary. Audit log on every classification decision for accountability.",
+    architecture: "Complaint arrives (email/web form/hotline) \u2192 Azure Logic Apps ingests and normalises \u2192 Claude classifies severity (Critical/High/Medium/Low) on 3-axis matrix (harm potential x breach type x evidence quality) \u2192 Semantic similarity check against existing open complaints for deduplication \u2192 Auto-routes to correct team queue with SLA tag \u2192 Dashboard updates in real-time",
+    techStack: ["Azure Logic Apps (intake orchestration)", "Azure OpenAI Service (classification)", "Azure Cognitive Search (semantic deduplication)", "Azure Service Bus (queue routing)", "Power BI Embedded (dashboard)", "Azure AD B2C (officer auth)"],
+    foundryAgents: ["IntakeNormaliser Agent: standardises complaint format across channels", "SeverityClassifier Agent: 3-axis risk scoring with regulatory codebook RAG", "DeduplicationAgent: semantic similarity across open complaint corpus", "RouterAgent: team assignment + SLA calculation"],
+    tokenEstimate: "~800 tokens per complaint (200 complaint + 400 context + 200 output). At $0.003/1K: ~$0.002/complaint. 500 complaints/month = ~$1/month operational cost.",
+    parallelWorkflows: ["Multi-channel ingestion runs in parallel (email, web, phone transcription)", "Deduplication runs concurrently with severity scoring", "Routing fires immediately on classification completion without waiting for supervisor review"]
+  },
+  "PS-03": {
+    whyBuild: "Singapore has zero tolerance for vaping products yet they are openly listed on Carousell and Shopee daily. Manual monitoring covers less than 5% of listings. AI-powered crawling provides 100x coverage at the same officer headcount. Every day without this system, hundreds of illegal listings go undetected.",
+    whoBenefits: "Health Products Regulation officers shift from reactive tip-off response to proactive intelligence-led enforcement. Field seizure teams receive geolocated seller profiles. Legal teams receive pre-packaged evidence bundles. The public is protected from counterfeit drugs and illegal nicotine products.",
+    successMetrics: ["Online listing coverage increased from <5% to >80% daily", "Illegal listing detected within 2 hours of posting", "Evidence package auto-generated for >90% of detected listings", "Time from detection to CMS referral <24 hours"],
+    security: "Web crawling limited to public-facing platforms only. No login credentials used. Evidence packages stored in Azure Blob with tamper-evident hash. Chain of custody log maintained for legal proceedings.",
+    architecture: "Azure Functions crawl Carousell/Shopee APIs + Telegram public channels every 30 mins \u2192 NLP classifier screens for prohibited product keywords + coded language patterns \u2192 Image recognition checks product photos against known prohibited product database \u2192 Flagged listings trigger evidence packager (screenshot + URL + seller profile + price history) \u2192 Auto-creates CMS intelligence referral \u2192 Officer reviews and assigns to field team",
+    techStack: ["Azure Functions (crawler orchestration)", "Azure OpenAI Service (NLP classification)", "Azure Computer Vision (product image recognition)", "Azure Blob Storage (evidence packages)", "Azure Cosmos DB (listing index)", "Azure API Management (platform integrations)"],
+    foundryAgents: ["CrawlerAgent: platform-specific scrapers with rate limiting and rotation", "ProductClassifier Agent: NLP + image recognition for prohibited items", "CodedLanguageDetector Agent: trained on known evasion patterns (emoji substitutes, slang)", "EvidencePackager Agent: screenshot, metadata, seller profile compilation", "CMSReferral Agent: structured referral creation with pre-filled violation codes"],
+    tokenEstimate: "~600 tokens per listing screened (300 listing content + 300 classification). At $0.003/1K: $0.002/listing. 10,000 listings/day screened = ~$20/day. Flagged listings (~2%) get full evidence processing at $0.02 each = ~$4/day. Total ~$24/day or ~$720/month.",
+    parallelWorkflows: ["Crawlers run in parallel across 5 platforms simultaneously", "NLP classification and image recognition run concurrently per listing", "Evidence packaging runs in parallel for multiple flagged listings", "CMS referral creation does not block next crawl cycle"]
+  },
+  "PS-04": {
+    whyBuild: "Regulators worldwide have a documented blind spot: they investigate complaints in isolation. A doctor with 12 low-severity complaints over 3 years never triggers an investigation — until they kill a patient. Graph-based pattern detection is the structural fix to this systemic enforcement gap.",
+    whoBenefits: "Professional conduct committees receive AI-generated risk dossiers before incidents occur. Investigators can prioritise time on genuinely high-risk practitioners. Patients are protected from practitioners who have been flagged but not yet investigated. The ministry demonstrates proactive rather than reactive regulation.",
+    successMetrics: ["80% of high-risk practitioners identified before a critical incident", "Time from first complaint to investigation trigger reduced by 50%", "Zero practitioners with >5 complaints go uninvestigated for >12 months", "False positive rate <15% on risk escalation alerts"],
+    security: "Practitioner data classified as Sensitive/Restricted. Graph database access limited to authorised investigators. All risk scores include explainability output (which complaints/data points drove the score). Human-in-the-loop required before any formal investigation is triggered.",
+    architecture: "CMS complaint data + inspection records + licensing data ingested into Azure Cosmos DB (graph) \u2192 Graph links: Practitioner \u2192 Clinic \u2192 Complaint \u2192 Inspection \u2192 Outcome \u2192 ML model scores each practitioner node on risk index (complaint frequency, severity trend, peer benchmarks, billing anomalies) \u2192 Risk threshold crossing triggers alert to supervisor \u2192 AI generates risk dossier with supporting evidence \u2192 Investigator reviews and decides action",
+    techStack: ["Azure Cosmos DB for Apache Gremlin (graph database)", "Azure Machine Learning (risk scoring model)", "Azure Synapse Analytics (batch pattern analysis)", "Azure OpenAI Service (dossier generation)", "Azure Monitor (threshold alerting)", "Power BI Embedded (network visualisation)"],
+    foundryAgents: ["GraphBuilder Agent: maintains practitioner-complaint-clinic entity graph", "RiskScorer Agent: ML-based practitioner risk index with trend detection", "AnomalyDetector Agent: billing and prescription pattern outlier detection", "DossierWriter Agent: AI-generated investigation brief with evidence links", "AlertRouter Agent: threshold-based escalation to correct supervisor"],
+    tokenEstimate: "~5,000 tokens per dossier generated (2,000 graph context + 2,000 complaint summaries + 1,000 output). At $0.003/1K: ~$0.015/dossier. ~50 dossiers/month (practitioners crossing risk threshold) = ~$0.75/month for dossier generation. Batch graph analysis is compute-only (no LLM tokens).",
+    parallelWorkflows: ["Graph updates run continuously as new complaints arrive", "Risk scoring runs nightly batch across all practitioners", "Anomaly detection on billing runs weekly, independent of complaint scoring", "Dossier generation only triggered on threshold crossing (not batch)"]
+  },
+  "PS-05": {
+    whyBuild: "With fixed inspection cycles, a high-risk clinic gets the same inspection frequency as a clinic with a spotless 10-year record. Risk-based scheduling is standard practice at FDA and TGA. Every inspection wasted on a low-risk facility is an inspection not done on a high-risk one.",
+    whoBenefits: "Inspection planning officers replace manual scheduling spreadsheets with a dynamic, evidence-based queue. Enforcement supervisors can justify inspection allocation to stakeholders with explainable AI rationale. High-risk operators receive deterrence-level attention. Taxpayers get better enforcement ROI.",
+    successMetrics: ["Violation detection rate per inspection increased by 40%", "High-risk facilities inspected within 6 months (down from 2-3 years)", "20% reduction in total inspection officer hours for same coverage", "Inspection plan generation time from days to <1 hour"],
+    security: "Risk scores are internal decision-support tools only — not shared with licensees. Explainability required for every score (which factors drove it). Score override by senior officer logged with rationale. No automated enforcement action taken without human sign-off.",
+    architecture: "Licensing registry + complaint history + past inspection findings + online intelligence signals ingested into Azure Synapse \u2192 Risk scoring model calculates composite risk index per facility (complaint recency/severity, violation history, licence tenure, peer benchmarks, market intelligence flags) \u2192 Monthly priority queue generated \u2192 AI generates inspection plan with officer routing optimisation \u2192 Supervisor reviews and approves \u2192 Exported to CMS inspection schedule",
+    techStack: ["Azure Synapse Analytics (data warehouse + scoring)", "Azure Machine Learning (risk model training + inference)", "Azure Maps (geospatial routing)", "Azure OpenAI Service (plan narrative generation)", "Power BI Embedded (heatmap dashboard)", "Azure Data Factory (licensing/CMS data pipeline)"],
+    foundryAgents: ["DataAggregator Agent: pulls licensing, complaint, inspection data from multiple CMS sources", "RiskEngine Agent: multi-factor scoring with configurable weights per facility type", "RoutePlanner Agent: geospatial optimisation of officer inspection routes", "PlanNarrator Agent: generates human-readable inspection plan with AI rationale per facility"],
+    tokenEstimate: "~1,000 tokens per facility in the monthly plan (500 data context + 500 narrative). At $0.003/1K: $0.003/facility. 2,000 facilities in monthly plan = ~$6/month. Heatmap and routing are compute-only.",
+    parallelWorkflows: ["Risk scoring runs in parallel across all facility types simultaneously", "Route optimisation runs after scoring, independent per officer/region", "Plan narrative generation batched and parallelised across all high-priority facilities", "Online intelligence signal ingestion runs continuously, independent of monthly scoring cycle"]
+  },
+  "PS-06": {
+    whyBuild: "Healthcare enforcement officers are not lawyers. Yet every enforcement action requires precise regulatory references. An officer citing the wrong clause — or missing a recent amendment — can invalidate an entire case. A RAG assistant over the regulatory corpus is the lowest-risk, highest-value AI application available and can be deployed in one week.",
+    whoBenefits: "Junior officers gain confidence to handle complex regulatory queries independently, reducing supervision burden on seniors. Legal teams spend less time on basic officer queries. Front-desk advisory officers provide faster and more consistent public guidance. All teams benefit from automatic amendment alerts.",
+    successMetrics: ["Regulatory query resolution time reduced from 25 mins to <2 mins", "100% officer access to consistent, up-to-date regulatory guidance", "Zero enforcement actions overturned due to incorrect regulatory reference", "Amendment awareness lag reduced from weeks to <24 hours"],
+    security: "RAG index built from ministry-owned documents only. No regulatory content sent to external APIs beyond the query + retrieved chunks. Citation-grounded responses prevent hallucination. All responses include source document and clause reference for verification.",
+    architecture: "MOH regulatory corpus (HCSA, Medicines Act, Poisons Act, Health Products Act, TCM Act, circulars) chunked and indexed in Azure AI Search \u2192 Officer types query in plain English \u2192 Azure OpenAI embedding generates query vector \u2192 Semantic search retrieves top-k relevant clauses \u2192 Claude generates cited answer with exact clause references \u2192 Amendment detector flags if retrieved content has been superseded \u2192 Response displayed with source links",
+    techStack: ["Azure AI Search (vector + semantic search)", "Azure OpenAI Service (embeddings + GPT-4o)", "Azure Blob Storage (document corpus)", "Azure Functions (document ingestion pipeline)", "Azure Static Web Apps (query interface)", "Azure Document Intelligence (PDF parsing)"],
+    foundryAgents: ["DocumentIngester Agent: parses, chunks, and indexes regulatory documents with metadata", "QueryRouter Agent: classifies query type and selects optimal retrieval strategy", "CitationGrounder Agent: ensures every answer cites exact clause and document", "AmendmentWatcher Agent: monitors for new circulars/amendments and triggers re-indexing + alerts"],
+    tokenEstimate: "~1,500 tokens per query (100 query + 800 retrieved context + 600 answer). At $0.003/1K: ~$0.005/query. 1,000 queries/month = ~$5/month. Indexing is one-time compute cost.",
+    parallelWorkflows: ["Document ingestion pipeline runs independently of query serving", "Multiple officers can query simultaneously (stateless REST API)", "Amendment detection runs on a daily schedule, independent of queries", "Embedding generation for new documents runs in parallel batches"]
+  },
+  "PS-07": {
+    whyBuild: "A safety signal missed by a week can mean thousands of additional patients exposed to a harmful product. FDA and EMA have both moved to AI-assisted pharmacovigilance because the report volume is beyond human capacity. Singapore's HSA faces the same reality and the same solution is available today.",
+    whoBenefits: "Pharmacovigilance officers move from manual report reading to AI-assisted signal review. Product safety analysts focus on signal confirmation rather than signal detection. The public benefits from faster product withdrawals and safety alerts. HSA demonstrates alignment with WHO/EMA global best practice.",
+    successMetrics: ["Safety signal detection speed 5x faster than manual review", "100% of international WHO/EMA/FDA alerts matched to local registry within 24 hours", "Weak signal patterns detected with <10 reports (vs. current 50+ required)", "Time from signal detection to regulatory action reduced by 50%"],
+    security: "Adverse event data treated as Sensitive health information. Processed within Azure government tenant. De-identification applied before any LLM processing. International alert matching is lookup-only (no data shared externally).",
+    architecture: "Adverse event reports ingested from web portal/email/phone transcription \u2192 NLP extracts structured data (product, batch, symptom, severity, reporter) \u2192 Disproportionality analysis (PRR/ROR) run on accumulated signal database \u2192 International alert feed (WHO VigiBase, FDA MedWatch, EMA) polled daily and matched against local product registry \u2192 Signal strength scores displayed on dashboard with recommended actions \u2192 Pharmacovigilance officer reviews and decides regulatory action",
+    techStack: ["Azure OpenAI Service (NLP extraction)", "Azure Cosmos DB (signal database)", "Azure Functions (PRR/ROR statistical analysis)", "Azure Logic Apps (international alert polling)", "Azure AI Search (local product registry matching)", "Power BI Embedded (signal dashboard)"],
+    foundryAgents: ["ReportIngestor Agent: multi-channel adverse event report normalisation", "StructuredExtractor Agent: NLP extraction of product/batch/symptom/severity fields", "SignalAnalyst Agent: disproportionality analysis with statistical significance scoring", "AlertMatcher Agent: international safety alert to local product registry cross-reference", "DashboardPublisher Agent: signal prioritisation and recommended action generation"],
+    tokenEstimate: "~1,000 tokens per adverse event report (400 report + 400 extraction + 200 output). At $0.003/1K: $0.003/report. 2,000 reports/month = ~$6/month. Statistical analysis and alert matching are compute-only.",
+    parallelWorkflows: ["Multi-channel ingestion runs in parallel (web portal, email, phone)", "Structured extraction runs concurrently with deduplication check", "PRR/ROR analysis runs nightly batch across full signal database", "International alert polling runs daily, independent of report processing"]
+  },
+  "PS-08": {
+    whyBuild: "Enforcement case summaries are the gateway to disciplinary outcomes. A poor summary delays or defeats a legitimate enforcement action. AI generation produces a consistent, comprehensive brief in minutes rather than hours — and surfaces precedents that officers would otherwise miss. This is the lowest-risk AI deployment in the portfolio: the officer always reviews and approves before submission.",
+    whoBenefits: "Investigation officers recover 5-7 hours per case for higher-value work. Legal officers receive consistently structured briefs that are easier to review. Disciplinary committees receive better-evidenced cases. The enforcement pipeline accelerates, improving deterrence.",
+    successMetrics: ["Case summary preparation time reduced from 6 hours to <45 minutes", "Committee quality score >4/5 (from current ~3/5)", "Precedent citation rate in briefs increased by 80%", "Brief revision cycles reduced from 3 to 1 on average"],
+    security: "Case data classified as Restricted. LLM processing via Azure OpenAI in government tenant. No case data persisted in AI systems. Officer retains full editorial control — AI output is a draft, not a submission. Audit trail on every AI-assisted brief.",
+    architecture: "Officer selects case in CMS \u2192 Case Aggregator pulls all linked records (complaints, inspection reports, correspondence, evidence log) \u2192 Precedent Retriever searches historical case database for similar cases and outcomes \u2192 Claude synthesises structured brief (timeline, findings, breaches, recommendation) using committee format template \u2192 Officer reviews, edits, approves \u2192 Final brief submitted to CMS as officer-authored document",
+    techStack: ["Azure OpenAI Service (brief synthesis)", "Azure AI Search (precedent retrieval)", "Azure API Management (CMS integration)", "Azure Functions (case data aggregation)", "Azure Static Web Apps (review interface)", "Azure Document Intelligence (evidence log parsing)"],
+    foundryAgents: ["CaseAggregator Agent: pulls and structures all case records from CMS", "PrecedentRetriever Agent: semantic search across historical enforcement cases by violation type", "BriefSynthesiser Agent: generates committee-format brief with timeline, findings, recommendation", "QualityReviewer Agent: flags missing elements or inconsistencies before officer review"],
+    tokenEstimate: "~8,000 tokens per brief (3,000 case records + 2,000 precedents + 3,000 synthesis). At $0.003/1K: ~$0.024/brief. 200 briefs/month = ~$4.80/month.",
+    parallelWorkflows: ["Case record aggregation and precedent retrieval run in parallel", "Brief synthesis starts as soon as aggregation completes (no waiting for precedent)", "Quality review runs on completed draft while officer is notified", "Multiple officers can generate briefs simultaneously (stateless processing)"]
+  },
+  "PS-CLIC": {
+    whyBuild: "Every day a healthcare licence lapses undetected, an unlicensed practitioner or facility sees patients. The ministry has the registry data — it simply lacks the automated monitoring layer. This is the highest-leverage, lowest-cost intervention in the licence management domain: continuous monitoring of existing data with AI risk scoring.",
+    whoBenefits: "Licensing officers eliminate manual batch expiry checks. Compliance teams receive proactive renewal dashboards instead of reactive breach discovery. Healthcare facilities receive timely renewal reminders reducing unintentional lapses. The public is protected from unlicensed care.",
+    successMetrics: ["Unlicensed operation detection lag reduced from weeks to <48 hours", "100% proactive coverage of all licence expiries (up from ~30%)", "On-time renewal rate increased by 30% through automated reminders", "Conditional licence lapse rate reduced by 80%"],
+    security: "Licensing registry data classified as Official (Closed). Renewal reminder emails generated by AI but sent via ministry-authenticated SMTP. No licensee data shared externally. Risk scores are internal tools only.",
+    architecture: "Licensing registry synced to Azure Cosmos DB daily \u2192 Risk scoring engine evaluates each licence on renewal-risk index (days to expiry, historical renewal behaviour, licence type complexity, linked complaints) \u2192 High-risk licences surfaced on daily enforcement dashboard \u2192 Automated reminder emails generated and sent at 90/60/30-day intervals \u2192 Lapsed licences cross-referenced against open complaints and inspection schedules \u2192 Enforcement referral created for confirmed lapses",
+    techStack: ["Azure Cosmos DB (licence registry)", "Azure Machine Learning (renewal risk scoring)", "Azure Communication Services (reminder emails/SMS)", "Azure Logic Apps (expiry workflow orchestration)", "Azure OpenAI Service (reminder content generation)", "Power BI Embedded (licence risk dashboard)"],
+    foundryAgents: ["RegistrySync Agent: daily sync from licensing system to monitoring database", "RiskScorer Agent: renewal risk index per licence with explainable factors", "ReminderComposer Agent: personalised renewal reminder generation per licence type", "LapseDetector Agent: real-time lapse identification with cross-reference to complaints/inspections", "EnforcementReferral Agent: auto-creates CMS referral for confirmed lapsed licences"],
+    tokenEstimate: "~200 tokens per reminder email generated. At $0.003/1K: $0.0006/email. 5,000 reminders/month = $3/month. Risk scoring is ML compute (no LLM tokens). Dashboard is compute-only.",
+    parallelWorkflows: ["Registry sync runs nightly, independent of risk scoring", "Risk scoring runs in parallel across all licence categories simultaneously", "Reminder generation batched and parallelised across all due reminders", "Lapse detection runs continuously (event-driven on expiry date crossing), independent of reminder cycle"]
+  }
+};
+
+var SITE_SHELL_B64="PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+QUkgaW4gSGVhbHRoY2FyZSBFbmZvcmNlbWVudCAmbWRhc2g7IGVuZm9yY2UuYnVpbGRqb3lub3cuY29tPC90aXRsZT4KPHN0eWxlPgo6cm9vdCB7CiAgLS1pbms6ICMwYTBjMTA7CiAgLS1wYXBlcjogI2Y3ZjZmMjsKICAtLW1pZDogI2U4ZTVkZTsKICAtLXJ1bGU6ICNjOGM0Yjg7CiAgLS1hY2NlbnQ6ICMxYTRmZDY7CiAgLS1hY2NlbnQtbGlnaHQ6ICNlOGVlZmY7CiAgLS1kYW5nZXI6ICNjMDM5MmI7CiAgLS1zdWNjZXNzOiAjMWE3YTRhOwogIC0td2FybjogI2I4NjIwYTsKICAtLW11dGVkOiAjNmI2ODYwOwogIC0tbW9ubzogJ0NvdXJpZXIgTmV3JywgQ291cmllciwgbW9ub3NwYWNlOwogIC0tQ3JpdGljYWw6ICNjMDM5MmI7CiAgLS1IaWdoOiAjYjg2MjBhOwogIC0tTWVkaXVtOiAjMWE3YTRhOwp9CiosKjo6YmVmb3JlLCo6OmFmdGVyIHsgYm94LXNpemluZzogYm9yZGVyLWJveDsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOyB9Cmh0bWwgeyBmb250LXNpemU6IDE1cHg7IHNjcm9sbC1iZWhhdmlvcjogc21vb3RoOyB9CmJvZHkgeyBmb250LWZhbWlseTogR2VvcmdpYSwnVGltZXMgTmV3IFJvbWFuJyxzZXJpZjsgYmFja2dyb3VuZDogdmFyKC0tcGFwZXIpOyBjb2xvcjogdmFyKC0taW5rKTsgbGluZS1oZWlnaHQ6IDEuNjU7IH0KLyogTUFTVEhFQUQgKi8KLm1hc3RoZWFkIHsgYm9yZGVyLWJvdHRvbTogM3B4IHNvbGlkIHZhcigtLWluayk7IHBhZGRpbmc6IDJyZW0gMnJlbSAxLjJyZW07IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBmbGV4LWVuZDsganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuOyBnYXA6IDFyZW07IGZsZXgtd3JhcDogd3JhcDsgfQoubWFzdGhlYWQtbGVmdCAuZXllYnJvdyB7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNjhyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IGxldHRlci1zcGFjaW5nOiAwLjE1ZW07IHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7IGNvbG9yOiB2YXIoLS1tdXRlZCk7IG1hcmdpbi1ib3R0b206IDAuM3JlbTsgfQoubWFzdGhlYWQtbGVmdCBoMSB7IGZvbnQtc2l6ZTogMi4ycmVtOyBmb250LXdlaWdodDogNzAwOyBsZXR0ZXItc3BhY2luZzogLTAuMDNlbTsgbGluZS1oZWlnaHQ6IDEuMTsgfQoubWFzdGhlYWQtbGVmdCBoMSBzcGFuIHsgY29sb3I6IHZhcigtLWFjY2VudCk7IH0KLm1hc3RoZWFkLW1ldGEgeyB0ZXh0LWFsaWduOiByaWdodDsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC43MnJlbTsgY29sb3I6IHZhcigtLW11dGVkKTsgbGluZS1oZWlnaHQ6IDEuODsgfQovKiBUQUJTIE5BViAqLwoudGFiLW5hdiB7IGJhY2tncm91bmQ6IHZhcigtLWluayk7IGNvbG9yOiB2YXIoLS1wYXBlcik7IHBhZGRpbmc6IDAgMnJlbTsgZGlzcGxheTogZmxleDsgZ2FwOiAwOyBmbGV4LXdyYXA6IG5vd3JhcDsgb3ZlcmZsb3cteDogYXV0bzsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC43MnJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgbGV0dGVyLXNwYWNpbmc6IDAuMDZlbTsgfQoudGFiLW5hdiBidXR0b24geyBiYWNrZ3JvdW5kOiBub25lOyBib3JkZXI6IG5vbmU7IGJvcmRlci1ib3R0b206IDNweCBzb2xpZCB0cmFuc3BhcmVudDsgY29sb3I6IHJnYmEoMjQ3LDI0NiwyNDIsMC42NSk7IGN1cnNvcjogcG9pbnRlcjsgZm9udC1mYW1pbHk6IGluaGVyaXQ7IGZvbnQtc2l6ZTogaW5oZXJpdDsgZm9udC13ZWlnaHQ6IGluaGVyaXQ7IGxldHRlci1zcGFjaW5nOiBpbmhlcml0OyBwYWRkaW5nOiAwLjhyZW0gMS4ycmVtOyB3aGl0ZS1zcGFjZTogbm93cmFwOyB0cmFuc2l0aW9uOiBjb2xvciAwLjE1czsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgfQoudGFiLW5hdiBidXR0b246aG92ZXIgeyBjb2xvcjogdmFyKC0tcGFwZXIpOyB9Ci50YWItbmF2IGJ1dHRvbi5hY3RpdmUgeyBjb2xvcjogdmFyKC0tcGFwZXIpOyBib3JkZXItYm90dG9tLWNvbG9yOiB2YXIoLS1hY2NlbnQpOyB9Ci8qIFBBTkVTICovCi5wYW5lIHsgZGlzcGxheTogbm9uZTsgfQoucGFuZS5hY3RpdmUgeyBkaXNwbGF5OiBibG9jazsgfQouY29udGFpbmVyIHsgbWF4LXdpZHRoOiAxMTAwcHg7IG1hcmdpbjogMCBhdXRvOyBwYWRkaW5nOiAycmVtOyB9Ci8qIFNFQ1RJT04gSEVBREVSUyAqLwouc2VjdGlvbi1oZWFkZXIgeyBib3JkZXItdG9wOiAycHggc29saWQgdmFyKC0taW5rKTsgcGFkZGluZy10b3A6IDAuOHJlbTsgbWFyZ2luLWJvdHRvbTogMS41cmVtOyB9Ci5zZWN0aW9uLWhlYWRlciAuc3RlcC1sYWJlbCB7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNjVyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IGxldHRlci1zcGFjaW5nOiAwLjJlbTsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgY29sb3I6IHZhcigtLWFjY2VudCk7IG1hcmdpbi1ib3R0b206IDAuMnJlbTsgfQouc2VjdGlvbi1oZWFkZXIgaDIgeyBmb250LXNpemU6IDEuNnJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgbGV0dGVyLXNwYWNpbmc6IC0wLjAyZW07IH0KLnNlY3Rpb24taGVhZGVyIHAgeyBjb2xvcjogdmFyKC0tbXV0ZWQpOyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjgycmVtOyBtYXJnaW4tdG9wOiAwLjNyZW07IH0KLyogRVhFQyBUQUJMRSAqLwouZXhlYy10YWJsZSB7IHdpZHRoOiAxMDAlOyBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOyBmb250LXNpemU6IDAuODJyZW07IG1hcmdpbi10b3A6IDFyZW07IH0KLmV4ZWMtdGFibGUgdGggeyBiYWNrZ3JvdW5kOiB2YXIoLS1pbmspOyBjb2xvcjogdmFyKC0tcGFwZXIpOyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjY1cmVtOyBmb250LXdlaWdodDogNzAwOyBsZXR0ZXItc3BhY2luZzogMC4wOGVtOyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBwYWRkaW5nOiAwLjZyZW0gMC44cmVtOyB0ZXh0LWFsaWduOiBsZWZ0OyB9Ci5leGVjLXRhYmxlIHRkIHsgcGFkZGluZzogMC41NXJlbSAwLjhyZW07IGJvcmRlci1ib3R0b206IDFweCBzb2xpZCB2YXIoLS1taWQpOyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjc4cmVtOyB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlOyB9Ci5leGVjLXRhYmxlIHRyOm50aC1jaGlsZChldmVuKSB0ZCB7IGJhY2tncm91bmQ6ICNmYWZhZjg7IH0KLmV4ZWMtdGFibGUgdHI6aG92ZXIgdGQgeyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQtbGlnaHQpOyBjdXJzb3I6IHBvaW50ZXI7IH0KLmV4ZWMtdGFibGUgLmlkLWNlbGwgeyBmb250LWZhbWlseTogdmFyKC0tbW9ubyk7IGZvbnQtc2l6ZTogMC43MnJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgY29sb3I6IHZhcigtLWFjY2VudCk7IH0KLnByaW9yaXR5LWJhZGdlIHsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC42cmVtOyBmb250LXdlaWdodDogNzAwOyBsZXR0ZXItc3BhY2luZzogMC4wOGVtOyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBwYWRkaW5nOiAwLjE1cmVtIDAuNXJlbTsgYm9yZGVyLXJhZGl1czogMnB4OyB9Ci5wcmlvcml0eS1Dcml0aWNhbCB7IGJhY2tncm91bmQ6ICNmY2U0ZTQ7IGNvbG9yOiB2YXIoLS1kYW5nZXIpOyB9Ci5wcmlvcml0eS1IaWdoIHsgYmFja2dyb3VuZDogI2ZmZjNjZDsgY29sb3I6IHZhcigtLXdhcm4pOyB9Ci5wcmlvcml0eS1NZWRpdW0geyBiYWNrZ3JvdW5kOiAjZThmNWU5OyBjb2xvcjogdmFyKC0tc3VjY2Vzcyk7IH0KLnNjb3JlLWJhciB7IGRpc3BsYXk6IGlubGluZS1ibG9jazsgd2lkdGg6IDYwcHg7IGhlaWdodDogNHB4OyBiYWNrZ3JvdW5kOiB2YXIoLS1taWQpOyB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlOyBtYXJnaW4tcmlnaHQ6IDZweDsgfQouc2NvcmUtZmlsbCB7IGhlaWdodDogNHB4OyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQpOyB9Ci5jb21tdW5pdHktdGFnIHsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC41OHJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgbGV0dGVyLXNwYWNpbmc6IDAuMDZlbTsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgYmFja2dyb3VuZDogI2YwZThmZjsgY29sb3I6ICM1YjIxYjY7IHBhZGRpbmc6IDAuMXJlbSAwLjRyZW07IG1hcmdpbi1sZWZ0OiA2cHg7IGJvcmRlci1yYWRpdXM6IDJweDsgfQovKiBQUyBHUklEICovCi5wcy1ncmlkIHsgZGlzcGxheTogZ3JpZDsgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoYXV0by1maWxsLCBtaW5tYXgoMzIwcHgsIDFmcikpOyBnYXA6IDFyZW07IH0KLnBzLWNhcmQgeyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ydWxlKTsgYmFja2dyb3VuZDogd2hpdGU7IHBhZGRpbmc6IDEuMnJlbTsgY3Vyc29yOiBwb2ludGVyOyBwb3NpdGlvbjogcmVsYXRpdmU7IHRyYW5zaXRpb246IGJvcmRlci1jb2xvciAwLjE1cywgYm94LXNoYWRvdyAwLjE1czsgfQoucHMtY2FyZDpob3ZlciB7IGJvcmRlci1jb2xvcjogdmFyKC0tYWNjZW50KTsgYm94LXNoYWRvdzogMCAycHggOHB4IHJnYmEoMjYsNzksMjE0LDAuMTIpOyB9Ci5wcy1jYXJkIC5jYXJkLWlkIHsgZm9udC1mYW1pbHk6IHZhcigtLW1vbm8pOyBmb250LXNpemU6IDAuNjVyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IG1hcmdpbi1ib3R0b206IDAuNHJlbTsgfQoucHMtY2FyZCBoMyB7IGZvbnQtc2l6ZTogMC45NXJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgbWFyZ2luLWJvdHRvbTogMC40cmVtOyBsaW5lLWhlaWdodDogMS4zNTsgcGFkZGluZy1yaWdodDogMnJlbTsgfQoucHMtY2FyZCAuY2FyZC10YWcgeyBmb250LXNpemU6IDAuNzdyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBsaW5lLWhlaWdodDogMS40OyBtYXJnaW4tYm90dG9tOiAwLjhyZW07IH0KLnBzLWNhcmQgLmNhcmQtZm9vdCB7IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGdhcDogMC42cmVtOyB9Ci5wcy1jYXJkIC5jYXJkLXJhbmsgeyBwb3NpdGlvbjogYWJzb2x1dGU7IHRvcDogMXJlbTsgcmlnaHQ6IDFyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNnJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgY29sb3I6IHZhcigtLW11dGVkKTsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgfQouc2VjdGlvbi1sYWJlbC1iYXIgeyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjY1cmVtOyBmb250LXdlaWdodDogNzAwOyBsZXR0ZXItc3BhY2luZzogMC4yZW07IHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7IGNvbG9yOiB2YXIoLS1wYXBlcik7IGJhY2tncm91bmQ6IHZhcigtLWluayk7IGRpc3BsYXk6IGlubGluZS1ibG9jazsgcGFkZGluZzogMC4xNXJlbSAwLjZyZW07IG1hcmdpbi1ib3R0b206IDAuOHJlbTsgfQovKiBQT0MgU0VRVUVOQ0UgKi8KLnBvYy1zZXF1ZW5jZSB7IGRpc3BsYXk6IGdyaWQ7IGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KGF1dG8tZmlsbCwgbWlubWF4KDIyMHB4LCAxZnIpKTsgZ2FwOiAxcmVtOyBtYXJnaW4tdG9wOiAwLjVyZW07IH0KLnBvYy1waGFzZSB7IGJvcmRlci1sZWZ0OiAzcHggc29saWQgdmFyKC0tYWNjZW50KTsgcGFkZGluZzogMC42cmVtIDAuOHJlbTsgYmFja2dyb3VuZDogd2hpdGU7IGJvcmRlci10b3A6IDFweCBzb2xpZCB2YXIoLS1ydWxlKTsgYm9yZGVyLXJpZ2h0OiAxcHggc29saWQgdmFyKC0tcnVsZSk7IGJvcmRlci1ib3R0b206IDFweCBzb2xpZCB2YXIoLS1ydWxlKTsgfQoucG9jLXBoYXNlIC5waGFzZS1sYWJlbCB7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNjVyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7IGxldHRlci1zcGFjaW5nOiAwLjFlbTsgY29sb3I6IHZhcigtLWFjY2VudCk7IG1hcmdpbi1ib3R0b206IDAuNHJlbTsgfQoucG9jLXBoYXNlIC5waGFzZS1pdGVtIHsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC43NXJlbTsgY29sb3I6IHZhcigtLWluayk7IHBhZGRpbmc6IDAuMnJlbSAwOyBib3JkZXItYm90dG9tOiAxcHggc29saWQgdmFyKC0tbWlkKTsgfQoucG9jLXBoYXNlIC5waGFzZS1pdGVtOmxhc3QtY2hpbGQgeyBib3JkZXItYm90dG9tOiBub25lOyB9Ci8qIERFVEFJTCBWSUVXICovCi5iYWNrLWJ0biB7IGJhY2tncm91bmQ6IG5vbmU7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLXJ1bGUpOyBjb2xvcjogdmFyKC0tbXV0ZWQpOyBwYWRkaW5nOiAwLjNyZW0gMC44cmVtOyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjcycmVtOyBjdXJzb3I6IHBvaW50ZXI7IG1hcmdpbi1ib3R0b206IDEuNXJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgfQouYmFjay1idG46aG92ZXIgeyBib3JkZXItY29sb3I6IHZhcigtLWluayk7IGNvbG9yOiB2YXIoLS1pbmspOyB9Ci5kZXRhaWwtaGVhZGVyIHsgYm9yZGVyOiAycHggc29saWQgdmFyKC0taW5rKTsgcGFkZGluZzogMS41cmVtOyBtYXJnaW4tYm90dG9tOiAxLjVyZW07IH0KLmRldGFpbC1oZWFkZXIgLnJlYy1udW1iZXIgeyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQpOyBjb2xvcjogd2hpdGU7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDEuMnJlbTsgZm9udC13ZWlnaHQ6IDkwMDsgd2lkdGg6IDQ0cHg7IGhlaWdodDogNDRweDsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IGZsZXgtc2hyaW5rOiAwOyB9Ci5kZXRhaWwtaGVhZGVyIC5yZWMtbnVtYmVyLkNyaXRpY2FsIHsgYmFja2dyb3VuZDogdmFyKC0tZGFuZ2VyKTsgfQouZGV0YWlsLWhlYWRlciAucmVjLW51bWJlci5IaWdoIHsgYmFja2dyb3VuZDogdmFyKC0td2Fybik7IH0KLmRldGFpbC1oZWFkZXIgLnJlYy1udW1iZXIuTWVkaXVtIHsgYmFja2dyb3VuZDogdmFyKC0tc3VjY2Vzcyk7IH0KLmRldGFpbC10b3AgeyBkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogZmxleC1zdGFydDsgZ2FwOiAxcmVtOyBtYXJnaW4tYm90dG9tOiAwLjhyZW07IH0KLmRldGFpbC10b3AgaDIgeyBmb250LXNpemU6IDEuNHJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgbGluZS1oZWlnaHQ6IDEuMjsgfQouZGV0YWlsLXRvcCAudGFnbGluZSB7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuODJyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IG1hcmdpbi10b3A6IDAuM3JlbTsgZm9udC1zdHlsZTogaXRhbGljOyB9Ci5kZXRhaWwtbWV0YSB7IGRpc3BsYXk6IGZsZXg7IGdhcDogMXJlbTsgZmxleC13cmFwOiB3cmFwOyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjcycmVtOyB9Ci5kZXRhaWwtbWV0YS1pdGVtIC5kbS1sYWJlbCB7IGNvbG9yOiB2YXIoLS1tdXRlZCk7IGZvbnQtc2l6ZTogMC42NXJlbTsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgbGV0dGVyLXNwYWNpbmc6IDAuMWVtOyBkaXNwbGF5OiBibG9jazsgfQouZGV0YWlsLW1ldGEtaXRlbSAuZG0tdmFsdWUgeyBmb250LXdlaWdodDogNzAwOyB9Ci5kZXRhaWwtZ3JpZCB7IGRpc3BsYXk6IGdyaWQ7IGdyaWQtdGVtcGxhdGUtY29sdW1uczogMWZyIDFmcjsgZ2FwOiAxLjJyZW07IG1hcmdpbi1ib3R0b206IDEuMnJlbTsgfQouZGV0YWlsLXNlY3Rpb24geyBiYWNrZ3JvdW5kOiB3aGl0ZTsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tcnVsZSk7IHBhZGRpbmc6IDFyZW0gMS4ycmVtOyB9Ci5kZXRhaWwtc2VjdGlvbi5mdWxsLXdpZHRoIHsgZ3JpZC1jb2x1bW46IDEgLyAtMTsgfQouZGV0YWlsLXNlY3Rpb24gaDQgeyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjY1cmVtOyBmb250LXdlaWdodDogNzAwOyBsZXR0ZXItc3BhY2luZzogMC4xNWVtOyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBjb2xvcjogdmFyKC0tbXV0ZWQpOyBtYXJnaW4tYm90dG9tOiAwLjZyZW07IHBhZGRpbmctYm90dG9tOiAwLjNyZW07IGJvcmRlci1ib3R0b206IDFweCBzb2xpZCB2YXIoLS1taWQpOyB9Ci5kZXRhaWwtc2VjdGlvbiBwIHsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC44cmVtOyBsaW5lLWhlaWdodDogMS42OyBjb2xvcjogdmFyKC0taW5rKTsgfQouZGV0YWlsLXNlY3Rpb24gdWwgeyBwYWRkaW5nLWxlZnQ6IDEuMXJlbTsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC43OHJlbTsgbGluZS1oZWlnaHQ6IDEuODsgfQouYXJjaC1ib3ggeyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQtbGlnaHQpOyBib3JkZXItbGVmdDogM3B4IHNvbGlkIHZhcigtLWFjY2VudCk7IHBhZGRpbmc6IDAuOHJlbSAxcmVtOyBmb250LWZhbWlseTogdmFyKC0tbW9ubyk7IGZvbnQtc2l6ZTogMC43cmVtOyBsaW5lLWhlaWdodDogMS43OyBtYXJnaW4tdG9wOiAwLjRyZW07IG92ZXJmbG93LXg6IGF1dG87IH0KLnRlY2gtcGlsbCB7IGRpc3BsYXk6IGlubGluZS1ibG9jazsgYmFja2dyb3VuZDogdmFyKC0taW5rKTsgY29sb3I6IHZhcigtLXBhcGVyKTsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC41OHJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgbGV0dGVyLXNwYWNpbmc6IDAuMDZlbTsgcGFkZGluZzogMC4xNXJlbSAwLjVyZW07IG1hcmdpbjogMC4xNXJlbTsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgfQouYWdlbnQtaXRlbSB7IGJvcmRlci1ib3R0b206IDFweCBzb2xpZCB2YXIoLS1taWQpOyBwYWRkaW5nOiAwLjRyZW0gMDsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC43N3JlbTsgfQouYWdlbnQtaXRlbTpsYXN0LWNoaWxkIHsgYm9yZGVyLWJvdHRvbTogbm9uZTsgfQouYWdlbnQtaXRlbSBzdHJvbmcgeyBjb2xvcjogdmFyKC0tYWNjZW50KTsgfQoudG9rZW4tYm94IHsgYmFja2dyb3VuZDogI2ZmZjhlMTsgYm9yZGVyOiAxcHggc29saWQgI2Y0Yzg0MjsgcGFkZGluZzogMC44cmVtIDFyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNzhyZW07IGxpbmUtaGVpZ2h0OiAxLjY7IH0KLyogU1VCTUlUIFRBQiAqLwouY2FsbG91dCB7IGJhY2tncm91bmQ6IHZhcigtLWFjY2VudC1saWdodCk7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWFjY2VudCk7IHBhZGRpbmc6IDFyZW0gMS4ycmVtOyBtYXJnaW46IDFyZW0gMDsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC44cmVtOyBsaW5lLWhlaWdodDogMS42OyB9Ci5jYWxsb3V0IHN0cm9uZyB7IGNvbG9yOiB2YXIoLS1hY2NlbnQpOyB9Ci5zdGVwLWJsb2NrIHsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tcnVsZSk7IGJhY2tncm91bmQ6IHdoaXRlOyBwYWRkaW5nOiAxLjJyZW07IG1hcmdpbi1ib3R0b206IDFyZW07IH0KLnN0ZXAtbnVtIHsgZGlzcGxheTogaW5saW5lLWZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGp1c3RpZnktY29udGVudDogY2VudGVyOyB3aWR0aDogMjRweDsgaGVpZ2h0OiAyNHB4OyBiYWNrZ3JvdW5kOiB2YXIoLS1hY2NlbnQpOyBjb2xvcjogd2hpdGU7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNzJyZW07IGZvbnQtd2VpZ2h0OiA5MDA7IG1hcmdpbi1ib3R0b206IDAuOHJlbTsgfQoucHJvbXB0LWJveCB7IGJhY2tncm91bmQ6ICNmYWZhZjg7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLW1pZCk7IHBhZGRpbmc6IDFyZW07IGZvbnQtZmFtaWx5OiB2YXIoLS1tb25vKTsgZm9udC1zaXplOiAwLjdyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IGxpbmUtaGVpZ2h0OiAxLjc7IHdoaXRlLXNwYWNlOiBwcmUtd3JhcDsgbWF4LWhlaWdodDogMjIwcHg7IG92ZXJmbG93LXk6IGF1dG87IG1hcmdpbi1ib3R0b206IDAuOHJlbTsgfQouY29weS1idG4geyBiYWNrZ3JvdW5kOiB2YXIoLS1pbmspOyBjb2xvcjogdmFyKC0tcGFwZXIpOyBib3JkZXI6IG5vbmU7IHBhZGRpbmc6IDAuNHJlbSAxcmVtOyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjcycmVtOyBmb250LXdlaWdodDogNzAwOyBjdXJzb3I6IHBvaW50ZXI7IGxldHRlci1zcGFjaW5nOiAwLjA2ZW07IHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7IH0KLmNvcHktYnRuOmhvdmVyIHsgb3BhY2l0eTogMC44NTsgfQouY29weS1idG4uY29waWVkIHsgYmFja2dyb3VuZDogdmFyKC0tc3VjY2Vzcyk7IH0KdGV4dGFyZWEucHogeyB3aWR0aDogMTAwJTsgYmFja2dyb3VuZDogI2ZhZmFmODsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tbWlkKTsgY29sb3I6IHZhcigtLWluayk7IHBhZGRpbmc6IDAuOHJlbTsgZm9udC1mYW1pbHk6IHZhcigtLW1vbm8pOyBmb250LXNpemU6IDAuNzJyZW07IG1pbi1oZWlnaHQ6IDE2MHB4OyByZXNpemU6IHZlcnRpY2FsOyBvdXRsaW5lOiBub25lOyBsaW5lLWhlaWdodDogMS42OyB9CnRleHRhcmVhLnB6OmZvY3VzIHsgYm9yZGVyLWNvbG9yOiB2YXIoLS1hY2NlbnQpOyB9CmlucHV0LnBpIHsgd2lkdGg6IDEwMCU7IGJhY2tncm91bmQ6ICNmYWZhZjg7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLW1pZCk7IGNvbG9yOiB2YXIoLS1pbmspOyBwYWRkaW5nOiAwLjZyZW0gMC44cmVtOyBmb250LWZhbWlseTogdmFyKC0tbW9ubyk7IGZvbnQtc2l6ZTogMC44cmVtOyBsZXR0ZXItc3BhY2luZzogMC4xZW07IG91dGxpbmU6IG5vbmU7IH0KaW5wdXQucGk6Zm9jdXMgeyBib3JkZXItY29sb3I6IHZhcigtLWFjY2VudCk7IH0KLnN1Ym1pdC1idG4geyB3aWR0aDogMTAwJTsgYmFja2dyb3VuZDogdmFyKC0tc3VjY2Vzcyk7IGNvbG9yOiB3aGl0ZTsgYm9yZGVyOiBub25lOyBwYWRkaW5nOiAwLjlyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuOXJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgY3Vyc29yOiBwb2ludGVyOyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMC4wOGVtOyBtYXJnaW4tdG9wOiAwLjRyZW07IH0KLnN1Ym1pdC1idG46aG92ZXIgeyBvcGFjaXR5OiAwLjg4OyB9Ci5zdWJtaXQtYnRuOmRpc2FibGVkIHsgb3BhY2l0eTogMC40OyBjdXJzb3I6IG5vdC1hbGxvd2VkOyB9Ci52Ym94IHsgYmFja2dyb3VuZDogI2ZhZmFmODsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tbWlkKTsgcGFkZGluZzogMC44cmVtOyBmb250LWZhbWlseTogdmFyKC0tbW9ubyk7IGZvbnQtc2l6ZTogMC43cmVtOyBtYXJnaW4tdG9wOiAwLjhyZW07IG1pbi1oZWlnaHQ6IDQwcHg7IGRpc3BsYXk6IG5vbmU7IH0KLnZib3gub24geyBkaXNwbGF5OiBibG9jazsgfQoudi1vayB7IGNvbG9yOiB2YXIoLS1zdWNjZXNzKTsgfSAudi1lcnIgeyBjb2xvcjogdmFyKC0tZGFuZ2VyKTsgfSAudi1pbmZvIHsgY29sb3I6IHZhcigtLW11dGVkKTsgfQouc3VjIHsgYmFja2dyb3VuZDogI2U4ZjVlOTsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tc3VjY2Vzcyk7IHBhZGRpbmc6IDFyZW07IG1hcmdpbi10b3A6IDAuOHJlbTsgZGlzcGxheTogbm9uZTsgfQouc3VjLm9uIHsgZGlzcGxheTogYmxvY2s7IH0KLnN1YyBoMyB7IGNvbG9yOiB2YXIoLS1zdWNjZXNzKTsgZm9udC1zaXplOiAwLjlyZW07IG1hcmdpbi1ib3R0b206IDAuNHJlbTsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IH0KLnN1YyBwIHsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC43OHJlbTsgY29sb3I6IHZhcigtLWluayk7IH0KLyogQURNSU4gVEFCICovCi5hZG1pbi13cmFwIHsgbWF4LXdpZHRoOiA2NDBweDsgbWFyZ2luOiAwIGF1dG87IH0KLmFpdGVtIHsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tcnVsZSk7IGJhY2tncm91bmQ6IHdoaXRlOyBwYWRkaW5nOiAxcmVtOyBtYXJnaW4tYm90dG9tOiAwLjhyZW07IH0KLmFpdGVtLmRpbSB7IG9wYWNpdHk6IDAuNDU7IH0KLmFpdGVtLXQgeyBmb250LXdlaWdodDogNzAwOyBmb250LXNpemU6IDAuODVyZW07IG1hcmdpbi1ib3R0b206IDAuMnJlbTsgfQouYWl0ZW0tbSB7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNzJyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IG1hcmdpbi1ib3R0b206IDAuNnJlbTsgfQouYWIgeyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ydWxlKTsgYmFja2dyb3VuZDogd2hpdGU7IHBhZGRpbmc6IDAuM3JlbSAwLjhyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuN3JlbTsgZm9udC13ZWlnaHQ6IDcwMDsgY3Vyc29yOiBwb2ludGVyOyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMC4wNWVtOyB9Ci5hYjpob3ZlciB7IGJhY2tncm91bmQ6IHZhcigtLW1pZCk7IH0KLmFiLWQgeyBib3JkZXItY29sb3I6IHZhcigtLWRhbmdlcik7IGNvbG9yOiB2YXIoLS1kYW5nZXIpOyB9Ci5hYi1kOmhvdmVyIHsgYmFja2dyb3VuZDogI2ZjZTRlNDsgfQouYWItdCB7IGJvcmRlci1jb2xvcjogdmFyKC0td2Fybik7IGNvbG9yOiB2YXIoLS13YXJuKTsgfQouYWItcyB7IGJvcmRlci1jb2xvcjogdmFyKC0tc3VjY2Vzcyk7IGNvbG9yOiB2YXIoLS1zdWNjZXNzKTsgfQouYWItczpob3ZlciB7IGJhY2tncm91bmQ6ICNlOGY1ZTk7IH0KLmFiLWUgeyBib3JkZXItY29sb3I6IHZhcigtLWFjY2VudCk7IGNvbG9yOiB2YXIoLS1hY2NlbnQpOyB9Ci5hYi1jIHsgY29sb3I6IHZhcigtLW11dGVkKTsgfQouZWYgeyB3aWR0aDogMTAwJTsgYmFja2dyb3VuZDogI2ZhZmFmODsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tbWlkKTsgY29sb3I6IHZhcigtLWluayk7IHBhZGRpbmc6IDAuNHJlbSAwLjZyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNzhyZW07IG1hcmdpbi1ib3R0b206IDAuNXJlbTsgb3V0bGluZTogbm9uZTsgfQouZWY6Zm9jdXMgeyBib3JkZXItY29sb3I6IHZhcigtLWFjY2VudCk7IH0KLmFzdCB7IGZvbnQtZmFtaWx5OiB2YXIoLS1tb25vKTsgZm9udC1zaXplOiAwLjdyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IG1hcmdpbi10b3A6IDAuNnJlbTsgbWluLWhlaWdodDogMTZweDsgfQouZW1wdHkgeyB0ZXh0LWFsaWduOiBjZW50ZXI7IHBhZGRpbmc6IDNyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuODJyZW07IH0KLnBhdC1yb3cgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDAuNnJlbTsgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQ7IG1hcmdpbi1ib3R0b206IDAuNHJlbTsgfQoucGF0LXJvdyBpbnB1dCB7IG1hcmdpbi1ib3R0b206IDA7IGZsZXg6IDE7IH0KLmFkbWluLXNlY3Rpb24tZGl2aWRlciB7IGJvcmRlcjogbm9uZTsgYm9yZGVyLXRvcDogMnB4IHNvbGlkIHZhcigtLWluayk7IG1hcmdpbjogMnJlbSAwOyB9Ci5jb3JlLXBzLWl0ZW0geyBib3JkZXItYm90dG9tOiAxcHggc29saWQgdmFyKC0tbWlkKTsgcGFkZGluZzogMC43cmVtIDA7IGRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsgYWxpZ24taXRlbXM6IGNlbnRlcjsgfQouY29yZS1wcy1pdGVtOmxhc3QtY2hpbGQgeyBib3JkZXItYm90dG9tOiBub25lOyB9Ci5jb3JlLXBzLWl0ZW0gLnBzLXRpdGxlIHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAwLjgycmVtOyB9Ci5jb3JlLXBzLWl0ZW0gLnBzLW1ldGEgeyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjdyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IG1hcmdpbi10b3A6IDAuMXJlbTsgfQouZWRpdC1wcy1mb3JtIHsgYmFja2dyb3VuZDogI2ZhZmFmODsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tYWNjZW50KTsgcGFkZGluZzogMXJlbTsgbWFyZ2luLXRvcDogMC44cmVtOyBkaXNwbGF5OiBub25lOyB9Ci5lZGl0LXBzLWZvcm0ub24geyBkaXNwbGF5OiBibG9jazsgfQouZWYtbGFiZWwgeyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjYycmVtOyBmb250LXdlaWdodDogNzAwOyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMC4xZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IGRpc3BsYXk6IGJsb2NrOyBtYXJnaW4tYm90dG9tOiAwLjI1cmVtOyBtYXJnaW4tdG9wOiAwLjdyZW07IH0KLmVmLWxhYmVsOmZpcnN0LWNoaWxkIHsgbWFyZ2luLXRvcDogMDsgfQouZWRpdC1wcy1mb3JtIGlucHV0LCAuZWRpdC1wcy1mb3JtIHRleHRhcmVhLCAuZWRpdC1wcy1mb3JtIHNlbGVjdCB7IHdpZHRoOiAxMDAlOyBiYWNrZ3JvdW5kOiB3aGl0ZTsgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tbWlkKTsgY29sb3I6IHZhcigtLWluayk7IHBhZGRpbmc6IDAuNHJlbSAwLjZyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNzhyZW07IG1hcmdpbi1ib3R0b206IDJweDsgb3V0bGluZTogbm9uZTsgfQouZWRpdC1wcy1mb3JtIGlucHV0OmZvY3VzLCAuZWRpdC1wcy1mb3JtIHRleHRhcmVhOmZvY3VzIHsgYm9yZGVyLWNvbG9yOiB2YXIoLS1hY2NlbnQpOyB9Ci5lZGl0LXBzLWZvcm0gdGV4dGFyZWEgeyBtaW4taGVpZ2h0OiA2MHB4OyByZXNpemU6IHZlcnRpY2FsOyBsaW5lLWhlaWdodDogMS40OyB9Ci5hcnItaXRlbSB7IGRpc3BsYXk6IGZsZXg7IGdhcDogMC40cmVtOyBtYXJnaW4tYm90dG9tOiAwLjRyZW07IGFsaWduLWl0ZW1zOiBmbGV4LXN0YXJ0OyB9Ci5hcnItaXRlbSB0ZXh0YXJlYSB7IG1pbi1oZWlnaHQ6IDQ0cHg7IG1hcmdpbi1ib3R0b206IDA7IH0KLmFyci1idG4geyBiYWNrZ3JvdW5kOiB2YXIoLS1taWQpOyBib3JkZXI6IG5vbmU7IGNvbG9yOiB2YXIoLS1pbmspOyBwYWRkaW5nOiAwLjNyZW0gMC42cmVtOyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjY4cmVtOyBjdXJzb3I6IHBvaW50ZXI7IGZsZXgtc2hyaW5rOiAwOyB9Ci5hcnItYnRuOmhvdmVyIHsgYmFja2dyb3VuZDogdmFyKC0tcnVsZSk7IH0KLmZvcm0tYWN0aW9ucyB7IGRpc3BsYXk6IGZsZXg7IGdhcDogMC42cmVtOyBtYXJnaW4tdG9wOiAxcmVtOyBmbGV4LXdyYXA6IHdyYXA7IH0KLmNvcHktanNvbi1ib3ggeyBiYWNrZ3JvdW5kOiAjZmFmYWY4OyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1taWQpOyBwYWRkaW5nOiAwLjhyZW07IGZvbnQtZmFtaWx5OiB2YXIoLS1tb25vKTsgZm9udC1zaXplOiAwLjY4cmVtOyB3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IG1heC1oZWlnaHQ6IDE4MHB4OyBvdmVyZmxvdy15OiBhdXRvOyBtYXJnaW4tdG9wOiAwLjhyZW07IGRpc3BsYXk6IG5vbmU7IH0KLmNvcHktanNvbi1ib3gub24geyBkaXNwbGF5OiBibG9jazsgfQouYWktcmVzdWx0LWJveCB7IGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWFjY2VudCk7IGJhY2tncm91bmQ6IHZhcigtLWFjY2VudC1saWdodCk7IHBhZGRpbmc6IDFyZW07IG1hcmdpbi10b3A6IDFyZW07IGRpc3BsYXk6IG5vbmU7IH0KLmFpLXJlc3VsdC1ib3gub24geyBkaXNwbGF5OiBibG9jazsgfQouYWktcmVzdWx0LWJveCBoNCB7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNjVyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7IGxldHRlci1zcGFjaW5nOiAwLjE1ZW07IGNvbG9yOiB2YXIoLS1hY2NlbnQpOyBtYXJnaW4tYm90dG9tOiAwLjhyZW07IH0KLmFpLXNlY3Rpb24geyBtYXJnaW4tYm90dG9tOiAxcmVtOyBwYWRkaW5nLWJvdHRvbTogMXJlbTsgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHZhcigtLXJ1bGUpOyB9Ci5haS1zZWN0aW9uOmxhc3QtY2hpbGQgeyBib3JkZXItYm90dG9tOiBub25lOyBtYXJnaW4tYm90dG9tOiAwOyBwYWRkaW5nLWJvdHRvbTogMDsgfQouYWktc2VjdGlvbi1sYWJlbCB7IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNjJyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7IGxldHRlci1zcGFjaW5nOiAwLjFlbTsgY29sb3I6IHZhcigtLW11dGVkKTsgbWFyZ2luLWJvdHRvbTogMC40cmVtOyB9Ci5haS1zZWN0aW9uLWNvbnRlbnQgeyBmb250LWZhbWlseTogQXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwLjhyZW07IH0KLm92ZXJsYXAtdGFnIHsgZGlzcGxheTogaW5saW5lLWJsb2NrOyBiYWNrZ3JvdW5kOiAjZmNlNGU0OyBjb2xvcjogdmFyKC0tZGFuZ2VyKTsgZm9udC1mYW1pbHk6IEFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMC42NXJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgcGFkZGluZzogMC4xcmVtIDAuNHJlbTsgbWFyZ2luOiAwLjFyZW07IGJvcmRlci1yYWRpdXM6IDJweDsgfQouYWJ0biB7IGJvcmRlcjogbm9uZTsgcGFkZGluZzogMC41cmVtIDFyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNzVyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IGN1cnNvcjogcG9pbnRlcjsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgbGV0dGVyLXNwYWNpbmc6IDAuMDZlbTsgfQouYWJ0bjpob3ZlciB7IG9wYWNpdHk6IDAuODU7IH0KLmFidG46ZGlzYWJsZWQgeyBvcGFjaXR5OiAwLjQ7IGN1cnNvcjogbm90LWFsbG93ZWQ7IH0KLmFidG4tYmx1ZSB7IGJhY2tncm91bmQ6IHZhcigtLWFjY2VudCk7IGNvbG9yOiB3aGl0ZTsgfQouYWJ0bi1ncmVlbiB7IGJhY2tncm91bmQ6IHZhcigtLXN1Y2Nlc3MpOyBjb2xvcjogd2hpdGU7IH0KLmFidG4tZ3JleSB7IGJhY2tncm91bmQ6IHZhcigtLW1pZCk7IGNvbG9yOiB2YXIoLS1pbmspOyBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1ydWxlKTsgfQovKiBGT09URVIgKi8KLnNpdGUtZm9vdGVyIHsgYm9yZGVyLXRvcDogMnB4IHNvbGlkIHZhcigtLWluayk7IG1hcmdpbi10b3A6IDNyZW07IHBhZGRpbmctdG9wOiAxLjVyZW07IGRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsgZmxleC13cmFwOiB3cmFwOyBnYXA6IDFyZW07IGZvbnQtZmFtaWx5OiBBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6IDAuNzJyZW07IGNvbG9yOiB2YXIoLS1tdXRlZCk7IH0KQG1lZGlhKG1heC13aWR0aDo3MDBweCl7CiAgLm1hc3RoZWFke2ZsZXgtZGlyZWN0aW9uOmNvbHVtbn0ubWFzdGhlYWQtbWV0YXt0ZXh0LWFsaWduOmxlZnR9CiAgLmRldGFpbC1ncmlke2dyaWQtdGVtcGxhdGUtY29sdW1uczoxZnJ9CiAgLmRldGFpbC1zZWN0aW9uLmZ1bGwtd2lkdGh7Z3JpZC1jb2x1bW46MX0KICAuY29udGFpbmVye3BhZGRpbmc6MXJlbX0KICAucHMtZ3JpZHtncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyfQogIC5wb2Mtc2VxdWVuY2V7Z3JpZC10ZW1wbGF0ZS1jb2x1bW5zOjFmcn0KfTwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CjxkaXYgY2xhc3M9Im1hc3RoZWFkIj4KICA8ZGl2IGNsYXNzPSJtYXN0aGVhZC1sZWZ0Ij4KICAgIDxkaXYgY2xhc3M9ImV5ZWJyb3ciPkhlYWx0aCBNaW5pc3RyeSAmbWlkZG90OyBFbmZvcmNlbWVudCBEaXZpc2lvbiAmbWlkZG90OyBTaW5nYXBvcmU8L2Rpdj4KICAgIDxoMT5BSSBpbiA8c3Bhbj5IZWFsdGhjYXJlPC9zcGFuPiBFbmZvcmNlbWVudDwvaDE+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0ibWFzdGhlYWQtbWV0YSI+CiAgICBQcm9ibGVtIFN0YXRlbWVudCBSZXNlYXJjaCBSZXBvcnQ8YnI+CiAgICBlbmZvcmNlLmJ1aWxkam95bm93LmNvbTxicj4KICAgIFJlc2VhcmNoOiBGREEgJm1pZGRvdDsgRE9KICZtaWRkb3Q7IFVLICZtaWRkb3Q7IE1PSC9IU0EgJm1pZGRvdDsgMjAyNCZuZGFzaDsyMDI2CiAgPC9kaXY+CjwvZGl2Pgo8ZGl2IGNsYXNzPSJ0YWItbmF2Ij4KICA8YnV0dG9uIGNsYXNzPSJhY3RpdmUiIG9uY2xpY2s9InN3aXRjaFRhYignZXhlYycpIj5FeGVjdXRpdmUgU3VtbWFyeTwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0ic3dpdGNoVGFiKCdzdGF0ZW1lbnRzJykiPkFsbCBQcm9ibGVtIFN0YXRlbWVudHM8L2J1dHRvbj4KICA8YnV0dG9uIGlkPSJkZXRhaWwtdGFiLWJ0biIgb25jbGljaz0ic3dpdGNoVGFiKCdkZXRhaWwnKSIgZGlzYWJsZWQ+RGVlcCBEaXZlPC9idXR0b24+CiAgPGJ1dHRvbiBvbmNsaWNrPSJzd2l0Y2hUYWIoJ3N1Ym1pdCcpIj5TdWJtaXQgSWRlYTwvYnV0dG9uPgogIDxidXR0b24gb25jbGljaz0ic3dpdGNoVGFiKCdhZG1pbicpIj5BZG1pbjwvYnV0dG9uPgo8L2Rpdj4KPGRpdiBjbGFzcz0icGFuZSBhY3RpdmUiIGlkPSJwYW5lLWV4ZWMiPgo8ZGl2IGNsYXNzPSJjb250YWluZXIiPgogIDxkaXYgY2xhc3M9InNlY3Rpb24taGVhZGVyIj48ZGl2IGNsYXNzPSJzdGVwLWxhYmVsIj5SZXBvcnQgT3ZlcnZpZXc8L2Rpdj48aDI+RXhlY3V0aXZlIFN1bW1hcnk8L2gyPjxwPjkgcHJpb3JpdGlzZWQgQUkgcHJvYmxlbSBzdGF0ZW1lbnRzIGZvciB0aGUgSGVhbHRoIE1pbmlzdHJ5IGVuZm9yY2VtZW50IGVjb3N5c3RlbS48L3A+PC9kaXY+CiAgPHAgaWQ9ImV4ZWMtc3VtbWFyeS10ZXh0IiBzdHlsZT0iZm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjtmb250LXNpemU6MC44OHJlbTtsaW5lLWhlaWdodDoxLjc7bWFyZ2luLWJvdHRvbToycmVtO2NvbG9yOiMwYTBjMTAiPkVYRUNfU1VNTUFSWV9NQVJLRVI8L3A+CiAgPHRhYmxlIGNsYXNzPSJleGVjLXRhYmxlIj4KICAgIDx0aGVhZD48dHI+PHRoPlNjb3JlPC90aD48dGg+SUQ8L3RoPjx0aD5Qcm9ibGVtIFN0YXRlbWVudDwvdGg+PHRoPlByaW9yaXR5PC90aD48dGg+V2h5IEl0J3MgYSBQcmlvcml0eTwvdGg+PC90cj48L3RoZWFkPgogICAgPHRib2R5IGlkPSJleGVjLXRib2R5Ij48L3Rib2R5PgogIDwvdGFibGU+CiAgPGRpdiBjbGFzcz0ic2VjdGlvbi1oZWFkZXIiIHN0eWxlPSJtYXJnaW4tdG9wOjIuNXJlbSI+PGRpdiBjbGFzcz0ic3RlcC1sYWJlbCI+SW1wbGVtZW50YXRpb248L2Rpdj48aDI+UmVjb21tZW5kZWQgUE9DIFNlcXVlbmNlPC9oMj48L2Rpdj4KICA8ZGl2IGNsYXNzPSJwb2Mtc2VxdWVuY2UiIGlkPSJwb2Mtc2VxdWVuY2UiPjwvZGl2Pgo8L2Rpdj48L2Rpdj4KPGRpdiBjbGFzcz0icGFuZSIgaWQ9InBhbmUtc3RhdGVtZW50cyI+CjxkaXYgY2xhc3M9ImNvbnRhaW5lciI+CiAgPGRpdiBjbGFzcz0ic2VjdGlvbi1oZWFkZXIiPjxkaXYgY2xhc3M9InN0ZXAtbGFiZWwiPjxzcGFuIGlkPSJwcy1jb3VudCI+OTwvc3Bhbj4gUHJvYmxlbSBTdGF0ZW1lbnRzPC9kaXY+PGgyPkFsbCBQcm9ibGVtIFN0YXRlbWVudHM8L2gyPjxwPkNsaWNrIGFueSBjYXJkIHRvIHZpZXcgZGV0YWlsZWQgYXJjaGl0ZWN0dXJlLCBzdGFjaywgYW5kIGltcGxlbWVudGF0aW9uIHBsYW4uPC9wPjwvZGl2PgogIDxkaXYgaWQ9ImNzIiBzdHlsZT0iZGlzcGxheTpub25lO21hcmdpbi1ib3R0b206MnJlbSI+CiAgICA8ZGl2IGNsYXNzPSJzZWN0aW9uLWxhYmVsLWJhciI+Q29tbXVuaXR5IFN1Ym1pc3Npb25zICZtZGFzaDsgPHNwYW4gaWQ9ImNudW0iPjA8L3NwYW4+PC9kaXY+CiAgICA8c3BhbiBpZD0iY21ldGEiIHN0eWxlPSJkaXNwbGF5Om5vbmUiPjwvc3Bhbj4KICAgIDxkaXYgY2xhc3M9InBzLWdyaWQiIGlkPSJjZ3JpZCI+PC9kaXY+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0ic2VjdGlvbi1sYWJlbC1iYXIiPkNvcmUgUHJvYmxlbSBTdGF0ZW1lbnRzPC9kaXY+CiAgPGRpdiBjbGFzcz0icHMtZ3JpZCIgaWQ9InBncmlkIj48L2Rpdj4KPC9kaXY+PC9kaXY+CjxkaXYgY2xhc3M9InBhbmUiIGlkPSJwYW5lLWRldGFpbCI+CjxkaXYgY2xhc3M9ImNvbnRhaW5lciI+CiAgPGJ1dHRvbiBjbGFzcz0iYmFjay1idG4iIG9uY2xpY2s9InN3aXRjaFRhYignc3RhdGVtZW50cycpIj4mbGFycjsgQmFjayB0byBhbGwgcHJvYmxlbSBzdGF0ZW1lbnRzPC9idXR0b24+CiAgPGRpdiBpZD0iZGV0YWlsLWNvbnRlbnQiPjwvZGl2Pgo8L2Rpdj48L2Rpdj4KPGRpdiBjbGFzcz0icGFuZSIgaWQ9InBhbmUtc3VibWl0Ij4KPGRpdiBjbGFzcz0iY29udGFpbmVyIj4KICA8ZGl2IGNsYXNzPSJzZWN0aW9uLWhlYWRlciI+PGRpdiBjbGFzcz0ic3RlcC1sYWJlbCI+Q29udHJpYnV0ZTwvZGl2PjxoMj5TdWJtaXQgSWRlYTwvaDI+PHA+VXNlIENsYXVkZSB3aXRoIHRoZSBwcm9tcHQgdGVtcGxhdGUgYmVsb3cgdG8gZ2VuZXJhdGUgYSBjb21wYXRpYmxlIHByb2JsZW0gc3RhdGVtZW50LjwvcD48L2Rpdj4KICA8ZGl2IGNsYXNzPSJjYWxsb3V0Ij48c3Ryb25nPkhvdyB0aGlzIHdvcmtzOjwvc3Ryb25nPiBDb3B5IHRoZSBwcm9tcHQsIGFkZCBpdCB0byB0aGUgdG9wIG9mIHlvdXIgbWVzc2FnZSBpbiBDbGF1ZGUsIGRlc2NyaWJlIHlvdXIgaGVhbHRoY2FyZSBlbmZvcmNlbWVudCBwcm9ibGVtIGJlbG93IGl0LCB0aGVuIHBhc3RlIHRoZSBKU09OIG91dHB1dCBiYWNrIGhlcmUgd2l0aCB0aGUgc2hhcmVkIHBhc3Njb2RlLjwvZGl2PgogIDxkaXYgY2xhc3M9InN0ZXAtYmxvY2siPgogICAgPGRpdiBjbGFzcz0ic3RlcC1udW0iPjE8L2Rpdj4KICAgIDxwIHN0eWxlPSJmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmO2ZvbnQtc2l6ZTowLjgycmVtO2ZvbnQtd2VpZ2h0OjcwMDttYXJnaW4tYm90dG9tOjAuNnJlbSI+QWRkIHRoaXMgb24gdG9wIG9mIHlvdXIgcHJvbXB0IHRvIGdlbmVyYXRlIHRoZSBzYW1lIGlkZWEgZm9ybWF0IGZvciBzdWJtaXNzaW9uPC9wPgogICAgPGRpdiBjbGFzcz0icHJvbXB0LWJveCIgaWQ9InByb21wdC1kaXNwbGF5Ij48L2Rpdj4KICAgIDxidXR0b24gY2xhc3M9ImNvcHktYnRuIiBpZD0iY2J0biIgb25jbGljaz0iY29weVByb21wdCgpIj5Db3B5IFByb21wdDwvYnV0dG9uPgogIDwvZGl2PgogIDxkaXYgY2xhc3M9InN0ZXAtYmxvY2siPgogICAgPGRpdiBjbGFzcz0ic3RlcC1udW0iPjI8L2Rpdj4KICAgIDxwIHN0eWxlPSJmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmO2ZvbnQtc2l6ZTowLjgycmVtO2ZvbnQtd2VpZ2h0OjcwMDttYXJnaW4tYm90dG9tOjAuNnJlbSI+UGFzdGUgeW91ciBnZW5lcmF0ZWQgb3V0cHV0IEpTT04gaGVyZTwvcD4KICAgIDx0ZXh0YXJlYSBjbGFzcz0icHoiIGlkPSJwem9uZSIgcGxhY2Vob2xkZXI9IlBhc3RlIHRoZSBKU09OIGZyb20gQ2xhdWRlIGhlcmUuLi4iIG9uaW5wdXQ9ImxpdmVWYWwoKSI+PC90ZXh0YXJlYT4KICAgIDxkaXYgY2xhc3M9InZib3giIGlkPSJ2YiI+PC9kaXY+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0ic3RlcC1ibG9jayI+CiAgICA8ZGl2IGNsYXNzPSJzdGVwLW51bSI+MzwvZGl2PgogICAgPHAgc3R5bGU9ImZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Zm9udC1zaXplOjAuODJyZW07Zm9udC13ZWlnaHQ6NzAwO21hcmdpbi1ib3R0b206MC42cmVtIj5FbnRlciB0aGUgc2hhcmVkIHBhc3Njb2RlPC9wPgogICAgPGlucHV0IGNsYXNzPSJwaSIgdHlwZT0icGFzc3dvcmQiIGlkPSJzcGMiIHBsYWNlaG9sZGVyPSJQYXNzY29kZS4uLiIgYXV0b2NvbXBsZXRlPSJvZmYiIC8+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0ic3RlcC1ibG9jayI+CiAgICA8ZGl2IGNsYXNzPSJzdGVwLW51bSI+NDwvZGl2PgogICAgPGJ1dHRvbiBjbGFzcz0ic3VibWl0LWJ0biIgaWQ9InNidG4iIG9uY2xpY2s9InN1Ym1pdFBTKCkiPlN1Ym1pdCBQcm9ibGVtIFN0YXRlbWVudDwvYnV0dG9uPgogICAgPGRpdiBjbGFzcz0ic3VjIiBpZD0ic3VjIj48aDM+U3VibWlzc2lvbiBBY2NlcHRlZDwvaDM+PHA+UHVibGlzaGVkLiBSZWZyZXNoIGluIH4yIG1pbnV0ZXMgdG8gc2VlIGl0IGluIENvbW11bml0eSBTdWJtaXNzaW9ucy48L3A+PC9kaXY+CiAgPC9kaXY+CjwvZGl2PjwvZGl2Pgo8ZGl2IGNsYXNzPSJwYW5lIiBpZD0icGFuZS1hZG1pbiI+CjxkaXYgY2xhc3M9ImNvbnRhaW5lciI+CiAgPGRpdiBjbGFzcz0ic2VjdGlvbi1oZWFkZXIiPjxkaXYgY2xhc3M9InN0ZXAtbGFiZWwiPkFkbWluaXN0cmF0aW9uPC9kaXY+PGgyPkFkbWluIFBhbmVsPC9oMj48L2Rpdj4KICA8ZGl2IGlkPSJhbG9nIiBjbGFzcz0iYWRtaW4td3JhcCI+CiAgICA8ZGl2IHN0eWxlPSJib3JkZXI6MXB4IHNvbGlkICNjOGM0Yjg7YmFja2dyb3VuZDp3aGl0ZTtwYWRkaW5nOjEuNXJlbSI+CiAgICAgIDxwIHN0eWxlPSJmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmO2ZvbnQtc2l6ZTowLjgycmVtO21hcmdpbi1ib3R0b206MXJlbTtjb2xvcjojNmI2ODYwIj5FbnRlciBhZG1pbiBwYXNzY29kZSB0byBtYW5hZ2Ugc3VibWlzc2lvbnMgYW5kIGNvcmUgcHJvYmxlbSBzdGF0ZW1lbnRzLjwvcD4KICAgICAgPGlucHV0IGNsYXNzPSJwaSIgdHlwZT0icGFzc3dvcmQiIGlkPSJhY29kZSIgcGxhY2Vob2xkZXI9IkFkbWluIHBhc3Njb2RlLi4uIiBhdXRvY29tcGxldGU9Im9mZiIgb25rZXlkb3duPSJpZihldmVudC5rZXk9PT0nRW50ZXInKWFkbWluTG9naW4oKSIgc3R5bGU9Im1hcmdpbi1ib3R0b206MC44cmVtIiAvPgogICAgICA8YnV0dG9uIGNsYXNzPSJzdWJtaXQtYnRuIiBvbmNsaWNrPSJhZG1pbkxvZ2luKCkiPkFjY2VzcyBBZG1pbjwvYnV0dG9uPgogICAgICA8ZGl2IGNsYXNzPSJhc3QiIGlkPSJhbHMiPjwvZGl2PgogICAgPC9kaXY+CiAgPC9kaXY+CiAgPGRpdiBpZD0iYXBhbmVsIiBzdHlsZT0iZGlzcGxheTpub25lIj4KICAgIDxkaXYgc3R5bGU9ImRpc3BsYXk6ZmxleDtqdXN0aWZ5LWNvbnRlbnQ6c3BhY2UtYmV0d2VlbjthbGlnbi1pdGVtczpjZW50ZXI7bWFyZ2luLWJvdHRvbToxLjJyZW07ZmxleC13cmFwOndyYXA7Z2FwOjAuOHJlbSI+CiAgICAgIDxkaXY+PHN0cm9uZyBzdHlsZT0iZm9udC1zaXplOjFyZW0iPkNvbW11bml0eSBTdWJtaXNzaW9uczwvc3Ryb25nPjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Zm9udC1zaXplOjAuNzJyZW07Y29sb3I6IzZiNjg2MCI+SGlkZSwgZWRpdCBvciBkZWxldGUgcHVibGljIHN1Ym1pc3Npb25zPC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgc3R5bGU9ImRpc3BsYXk6ZmxleDtnYXA6MC41cmVtIj48YnV0dG9uIGNsYXNzPSJhYiBhYi1zIiBvbmNsaWNrPSJhZG1pblJlZnJlc2goKSI+UmVmcmVzaDwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImFiIGFiLWMiIG9uY2xpY2s9ImFkbWluTG9nb3V0KCkiPkxvZ291dDwvYnV0dG9uPjwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IGlkPSJhbGlzdCI+PC9kaXY+PGRpdiBjbGFzcz0iYXN0IiBpZD0iYXN0Ij48L2Rpdj4KICAgIDxociBjbGFzcz0iYWRtaW4tc2VjdGlvbi1kaXZpZGVyIj4KICAgIDxkaXYgc3R5bGU9Im1hcmdpbi1ib3R0b206MXJlbSI+PHN0cm9uZyBzdHlsZT0iZm9udC1zaXplOjFyZW0iPkNvcmUgUFMgTWFuYWdlcjwvc3Ryb25nPjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Zm9udC1zaXplOjAuNzJyZW07Y29sb3I6IzZiNjg2MCI+RWRpdCBhbnkgY29yZSBwcm9ibGVtIHN0YXRlbWVudCBhbmQgcmVkZXBsb3kuIENoYW5nZXMgcmVnZW5lcmF0ZSB0aGUgZXhlYyBzdW1tYXJ5LjwvZGl2PjwvZGl2PgogICAgPGRpdiBzdHlsZT0iYm9yZGVyOjFweCBzb2xpZCAjYzhjNGI4O2JhY2tncm91bmQ6d2hpdGU7cGFkZGluZzoxLjJyZW07bWFyZ2luLWJvdHRvbToxcmVtIj4KICAgICAgPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjtmb250LXNpemU6MC42NXJlbTtmb250LXdlaWdodDo3MDA7dGV4dC10cmFuc2Zvcm06dXBwZXJjYXNlO2xldHRlci1zcGFjaW5nOjAuMTVlbTtjb2xvcjojNmI2ODYwO21hcmdpbi1ib3R0b206MC42cmVtIj5HaXRIdWIgUEFUIGZvciBEZXBsb3ltZW50PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InBhdC1yb3ciPgogICAgICAgIDxpbnB1dCBjbGFzcz0icGkiIHR5cGU9InBhc3N3b3JkIiBpZD0iYWRtaW4tcGF0IiBwbGFjZWhvbGRlcj0iZ2hwX3h4eHh4eHh4eHh4eHh4eHh4eHh4IiBhdXRvY29tcGxldGU9Im9mZiIgc3R5bGU9ImxldHRlci1zcGFjaW5nOm5vcm1hbCIgLz4KICAgICAgICA8YnV0dG9uIGNsYXNzPSJhYiBhYi1zIiBvbmNsaWNrPSJzYXZlUGF0KCkiPlNhdmU8L2J1dHRvbj4KICAgICAgICA8YnV0dG9uIGNsYXNzPSJhYiBhYi1kIiBvbmNsaWNrPSJmb3JnZXRQYXQoKSI+Rm9yZ2V0PC9idXR0b24+CiAgICAgIDwvZGl2PgogICAgICA8c3BhbiBpZD0icGF0LXNhdmVkLWJhZGdlIiBzdHlsZT0iZGlzcGxheTpub25lO2ZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Zm9udC1zaXplOjAuNzJyZW07Y29sb3I6IzFhN2E0YSI+JiMxMDAwMzsgUEFUIGxvYWRlZCBmcm9tIHN0b3JhZ2U8L3NwYW4+CiAgICA8L2Rpdj4KICAgIDxkaXYgc3R5bGU9ImJvcmRlcjoxcHggc29saWQgI2M4YzRiODtiYWNrZ3JvdW5kOndoaXRlO3BhZGRpbmc6MS4ycmVtO21hcmdpbi1ib3R0b206MXJlbSI+CiAgICAgIDxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Zm9udC1zaXplOjAuNjVyZW07Zm9udC13ZWlnaHQ6NzAwO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzowLjE1ZW07Y29sb3I6IzZiNjg2MDttYXJnaW4tYm90dG9tOjAuOHJlbSI+Q3VycmVudCBDb3JlIFByb2JsZW0gU3RhdGVtZW50czwvZGl2PgogICAgICA8ZGl2IGlkPSJjb3JlLXBzLWxpc3QiPjwvZGl2PgogICAgICA8aHIgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6MXB4IHNvbGlkICNlOGU1ZGU7bWFyZ2luOjFyZW0gMCI+CiAgICAgIDxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Zm9udC1zaXplOjAuNjVyZW07Zm9udC13ZWlnaHQ6NzAwO3RleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtsZXR0ZXItc3BhY2luZzowLjE1ZW07Y29sb3I6IzZiNjg2MDttYXJnaW4tYm90dG9tOjAuNnJlbSI+RXhwb3J0IEZ1bGwgUFMgSlNPTiAoQ29yZSArIENvbW11bml0eSk8L2Rpdj4KICAgICAgPGRpdiBzdHlsZT0iZGlzcGxheTpmbGV4O2dhcDowLjVyZW07ZmxleC13cmFwOndyYXA7bWFyZ2luLWJvdHRvbTowLjVyZW0iPgogICAgICAgIDxidXR0b24gY2xhc3M9ImFiIGFiLXMiIG9uY2xpY2s9ImNvcHlBbGxKU09OKCkiPkNvcHkgRnVsbCBQUyBKU09OPC9idXR0b24+CiAgICAgICAgPGJ1dHRvbiBjbGFzcz0iYWIgYWItZSIgb25jbGljaz0idG9nZ2xlSlNPTlByZXZpZXcoKSI+UHJldmlldyBKU09OPC9idXR0b24+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJjb3B5LWpzb24tYm94IiBpZD0ianNvbi1wcmV2aWV3Ij48L2Rpdj4KICAgIDwvZGl2PgogICAgPGRpdiBzdHlsZT0iYm9yZGVyOjFweCBzb2xpZCAjMWE0ZmQ2O2JhY2tncm91bmQ6I2U4ZWVmZjtwYWRkaW5nOjEuMnJlbTttYXJnaW4tYm90dG9tOjFyZW0iPgogICAgICA8ZGl2IHN0eWxlPSJmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmO2ZvbnQtc2l6ZTowLjY1cmVtO2ZvbnQtd2VpZ2h0OjcwMDt0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7bGV0dGVyLXNwYWNpbmc6MC4xNWVtO2NvbG9yOiMxYTRmZDY7bWFyZ2luLWJvdHRvbTowLjZyZW0iPlByb21wdCBmb3IgUmF0aW9uYWxpc2UgaW50byBFeGVjdXRpdmUgU3VtbWFyeTwvZGl2PgogICAgICA8cCBzdHlsZT0iZm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjtmb250LXNpemU6MC43OHJlbTtjb2xvcjojNmI2ODYwO21hcmdpbi1ib3R0b206MC44cmVtIj5Db3B5IHRoaXMgcHJvbXB0IGludG8gQ2xhdWRlIHRvIGdldCBhbiB1cGRhdGVkIGV4ZWN1dGl2ZSBzdW1tYXJ5LCByYW5rZWQgdGFibGUsIGFuZCBQT0Mgc2VxdWVuY2UgY292ZXJpbmcgYWxsIFBTIGluY2x1ZGluZyBjb21tdW5pdHkgc3VibWlzc2lvbnMuPC9wPgogICAgICA8ZGl2IGNsYXNzPSJwcm9tcHQtYm94IiBpZD0icmF0aW9uYWxpc2UtcHJvbXB0LWRpc3BsYXkiIHN0eWxlPSJtYXgtaGVpZ2h0OjI0MHB4Ij48L2Rpdj4KICAgICAgPGJ1dHRvbiBjbGFzcz0iY29weS1idG4iIGlkPSJjYnRuLXJhdGlvbmFsaXNlIiBvbmNsaWNrPSJjb3B5UmF0aW9uYWxpc2VQcm9tcHQoKSI+Q29weSBQcm9tcHQ8L2J1dHRvbj4KICAgIDwvZGl2PgogIDwvZGl2Pgo8L2Rpdj48L2Rpdj4KPGRpdiBjbGFzcz0iY29udGFpbmVyIj48ZGl2IGNsYXNzPSJzaXRlLWZvb3RlciI+CiAgPGRpdj5BSSBpbiBIZWFsdGhjYXJlIEVuZm9yY2VtZW50ICZtaWRkb3Q7IGVuZm9yY2UuYnVpbGRqb3lub3cuY29tICZtaWRkb3Q7IEhlYWx0aCBNaW5pc3RyeSBTaW5nYXBvcmU8L2Rpdj4KICA8ZGl2PlJlc2VhcmNoOiBGREEgJm1pZGRvdDsgRE9KICZtaWRkb3Q7IFVLIENRQyAmbWlkZG90OyBNT0gvSFNBICZtaWRkb3Q7IFRHQS9BSFBSQSAmbWlkZG90OyBXSE8vRU1BICZtaWRkb3Q7IDIwMjQmbmRhc2g7MjAyNjwvZGl2Pgo8L2Rpdj48L2Rpdj4KPHNjcmlwdD4KdmFyIFdPUktFUj1XT1JLRVJfTUFSS0VSOwp2YXIgUFJPTVBUX1RFTVBMQVRFPVBUX01BUktFUjsKdmFyIEVYRUNfU1VNTUFSWV9URVhUPUVYRUNfVEVYVF9NQVJLRVI7CkRBVEFfSlNfTUFSS0VSCkRFRVBfRElWRV9KU19NQVJLRVIKU0lURV9TSEVMTF9CNjRfTUFSS0VSClVJX0pTX01BUktFUgo8L3NjcmlwdD4KPC9ib2R5Pgo8L2h0bWw+";
+
+var communityPS=[], adminToken=null, pendingImprovedPS=null, currentDetailPS=null;
+var PC={Critical:'#c0392b',High:'#b8620a',Medium:'#1a7a4a'};
+var PRIORITY_BG={Critical:'#fce4e4',High:'#fff3cd',Medium:'#e8f5e9'};
+
 function esc(v){if(typeof v!=='string')return String(v||'');return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function sbar(s){var pct=(s/10*100)+'%';return '<div class="score-bar" style="width:60px"><div class="score-fill" style="width:'+pct+'"></div></div>';}
+function priorityBadge(p){return '<span class="priority-badge priority-'+p+'">'+p+'</span>';}
 
 function switchTab(id){
-  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.tab-nav button').forEach(function(b){b.classList.remove('active');});
   document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('active');});
   document.getElementById('pane-'+id).classList.add('active');
   var labels=['exec','statements','detail','submit','admin'];
-  document.querySelectorAll('.tab-btn')[labels.indexOf(id)].classList.add('active');
+  var btns=document.querySelectorAll('.tab-nav button');
+  var idx=labels.indexOf(id);if(idx>=0)btns[idx].classList.add('active');
   if(id==='submit')document.getElementById('prompt-display').textContent=PROMPT_TEMPLATE;
   if(id==='admin'&&adminToken){adminRefresh();renderCorePS();}
+  if(id==='detail'&&!currentDetailPS)switchTab('statements');
 }
+
 function delegateClicks(cid,sel,fn){
   var el=document.getElementById(cid);if(!el)return;
   el.addEventListener('click',function(e){var t=e.target.closest(sel);if(t&&el.contains(t))fn(t,e);});
 }
 function findPS(id,src){var l=src==='community'?communityPS:problemStatements;for(var i=0;i<l.length;i++){if(l[i].id===id)return l[i];}return null;}
 
-/* ── Exec Summary ── */
+/* ── EXEC SUMMARY ── */
 function renderExecSummary(){
   var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));
-  document.getElementById('exec-tbody').innerHTML=all.map(function(ps){
+  document.getElementById('exec-tbody').innerHTML=all.map(function(ps,i){
     var iC=communityPS.indexOf(ps)>=0,src=iC?'community':'base';
-    return '<tr class="ps-row" data-id="'+esc(ps.id)+'" data-src="'+src+'">'
+    return '<tr class="ps-row" data-id="'+esc(ps.id)+'" data-src="'+src+'" style="cursor:pointer">'
+      +'<td>'+sbar(ps.priorityScore)+'<strong>'+ps.priorityScore+'</strong></td>'
       +'<td class="id-cell">'+esc(ps.id)+'</td>'
-      +'<td><strong style="color:#e6edf3">'+esc(ps.title)+'</strong>'+(iC?' <span class="community-pill">Community</span>':'')+'</td>'
-      +'<td><span class="badge-'+ps.priority+'">'+ps.priority+'</span></td>'
-      +'<td>'+sbar(ps.priorityScore)+'</td>'
-      +'<td style="color:#8b949e;font-size:12px">'+esc((ps.priorityReason||'').slice(0,90))+'...</td>'
+      +'<td><strong>'+esc(ps.title)+'</strong>'+(iC?'<span class="community-tag">Community</span>':'')+'</td>'
+      +'<td>'+priorityBadge(ps.priority)+'</td>'
+      +'<td style="color:#6b6860;font-size:0.72rem">'+esc((ps.priorityReason||'').slice(0,90))+'...</td>'
       +'</tr>';
   }).join('');
   document.getElementById('ps-count').textContent=all.length;
   var phases=[
-    {label:'Week 1-2',items:['PS-02: Complaint Triage','PS-06: Regulatory Assistant'],color:'#e63946'},
-    {label:'Week 3-4',items:['PS-01: Field Inspection Notes','PS-08: Case Summary Gen'],color:'#f4a261'},
-    {label:'Week 5-6',items:['PS-03: Online Detection','PS-05: Inspection Planning'],color:'#2a9d8f'},
-    {label:'Month 3+',items:['PS-04: Pattern Detection','PS-07: Adverse Events'],color:'#8957e5'}
+    {label:'Week 1-2',items:['PS-02: Complaint Triage (1-wk)','PS-06: Regulatory Assistant (1-wk)'],color:'#c0392b'},
+    {label:'Week 3-4',items:['PS-01: Field Inspection Notes (2-wk)','PS-08: Case Summary Gen (1-wk)'],color:'#b8620a'},
+    {label:'Week 5-6',items:['PS-03: Online Detection (2-wk)','PS-05: Inspection Planning (2-wk)','PS-CLIC: Licence Expiry (1-wk)'],color:'#1a4fd6'},
+    {label:'Month 3+',items:['PS-04: Misconduct Pattern (3-wk)','PS-07: Pharmacovigilance (2-wk)'],color:'#6b6860'}
   ];
   document.getElementById('poc-sequence').innerHTML=phases.map(function(p){
-    return '<div style="flex:1 1 160px;border-left:3px solid '+p.color+';padding:0 14px;margin-bottom:10px">'
-      +'<div style="font-size:10px;font-weight:700;color:'+p.color+';text-transform:uppercase;letter-spacing:1px">'+p.label+'</div>'
-      +p.items.map(function(it){return '<div style="font-size:12px;color:#8b949e;margin-top:4px">'+it+'</div>';}).join('')
+    return '<div class="poc-phase" style="border-left-color:'+p.color+'">'
+      +'<div class="phase-label" style="color:'+p.color+'">'+p.label+'</div>'
+      +p.items.map(function(it){return '<div class="phase-item">'+it+'</div>';}).join('')
       +'</div>';
   }).join('');
 }
 
-/* ── PS Grid ── */
+/* ── PS GRID ── */
 function psCard(ps,iC){
-  var c=PC[ps.priority]||'#8b949e',src=iC?'community':'base';
-  return '<div class="ps-card" style="border-top:3px solid '+c+'" data-id="'+esc(ps.id)+'" data-src="'+src+'">'
-    +(iC?'<div class="community-pill" style="margin-bottom:8px">Community</div>':'')
-    +'<div style="font-family:monospace;font-size:11px;color:#00b4d8;font-weight:700">'+esc(ps.id)+'</div>'
-    +'<h3>'+esc(ps.title)+'</h3><div class="ps-tag">'+esc(ps.tagline)+'</div>'
-    +'<div style="display:flex;align-items:center;gap:6px"><span class="badge-'+ps.priority+'">'+ps.priority+'</span>'+sbar(ps.priorityScore)+'</div>'
-    +(ps.submittedBy?'<div style="font-size:11px;color:#8b949e;margin-top:8px">by '+esc(ps.submittedBy)+'</div>':'')
-    +'</div>';
+  var src=iC?'community':'base';
+  var c=PC[ps.priority]||'#6b6860';
+  return '<div class="ps-card" data-id="'+esc(ps.id)+'" data-src="'+src+'">'
+    +(iC?'<span class="card-rank" style="color:#5b21b6">Community</span>':'<span class="card-rank">#'+ps.id+'</span>')
+    +'<div class="card-id">'+esc(ps.id)+'</div>'
+    +'<h3>'+esc(ps.title)+'</h3>'
+    +'<div class="card-tag">'+esc(ps.tagline)+'</div>'
+    +'<div class="card-foot">'
+      +priorityBadge(ps.priority)
+      +sbar(ps.priorityScore)
+      +'<span style="font-family:Arial,sans-serif;font-size:0.72rem;font-weight:700">'+ps.priorityScore+'/10</span>'
+    +'</div>'
+  +'</div>';
 }
 function renderGrid(){
   document.getElementById('pgrid').innerHTML=problemStatements.map(function(p){return psCard(p,false);}).join('');
   var ap=communityPS.filter(function(p){return p.approved!==false;});
-  if(ap.length){document.getElementById('cs').style.display='block';document.getElementById('cgrid').innerHTML=ap.map(function(p){return psCard(p,true);}).join('');document.getElementById('cmeta').style.display='inline';document.getElementById('cnum').textContent=ap.length;}
-  else{document.getElementById('cs').style.display='none';document.getElementById('cmeta').style.display='none';}
+  if(ap.length){
+    document.getElementById('cs').style.display='block';
+    document.getElementById('cgrid').innerHTML=ap.map(function(p){return psCard(p,true);}).join('');
+    document.getElementById('cmeta').style.display='inline';
+    document.getElementById('cnum').textContent=ap.length;
+  }else{document.getElementById('cs').style.display='none';document.getElementById('cmeta').style.display='none';}
 }
 
-/* ── Detail ── */
+/* ── DETAIL VIEW ── */
 function openDetail(id,src){
   var ps=findPS(id,src);if(!ps)return;
-  var c=PC[ps.priority]||'#8b949e',iC=src==='community';
-  document.getElementById('dc').innerHTML=
-    '<div class="detail-header" style="border-left-color:'+c+'">'
-      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">'
-        +'<span style="font-family:monospace;font-size:12px;color:#00b4d8;font-weight:700">'+esc(ps.id)+'</span>'
-        +'<span class="badge-'+ps.priority+'">'+ps.priority+'</span>'
-        +'<span style="font-size:12px;color:#8b949e">Score: <strong style="color:#e6edf3">'+ps.priorityScore+'/10</strong></span>'
-        +(iC?'<span class="community-pill">Community</span>':'')
-      +'</div><h2>'+esc(ps.title)+'</h2>'
-      +'<div class="tagline">&ldquo;'+esc(ps.tagline)+'&rdquo;</div>'
-      +(ps.submittedBy?'<div style="font-size:11px;color:#8b949e;margin-top:4px">Submitted by: '+esc(ps.submittedBy)+'</div>':'')
+  currentDetailPS=ps;
+  var dd=deepDive[id]||{};
+  var iC=src==='community';
+  var c=PC[ps.priority]||'#1a4fd6';
+  var numStyle=ps.priority;
+
+  function section(title,content,full){
+    return '<div class="detail-section'+(full?' full-width':'')+'"><h4>'+title+'</h4>'+content+'</div>';
+  }
+  function ul(arr){return '<ul>'+(arr||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';}
+
+  // Architecture as monospace block
+  var archHTML=dd.architecture
+    ?'<div class="arch-box">'+esc(dd.architecture)+'</div>'
+    :'<p style="color:#6b6860;font-family:Arial,sans-serif;font-size:0.78rem">Architecture details pending.</p>';
+
+  // Tech stack pills
+  var stackHTML=(dd.techStack||[]).map(function(t){return '<span class="tech-pill">'+esc(t)+'</span>';}).join('');
+
+  // Foundry agents
+  var agentsHTML=(dd.foundryAgents||[]).map(function(a){
+    var parts=a.split(':');
+    return '<div class="agent-item"><strong>'+esc(parts[0])+'</strong>'+(parts[1]?':'+esc(parts.slice(1).join(':')):'')+'</div>';
+  }).join('');
+
+  document.getElementById('detail-content').innerHTML=
+    '<div class="detail-header">'
+      +'<div class="detail-top">'
+        +'<div class="rec-number '+numStyle+'">'+ps.priorityScore+'</div>'
+        +'<div style="flex:1">'
+          +'<h2>'+esc(ps.title)+'</h2>'
+          +'<div class="tagline">'+esc(ps.tagline)+'</div>'
+          +(iC?'<span class="community-tag" style="margin-top:4px;display:inline-block">Community Submission by '+esc(ps.submittedBy||'anon')+'</span>':'')
+        +'</div>'
+      +'</div>'
+      +'<div class="detail-meta" style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid #c8c4b8">'
+        +'<div class="detail-meta-item"><span class="dm-label">Priority</span><span class="dm-value">'+priorityBadge(ps.priority)+'</span></div>'
+        +'<div class="detail-meta-item"><span class="dm-label">Score</span><span class="dm-value">'+ps.priorityScore+'/10</span></div>'
+        +'<div class="detail-meta-item"><span class="dm-label">Users</span><span class="dm-value" style="font-size:0.7rem;font-weight:normal;font-family:Arial,sans-serif">'+esc((ps.users||'').slice(0,80))+'</span></div>'
+      +'</div>'
     +'</div>'
-    +'<div class="card" style="border-left:3px solid '+c+'"><span class="card-label" style="color:'+c+'">Why This Is A Priority</span><p style="color:#e6edf3;font-size:13px;line-height:1.7">'+esc(ps.priorityReason)+'</p></div>'
-    +'<div class="card"><span class="card-label">Users</span><p style="color:#8b949e;font-size:13px;line-height:1.7">'+esc(ps.users)+'</p></div>'
-    +'<div class="two-col">'
-      +'<div class="card"><span class="card-label">Use Case</span><p style="color:#8b949e;font-size:13px;line-height:1.7">'+esc(ps.useCase)+'</p></div>'
-      +'<div class="card"><span class="card-label">Pain Points</span>'+(ps.painPoints||[]).map(function(p){return '<div class="bullet-item"><span style="color:#00b4d8;flex-shrink:0">&#9658;</span><span style="color:#8b949e;font-size:13px">'+esc(p)+'</span></div>';}).join('')+'</div>'
+
+    +'<div class="detail-grid">'
+
+      +section('Why Build It',
+        '<p>'+(dd.whyBuild?esc(dd.whyBuild):esc(ps.priorityReason))+'</p>')
+
+      +section('Who Benefits',
+        '<p>'+(dd.whoBenefits?esc(dd.whoBenefits):esc(ps.users))+'</p>')
+
+      +section('Success Metrics',
+        ul(dd.successMetrics||ps.northstar))
+
+      +section('Security Approach',
+        '<p>'+(dd.security?esc(dd.security):'Security approach to be defined in detailed design phase.')+'</p>')
+
+      +section('Architecture',archHTML,true)
+
+      +section('Technology Stack (Azure / MS Foundry)',
+        stackHTML||'<p style="font-family:Arial,sans-serif;font-size:0.78rem;color:#6b6860">Stack details pending.</p>',true)
+
+      +section('Microsoft Foundry Agents',
+        agentsHTML||'<p style="font-family:Arial,sans-serif;font-size:0.78rem;color:#6b6860">Agent design pending.</p>',true)
+
     +'</div>'
-    +'<div class="card" style="background:#1a0f0f;border-color:rgba(230,57,70,.2)"><span class="card-label" style="color:#e63946">Consequence If Unsolved</span><p style="color:#c9848a;font-size:13px;line-height:1.7">'+esc(ps.consequence)+'</p></div>'
-    +'<div class="card"><span class="card-label">Global Market Reference</span><div class="global-ref">'+esc(ps.globalRef)+'</div></div>'
-    +'<div class="card"><span class="card-label">Proposed AI Solution</span><p style="color:#e6edf3;font-size:13px;line-height:1.7;margin-bottom:12px">'+esc(ps.aiSolution)+'</p><div style="margin-top:6px">'+(ps.aiTechniques||[]).map(function(t){return '<span class="ai-pill">'+esc(t)+'</span>';}).join('')+'</div></div>'
-    +'<div class="two-col">'
-      +'<div class="card northstar-box"><span class="card-label" style="color:#8957e5">Northstar Metrics</span>'+(ps.northstar||[]).map(function(n){return '<div class="bullet-item"><span style="color:#8957e5">&#9733;</span><span style="color:#8b949e;font-size:13px">'+esc(n)+'</span></div>';}).join('')+'</div>'
-      +'<div class="card poc-box"><span class="card-label" style="color:#3fb950">POC Scope</span><p style="color:#7ee787;font-size:13px;line-height:1.7">'+esc(ps.pocScope)+'</p><div class="poc-badge">&#10003; Pitchable in 5 mins | &#10003; Human-in-the-loop</div></div>'
+
+    +'<div class="detail-grid">'
+
+      +section('Token Estimate',
+        '<div class="token-box">'+(dd.tokenEstimate?esc(dd.tokenEstimate):esc(ps.pocScope))+'</div>')
+
+      +section('Parallel Workflows',
+        ul(dd.parallelWorkflows||['Parallel workflow design pending']))
+
+      +section('POC Scope',
+        '<p style="font-family:Arial,sans-serif;font-size:0.8rem">'+esc(ps.pocScope)+'</p>')
+
+      +section('Global Reference',
+        '<p style="font-family:Arial,sans-serif;font-size:0.78rem;color:#6b6860">'+esc(ps.globalRef)+'</p>')
+
+    +'</div>'
+
+    +'<div class="detail-grid">'
+      +section('Pain Points',ul(ps.painPoints))
+      +section('Consequence If Unsolved',
+        '<p style="font-family:Arial,sans-serif;font-size:0.8rem;color:'+c+'">'+esc(ps.consequence)+'</p>')
     +'</div>';
-  document.getElementById('dtb').disabled=false;switchTab('detail');
+
+  document.getElementById('detail-tab-btn').disabled=false;
+  switchTab('detail');
 }
 
-/* ── Community ── */
+/* ── COMMUNITY ── */
 async function loadCommunity(){
   try{var r=await fetch(WORKER+'/submissions');if(!r.ok)return;var d=await r.json();communityPS=d.submissions||[];renderExecSummary();renderGrid();
     var rpbox=document.getElementById('rationalise-prompt-display');if(rpbox&&rpbox.textContent)rpbox.textContent=buildRationalisePrompt();
   }catch(e){console.warn('Community load failed',e);}
 }
 
-/* ── Submit ── */
+/* ── SUBMIT ── */
 var REQ=['id','title','tagline','priority','priorityScore','priorityReason','users','useCase','painPoints','consequence','globalRef','aiSolution','aiTechniques','northstar','pocScope','submittedBy'];
-function vlog(t,m){var b=document.getElementById('vb');b.className='vbox on';var el=document.createElement('div');el.className='v-'+t;el.textContent=({ok:'V',err:'X',info:'>',warn:'!'}[t]||'>')+' '+m;b.appendChild(el);}
+function vlog(t,m){var b=document.getElementById('vb');b.className='vbox on';var el=document.createElement('div');el.className='v-'+t;el.textContent=({ok:'V',err:'X',info:'>'}[t]||'>')+' '+m;b.appendChild(el);}
 function vclear(){var b=document.getElementById('vb');b.innerHTML='';b.className='vbox';}
 function liveVal(){
   vclear();var raw=document.getElementById('pzone').value.trim();if(!raw)return;
-  var ps;try{ps=JSON.parse(raw);vlog('ok','Valid JSON');}catch(e){vlog('err','Not valid JSON - '+e.message.slice(0,60));return;}
+  var ps;try{ps=JSON.parse(raw);vlog('ok','Valid JSON');}catch(e){vlog('err','Not valid JSON: '+e.message.slice(0,50));return;}
   var miss=REQ.filter(function(f){return !ps[f]&&ps[f]!==0;});
   if(miss.length){vlog('err','Missing: '+miss.join(', '));return;}
   if(['Critical','High','Medium'].indexOf(ps.priority)<0){vlog('err','priority must be Critical, High, or Medium');return;}
-  var s=parseFloat(ps.priorityScore);if(isNaN(s)||s<1||s>10){vlog('err','priorityScore must be 1.0-10.0');return;}
   vlog('ok','Schema valid');vlog('info','"'+ps.title.slice(0,60)+'"');
 }
 async function submitPS(){
@@ -565,58 +829,20 @@ async function submitPS(){
 }
 function copyPrompt(){
   navigator.clipboard.writeText(PROMPT_TEMPLATE).then(function(){
-    var b=document.getElementById('cbtn');b.textContent='Copied!';b.className='copy-btn copied';
+    var b=document.getElementById('cbtn');b.textContent='Copied';b.className='copy-btn copied';
     setTimeout(function(){b.textContent='Copy Prompt';b.className='copy-btn';},2000);
   });
 }
 
-function buildRationalisePrompt(){
-  var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));
-  var psJson=JSON.stringify(all,null,2);
-  var p='You are a senior product manager for a health ministry enforcement division.\n\n';
-  p+='Below is a JSON array of AI problem statements. Your task is to produce three outputs:\n\n';
-  p+='OUTPUT 1 - EXECUTIVE SUMMARY PARAGRAPH\n';
-  p+='Write a concise 3-sentence paragraph suitable for a government report. It must:\n';
-  p+='- State the total number of AI problem statements\n';
-  p+='- Name the key enforcement domains covered (field operations, complaint management, online enforcement, professional conduct, regulatory knowledge, licence management)\n';
-  p+='- Reference global research sources (FDA, DOJ, UK, Singapore MOH/HSA, academic literature, years 2024-2026)\n';
-  p+='- End by noting each PS is scored against impact, feasibility, urgency, and POC speed\n\n';
-  p+='OUTPUT 2 - RANKED EXECUTIVE SUMMARY TABLE\n';
-  p+='Produce a markdown table: Rank | ID | Title | Priority | Score /10 | Why It\'s a Priority\n';
-  p+='- Rank all PS by priorityScore descending\n';
-  p+='- Truncate Why It\'s a Priority to 90 characters\n';
-  p+='- Mark community PS with [Community] in the Title column\n';
-  p+='- Add a short note below the table on any overlapping PS that should be reviewed\n\n';
-  p+='OUTPUT 3 - RECOMMENDED POC SEQUENCE\n';
-  p+='Group PS into 4 phases (Week 1-2, Week 3-4, Week 5-6, Month 3+) by urgency and build complexity. Format as a simple list.\n\n';
-  p+='PROBLEM STATEMENTS JSON:\n'+psJson+'\n\n';
-  p+='Respond with OUTPUT 1, OUTPUT 2, and OUTPUT 3 clearly labelled. No other commentary.';
-  return p;
-}
-function copyRationalisePrompt(){
-  var prompt=buildRationalisePrompt();
-  // Populate the display box
-  var box=document.getElementById('rationalise-prompt-display');
-  if(box)box.textContent=prompt;
-  navigator.clipboard.writeText(prompt).then(function(){
-    var b=document.getElementById('cbtn-rationalise');
-    b.textContent='Copied!';b.className='copy-btn copied';
-    setTimeout(function(){b.textContent='Copy Prompt';b.className='copy-btn';},2000);
-  }).catch(function(){
-    var b=document.getElementById('cbtn-rationalise');
-    b.textContent='Copy Prompt';b.className='copy-btn';
-  });
-}
-
-/* ── Admin: Community ── */
+/* ── ADMIN COMMUNITY ── */
 async function adminLogin(){
   var code=document.getElementById('acode').value.trim();document.getElementById('als').textContent='Verifying...';
   try{
     var r=await fetch(WORKER+'/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:code,action:'list'})});
     var d=await r.json();
     if(d.ok){adminToken=code;document.getElementById('alog').style.display='none';document.getElementById('apanel').style.display='block';renderAdminList(d.submissions);renderCorePS();loadPatFromStorage();var rpbox=document.getElementById('rationalise-prompt-display');if(rpbox)rpbox.textContent=buildRationalisePrompt();}
-    else{document.getElementById('als').textContent='X '+(d.error||'Invalid passcode');}
-  }catch(e){document.getElementById('als').textContent='X Network error';}
+    else{document.getElementById('als').textContent='Invalid passcode';}
+  }catch(e){document.getElementById('als').textContent='Network error';}
 }
 async function adminRefresh(){if(!adminToken)return;setAS('Refreshing...');try{var r=await fetch(WORKER+'/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passcode:adminToken,action:'list'})});var d=await r.json();if(d.ok)renderAdminList(d.submissions);else setAS('Error: '+d.error);}catch(e){setAS('Network error');}}
 function renderAdminList(subs){
@@ -625,17 +851,17 @@ function renderAdminList(subs){
   el.innerHTML=subs.map(function(ps){
     var ok=ps.approved!==false;
     return '<div class="aitem'+(ok?'':' dim')+'">'
-      +'<div class="aitem-t">'+esc(ps.id)+' - '+esc(ps.title)+'</div>'
-      +'<div class="aitem-m">'+ps.priority+' ('+ps.priorityScore+') by '+esc(ps.submittedBy||'anon')+' | '+(ps.submittedAt?new Date(ps.submittedAt).toLocaleDateString():'?')+' | <strong style="color:'+(ok?'#3fb950':'#e63946')+'">'+(ok?'Approved':'Hidden')+'</strong></div>'
-      +'<div style="display:flex;gap:8px;flex-wrap:wrap">'
+      +'<div class="aitem-t">'+esc(ps.id)+' &mdash; '+esc(ps.title)+'</div>'
+      +'<div class="aitem-m">'+ps.priority+' ('+ps.priorityScore+') &middot; '+esc(ps.submittedBy||'anon')+' &middot; '+(ps.submittedAt?new Date(ps.submittedAt).toLocaleDateString():'?')+' &middot; <strong style="color:'+(ok?'#1a7a4a':'#c0392b')+'">'+(ok?'Approved':'Hidden')+'</strong></div>'
+      +'<div style="display:flex;gap:0.4rem;flex-wrap:wrap">'
         +'<button class="ab ab-t" data-action="toggle" data-id="'+esc(ps.id)+'">'+(ok?'Hide':'Show')+'</button>'
         +'<button class="ab ab-e" data-action="edit" data-id="'+esc(ps.id)+'">Edit</button>'
         +'<button class="ab ab-d" data-action="delete" data-id="'+esc(ps.id)+'">Delete</button>'
       +'</div>'
-      +'<div id="ez-'+esc(ps.id)+'" style="display:none;margin-top:12px">'
+      +'<div id="ez-'+esc(ps.id)+'" style="display:none;margin-top:0.8rem">'
         +'<input class="ef" id="et-'+esc(ps.id)+'" value="'+esc(ps.title)+'" />'
         +'<input class="ef" id="eg-'+esc(ps.id)+'" value="'+esc(ps.tagline)+'" />'
-        +'<div style="display:flex;gap:8px;margin-top:4px"><button class="ab ab-s" data-action="save" data-id="'+esc(ps.id)+'">Save</button><button class="ab ab-c" data-action="cancel" data-id="'+esc(ps.id)+'">Cancel</button></div>'
+        +'<div style="display:flex;gap:0.4rem;margin-top:0.4rem"><button class="ab ab-s" data-action="save" data-id="'+esc(ps.id)+'">Save</button><button class="ab ab-c" data-action="cancel" data-id="'+esc(ps.id)+'">Cancel</button></div>'
       +'</div>'
     +'</div>';
   }).join('');
@@ -647,27 +873,23 @@ async function adminSaveEdit(id){var t=document.getElementById('et-'+id).value.t
 function adminLogout(){adminToken=null;document.getElementById('apanel').style.display='none';document.getElementById('alog').style.display='block';document.getElementById('acode').value='';document.getElementById('als').textContent='';}
 function setAS(m){document.getElementById('ast').textContent=m;}
 
-/* ══════════════════════════════════════════
-   CORE PS MANAGER
-   ══════════════════════════════════════════ */
+/* ── CORE PS MANAGER ── */
 var PAT_KEY='enforce_gh_pat';
 function loadPatFromStorage(){var p=localStorage.getItem(PAT_KEY);if(p){document.getElementById('admin-pat').dataset.saved='1';document.getElementById('pat-saved-badge').style.display='inline';}}
-function savePat(){var v=document.getElementById('admin-pat').value.trim();if(!v)return;localStorage.setItem(PAT_KEY,v);document.getElementById('admin-pat').value='';document.getElementById('admin-pat').dataset.saved='1';document.getElementById('pat-saved-badge').style.display='inline';dlog('ok','PAT saved.');}
-function forgetPat(){localStorage.removeItem(PAT_KEY);document.getElementById('admin-pat').value='';document.getElementById('admin-pat').dataset.saved='';document.getElementById('pat-saved-badge').style.display='none';dlog('wa','PAT removed.');}
+function savePat(){var v=document.getElementById('admin-pat').value.trim();if(!v)return;localStorage.setItem(PAT_KEY,v);document.getElementById('admin-pat').value='';document.getElementById('admin-pat').dataset.saved='1';document.getElementById('pat-saved-badge').style.display='inline';}
+function forgetPat(){localStorage.removeItem(PAT_KEY);document.getElementById('admin-pat').value='';document.getElementById('admin-pat').dataset.saved='';document.getElementById('pat-saved-badge').style.display='none';}
 function getPat(){var f=document.getElementById('admin-pat');if(f.dataset.saved==='1')return localStorage.getItem(PAT_KEY);return f.value.trim();}
 
 function renderCorePS(){
   document.getElementById('core-ps-list').innerHTML=problemStatements.map(function(ps,i){
     return '<div class="core-ps-item" id="core-item-'+i+'">'
-      +'<div class="core-ps-item-header">'
-        +'<div style="flex:1">'
-          +'<div class="ps-title">'+esc(ps.id)+' &mdash; '+esc(ps.title)+'</div>'
-          +'<div class="ps-meta"><span class="badge-'+ps.priority+'">'+ps.priority+'</span> &nbsp;'+ps.priorityScore+'/10</div>'
-        +'</div>'
-        +'<div style="display:flex;gap:6px;margin-left:12px;flex-shrink:0">'
-          +'<button class="ab ab-e" data-core-action="edit" data-idx="'+i+'">Edit</button>'
-          +'<button class="ab ab-d" data-core-action="remove" data-idx="'+i+'">Remove</button>'
-        +'</div>'
+      +'<div style="flex:1">'
+        +'<div class="ps-title">'+esc(ps.id)+' &mdash; '+esc(ps.title)+'</div>'
+        +'<div class="ps-meta">'+priorityBadge(ps.priority)+' '+ps.priorityScore+'/10</div>'
+      +'</div>'
+      +'<div style="display:flex;gap:0.4rem;margin-left:1rem;flex-shrink:0">'
+        +'<button class="ab ab-e" data-core-action="edit" data-idx="'+i+'">Edit</button>'
+        +'<button class="ab ab-d" data-core-action="remove" data-idx="'+i+'">Remove</button>'
       +'</div>'
       +'<div class="edit-ps-form" id="edit-form-'+i+'"></div>'
     +'</div>';
@@ -679,10 +901,8 @@ function openEditForm(idx){
   document.querySelectorAll('.edit-ps-form.on').forEach(function(f){f.className='edit-ps-form';});
   var form=document.getElementById('edit-form-'+idx);if(!form)return;
   function arrF(arr,name){
-    return (arr||[]).map(function(v,j){
-      return '<div class="arr-item"><textarea id="'+name+'-'+idx+'-'+j+'" rows="2">'+esc(v)+'</textarea>'
-        +'<button class="arr-btn" onclick="removeArrItem(\''+name+'\','+idx+','+j+')">&#10005;</button></div>';
-    }).join('')+'<button class="arr-btn" style="margin-top:2px" onclick="addArrItem(\''+name+'\','+idx+')">+ Add</button>';
+    return (arr||[]).map(function(v,j){return '<div class="arr-item"><textarea id="'+name+'-'+idx+'-'+j+'" rows="2">'+esc(v)+'</textarea><button class="arr-btn" onclick="removeArrItem(\''+name+'\','+idx+','+j+')">x</button></div>';}).join('')
+      +'<button class="arr-btn" style="margin-top:0.2rem" onclick="addArrItem(\''+name+'\','+idx+')">+ Add</button>';
   }
   form.innerHTML=
     '<span class="ef-label">ID</span><input id="ef-id-'+idx+'" value="'+esc(ps.id)+'" />'
@@ -692,7 +912,7 @@ function openEditForm(idx){
     +'<select id="ef-priority-'+idx+'">'
       +['Critical','High','Medium'].map(function(p){return '<option'+(ps.priority===p?' selected':'')+'>'+p+'</option>';}).join('')
     +'</select>'
-    +'<span class="ef-label">Priority Score (1-10)</span><input id="ef-score-'+idx+'" type="number" min="1" max="10" step="0.1" value="'+ps.priorityScore+'" />'
+    +'<span class="ef-label">Priority Score</span><input id="ef-score-'+idx+'" type="number" min="1" max="10" step="0.1" value="'+ps.priorityScore+'" />'
     +'<span class="ef-label">Priority Reason</span><textarea id="ef-reason-'+idx+'">'+esc(ps.priorityReason)+'</textarea>'
     +'<span class="ef-label">Users</span><textarea id="ef-users-'+idx+'">'+esc(ps.users)+'</textarea>'
     +'<span class="ef-label">Use Case</span><textarea id="ef-useCase-'+idx+'" rows="3">'+esc(ps.useCase)+'</textarea>'
@@ -705,146 +925,104 @@ function openEditForm(idx){
     +'<span class="ef-label">POC Scope</span><textarea id="ef-pocScope-'+idx+'">'+esc(ps.pocScope)+'</textarea>'
     +'<span class="ef-label">Submitted By</span><input id="ef-submittedBy-'+idx+'" value="'+esc(ps.submittedBy||'')+'" />'
     +'<div class="form-actions">'
-      +'<button class="ab ab-s" data-core-action="save-edit" data-idx="'+idx+'">&#10003; Save &amp; Redeploy</button>'
+      +'<button class="ab ab-s" data-core-action="save-edit" data-idx="'+idx+'">Save &amp; Redeploy</button>'
       +'<button class="ab ab-c" data-core-action="close-edit" data-idx="'+idx+'">Cancel</button>'
     +'</div>';
   form.className='edit-ps-form on';
 }
-
-function getArrValues(name,idx){
-  var c=document.getElementById('arr-'+name+'-'+idx);if(!c)return[];
-  var vals=[];c.querySelectorAll('textarea').forEach(function(t){if(t.value.trim())vals.push(t.value.trim());});
-  return vals;
-}
+function getArrValues(name,idx){var c=document.getElementById('arr-'+name+'-'+idx);if(!c)return[];var vals=[];c.querySelectorAll('textarea').forEach(function(t){if(t.value.trim())vals.push(t.value.trim());});return vals;}
 function removeArrItem(name,idx,j){var el=document.getElementById(name+'-'+idx+'-'+j);if(el&&el.parentElement)el.parentElement.remove();}
-function addArrItem(name,idx){
-  var c=document.getElementById('arr-'+name+'-'+idx);if(!c)return;
-  var j=c.querySelectorAll('.arr-item').length;
-  var div=document.createElement('div');div.className='arr-item';
-  div.innerHTML='<textarea id="'+name+'-'+idx+'-'+j+'" rows="2"></textarea>'
-    +'<button class="arr-btn" onclick="removeArrItem(\''+name+'\','+idx+','+j+')">&#10005;</button>';
-  c.insertBefore(div,c.querySelector('.arr-btn:last-child'));
-}
-
+function addArrItem(name,idx){var c=document.getElementById('arr-'+name+'-'+idx);if(!c)return;var j=c.querySelectorAll('.arr-item').length;var div=document.createElement('div');div.className='arr-item';div.innerHTML='<textarea id="'+name+'-'+idx+'-'+j+'" rows="2"></textarea><button class="arr-btn" onclick="removeArrItem(\''+name+'\','+idx+','+j+')">x</button>';c.insertBefore(div,c.querySelector('.arr-btn:last-child'));}
 function saveEditAndDeploy(idx){
-  var pat=getPat();if(!pat){dlog('er','Enter your GitHub PAT first.');return;}
+  var pat=getPat();if(!pat){alert('Enter your GitHub PAT first.');return;}
   var ps=problemStatements[idx];if(!ps)return;
   function gv(id){var el=document.getElementById(id);return el?el.value.trim():'';}
-  ps.id=gv('ef-id-'+idx)||ps.id;
-  ps.title=gv('ef-title-'+idx)||ps.title;
-  ps.tagline=gv('ef-tagline-'+idx)||ps.tagline;
-  ps.priority=gv('ef-priority-'+idx)||ps.priority;
-  ps.priorityScore=parseFloat(gv('ef-score-'+idx))||ps.priorityScore;
-  ps.priorityReason=gv('ef-reason-'+idx)||ps.priorityReason;
-  ps.users=gv('ef-users-'+idx)||ps.users;
-  ps.useCase=gv('ef-useCase-'+idx)||ps.useCase;
-  ps.painPoints=getArrValues('painPoints',idx);
-  ps.consequence=gv('ef-consequence-'+idx)||ps.consequence;
-  ps.globalRef=gv('ef-globalRef-'+idx)||ps.globalRef;
-  ps.aiSolution=gv('ef-aiSolution-'+idx)||ps.aiSolution;
-  ps.aiTechniques=getArrValues('aiTechniques',idx);
-  ps.northstar=getArrValues('northstar',idx);
-  ps.pocScope=gv('ef-pocScope-'+idx)||ps.pocScope;
+  ps.id=gv('ef-id-'+idx)||ps.id;ps.title=gv('ef-title-'+idx)||ps.title;ps.tagline=gv('ef-tagline-'+idx)||ps.tagline;
+  ps.priority=gv('ef-priority-'+idx)||ps.priority;ps.priorityScore=parseFloat(gv('ef-score-'+idx))||ps.priorityScore;
+  ps.priorityReason=gv('ef-reason-'+idx)||ps.priorityReason;ps.users=gv('ef-users-'+idx)||ps.users;
+  ps.useCase=gv('ef-useCase-'+idx)||ps.useCase;ps.painPoints=getArrValues('painPoints',idx);
+  ps.consequence=gv('ef-consequence-'+idx)||ps.consequence;ps.globalRef=gv('ef-globalRef-'+idx)||ps.globalRef;
+  ps.aiSolution=gv('ef-aiSolution-'+idx)||ps.aiSolution;ps.aiTechniques=getArrValues('aiTechniques',idx);
+  ps.northstar=getArrValues('northstar',idx);ps.pocScope=gv('ef-pocScope-'+idx)||ps.pocScope;
   ps.submittedBy=gv('ef-submittedBy-'+idx);
   problemStatements[idx]=ps;
   document.getElementById('edit-form-'+idx).className='edit-ps-form';
-  dlog('in',ps.id+' updated. Regenerating exec summary and deploying...');
   regenAndDeploy(pat);
-}
-
-function copyAllJSON(){
-  var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));
-  var txt=JSON.stringify(all,null,2);
-  navigator.clipboard.writeText(txt).then(function(){
-    dlog('ok','Copied! '+all.length+' problem statements ('+problemStatements.length+' core + '+(all.length-problemStatements.length)+' community) in clipboard.');
-  }).catch(function(){
-    document.getElementById('json-preview').textContent=txt;
-    document.getElementById('json-preview').className='copy-json-box on';
-    dlog('wa','Clipboard blocked - JSON shown in preview below. Select all and copy manually.');
-  });
-}
-
-function toggleJSONPreview(){
-  var box=document.getElementById('json-preview');
-  if(box.className==='copy-json-box on'){box.className='copy-json-box';}
-  else{
-    var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));
-    box.textContent=JSON.stringify(all,null,2);
-    box.className='copy-json-box on';
-  }
 }
 async function removeCorePS(idx){
   var ps=problemStatements[idx];if(!ps)return;
   if(!confirm('Remove "'+ps.title+'" from core? This will redeploy the site.'))return;
-  var pat=getPat();if(!pat){dlog('er','Enter your GitHub PAT first.');return;}
-  problemStatements.splice(idx,1);
-  dlog('in','Removed. Regenerating exec summary...');
-  await regenAndDeploy(pat);
+  var pat=getPat();if(!pat){alert('Enter your GitHub PAT first.');return;}
+  problemStatements.splice(idx,1);regenAndDeploy(pat);
 }
 
 async function regenAndDeploy(pat){
-  dlog('in','Asking Claude to rewrite executive summary...');
-  var psList=problemStatements.map(function(p,i){return (i+1)+'. '+p.id+' ('+p.priority+', '+p.priorityScore+'/10) - '+p.title+'\n   '+p.priorityReason;}).join('\n\n');
-  var summaryPrompt='Write a 3-sentence executive summary paragraph for a healthcare enforcement AI report covering these problem statements:\n\n'+psList+'\n\nInclude: count of PS, key enforcement domains, research sources (FDA, DOJ, UK, Singapore MOH/HSA, year range 2024-2026), and note each PS is scored against impact, feasibility, urgency, and POC speed. Professional tone. Output ONLY the paragraph, no markdown.';
-  var summaryText='';
-  try{
-    var resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,messages:[{role:'user',content:summaryPrompt}]})});
-    var data=await resp.json();if(data.content&&data.content[0])summaryText=data.content[0].text.trim();
-    dlog('ok','Exec summary regenerated: "'+summaryText.slice(0,80)+'..."');
-  }catch(e){summaryText='This report identifies '+problemStatements.length+' prioritised AI problem statements for the Health Ministry enforcement ecosystem. Derived from global research across FDA, DOJ, UK, Singapore MOH/HSA (2024-2026). Each scored against impact, feasibility, urgency, and POC speed.';dlog('wa','AI failed, using fallback summary.');}
-  dlog('in','Building updated site HTML...');
-  var newSite=buildSite(summaryText);
-  dlog('in','Committing to GitHub...');
+  var statusEl=document.getElementById('ast');
+  statusEl.textContent='Building updated site...';
+  var newSite=buildSite(EXEC_SUMMARY_TEXT);
+  statusEl.textContent='Committing to GitHub...';
   await deployGH(newSite,pat);
 }
-
-/* Build site HTML from shell + new data */
 function buildSite(summaryText){
-  // Serialise problemStatements as JS, escaping non-ASCII
   function toJS(obj){return JSON.stringify(obj,null,2).replace(/[^\x00-\x7F]/g,function(c){var h=c.charCodeAt(0).toString(16);while(h.length<4)h='0'+h;return '\\u'+h;});}
   var psJS='const problemStatements = '+toJS(problemStatements)+';\n\n';
-  var esdJS='const execSummaryData = [\n'+problemStatements.map(function(ps){
-    return '  {id:'+JSON.stringify(ps.id)+',title:'+JSON.stringify(ps.title.slice(0,50))+',priority:'+JSON.stringify(ps.priority)+',score:'+ps.priorityScore+',reason:'+JSON.stringify((ps.priorityReason||'').slice(0,80)+'...')+'}';
-  }).join(',\n')+'\n];\n';
+  var esdJS='const execSummaryData = [\n'+problemStatements.map(function(ps){return '  {id:'+JSON.stringify(ps.id)+',title:'+JSON.stringify(ps.title.slice(0,50))+',priority:'+JSON.stringify(ps.priority)+',score:'+ps.priorityScore+',reason:'+JSON.stringify((ps.priorityReason||'').slice(0,80)+'...')+'}';}).join(',\n')+'\n];\n';
   var dataJS=(psJS+esdJS).replace(/[^\x00-\x7F]/g,function(c){var h=c.charCodeAt(0).toString(16);while(h.length<4)h='0'+h;return '\\u'+h;});
-  // Decode shell from b64
-  var shellBin=atob(SITE_SHELL_B64);
-  var shellBytes=new Uint8Array(shellBin.length);
-  for(var i=0;i<shellBin.length;i++)shellBytes[i]=shellBin.charCodeAt(i);
+  var shellBin=atob(SITE_SHELL_B64);var shellBytes=new Uint8Array(shellBin.length);for(var i=0;i<shellBin.length;i++)shellBytes[i]=shellBin.charCodeAt(i);
   var shell=new TextDecoder('utf-8').decode(shellBytes);
-  // Replace markers
   shell=shell.replace('DATA_JS_MARKER',dataJS);
-  shell=shell.replace('This report identifies 8 prioritised AI problem statements for the Health Ministry enforcement ecosystem covering field operations, complaint management, online enforcement intelligence, professional conduct oversight, and regulatory knowledge. Derived from global research across FDA, DOJ, UK, Singapore MOH/HSA (2024-2026). Each scored against impact, feasibility, urgency, and POC speed.',summaryText.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/&/g,'&amp;'));
+  shell=shell.replace('This report presents 9 prioritised AI problem statements developed for the Health Ministry’s enforcement division, spanning six key domains: field inspection operations, complaint management, online enforcement intelligence, professional conduct oversight, regulatory knowledge management, and licence lifecycle monitoring. Each problem statement is grounded in global research drawn from the FDA (USA), US DOJ, UK Care Quality Commission, Singapore MOH/HSA, Australia TGA/AHPRA, WHO/EMA, and peer-reviewed academic literature published between 2024 and 2026. Problem statements are individually scored against four evaluation dimensions — impact, feasibility, urgency, and proof-of-concept speed — to support prioritised investment and sequencing decisions.',summaryText.replace(/</g,'&lt;').replace(/>/g,'&gt;'));
   return shell;
 }
-
 async function deployGH(html,pat){
   var U='cslcs-gen',R='enforce',B='gh-pages';
   try{
     var get=await fetch('https://api.github.com/repos/'+U+'/'+R+'/contents/index.html?ref='+B,{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json','User-Agent':'enforce-admin'}});
     var gd=await get.json();var sha=get.ok?gd.sha:null;
     var b64=btoa(unescape(encodeURIComponent(html)));
-    var body={message:'Admin: Update core PS + exec summary ['+new Date().toISOString().slice(0,10)+']',content:b64,branch:B};if(sha)body.sha=sha;
+    var body={message:'Admin: Update core PS ['+new Date().toISOString().slice(0,10)+']',content:b64,branch:B};if(sha)body.sha=sha;
     var put=await fetch('https://api.github.com/repos/'+U+'/'+R+'/contents/index.html',{method:'PUT',headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json','Content-Type':'application/json','User-Agent':'enforce-admin'},body:JSON.stringify(body)});
     var pd=await put.json();
-    if(put.ok){
-      dlog('ok','Deployed! Live in ~1 min at enforce.buildjoynow.com');
-      renderCorePS();renderExecSummary();renderGrid();
-      document.getElementById('exec-summary-text').textContent=summaryText||document.getElementById('exec-summary-text').textContent;
-      pendingImprovedPS=null;document.getElementById('ai-result').className='ai-result-box';document.getElementById('import-ps-json').value='';
-    }else{dlog('er','GitHub error: '+put.status+' '+(pd.message||''));}
-  }catch(e){dlog('er','Deploy error: '+e.message);}
+    if(put.ok){document.getElementById('ast').textContent='Deployed! Live in ~1 min at enforce.buildjoynow.com';renderCorePS();renderExecSummary();renderGrid();}
+    else{document.getElementById('ast').textContent='GitHub error: '+put.status+' '+(pd.message||'');}
+  }catch(e){document.getElementById('ast').textContent='Deploy error: '+e.message;}
 }
 
-function dlog(t,m){
-  var b=document.getElementById('deploy-log');
-  if(!b)return;
-  var el=document.createElement('div');el.className='dl-'+t;
-  el.textContent='['+new Date().toLocaleTimeString()+'] '+({ok:'V',er:'X',in:'>',wa:'!'}[t]||'>')+' '+m;
-  b.appendChild(el);b.scrollTop=b.scrollHeight;
+function copyAllJSON(){
+  var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));
+  var txt=JSON.stringify(all,null,2);
+  navigator.clipboard.writeText(txt).then(function(){document.getElementById('ast').textContent='Copied! '+all.length+' PS ('+problemStatements.length+' core + '+(all.length-problemStatements.length)+' community).';})
+  .catch(function(){document.getElementById('json-preview').textContent=txt;document.getElementById('json-preview').className='copy-json-box on';});
+}
+function toggleJSONPreview(){var box=document.getElementById('json-preview');if(box.className==='copy-json-box on'){box.className='copy-json-box';}else{var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));box.textContent=JSON.stringify(all,null,2);box.className='copy-json-box on';}}
+
+function buildRationalisePrompt(){
+  var all=problemStatements.concat(communityPS.filter(function(p){return p.approved!==false;}));
+  var psJson=JSON.stringify(all,null,2);
+  var p='You are a senior product manager for a health ministry enforcement division.\n\n';
+  p+='Below is a JSON array of AI problem statements. Your task is to produce three outputs:\n\n';
+  p+='OUTPUT 1 - EXECUTIVE SUMMARY PARAGRAPH\n';
+  p+='Write a concise 3-sentence paragraph suitable for a government report. It must:\n';
+  p+='- State the total number of AI problem statements\n';
+  p+='- Name the key enforcement domains covered\n';
+  p+='- Reference global research sources (FDA, DOJ, UK, Singapore MOH/HSA, 2024-2026)\n';
+  p+='- End by noting each PS is scored against impact, feasibility, urgency, and POC speed\n\n';
+  p+='OUTPUT 2 - RANKED EXECUTIVE SUMMARY TABLE\n';
+  p+='Markdown table: Rank | ID | Title | Priority | Score /10 | Why Priority\n';
+  p+='- Rank by priorityScore descending. Mark community PS with [Community].\n';
+  p+='- Add overlap notes below the table.\n\n';
+  p+='OUTPUT 3 - RECOMMENDED POC SEQUENCE\n';
+  p+='Group into 4 phases (Week 1-2, Week 3-4, Week 5-6, Month 3+) by urgency and build complexity.\n\n';
+  p+='PROBLEM STATEMENTS JSON:\n'+psJson+'\n\nRespond with OUTPUT 1, OUTPUT 2, and OUTPUT 3 clearly labelled. No other commentary.';
+  return p;
+}
+function copyRationalisePrompt(){
+  var prompt=buildRationalisePrompt();
+  var box=document.getElementById('rationalise-prompt-display');if(box)box.textContent=prompt;
+  navigator.clipboard.writeText(prompt).then(function(){var b=document.getElementById('cbtn-rationalise');b.textContent='Copied';b.className='copy-btn copied';setTimeout(function(){b.textContent='Copy Prompt';b.className='copy-btn';},2000);}).catch(function(){});
 }
 
-/* ── Event delegation ── */
+/* ── EVENT DELEGATION ── */
 function initDelegation(){
   delegateClicks('exec-tbody','.ps-row',function(el){openDetail(el.dataset.id,el.dataset.src);});
   ['pgrid','cgrid'].forEach(function(gid){delegateClicks(gid,'.ps-card',function(el){openDetail(el.dataset.id,el.dataset.src);});});
@@ -856,14 +1034,12 @@ function initDelegation(){
     else if(a==='save')adminSaveEdit(id);
   });
   delegateClicks('core-ps-list','[data-core-action]',function(el){
-    var action=el.dataset.coreAction,idx=parseInt(el.dataset.idx);
-    if(action==='remove')removeCorePS(idx);
-    else if(action==='edit')openEditForm(idx);
-    else if(action==='save-edit')saveEditAndDeploy(idx);
-    else if(action==='close-edit'){var f=document.getElementById('edit-form-'+idx);if(f)f.className='edit-ps-form';}
+    var a=el.dataset.coreAction,idx=parseInt(el.dataset.idx);
+    if(a==='remove')removeCorePS(idx);else if(a==='edit')openEditForm(idx);
+    else if(a==='save-edit')saveEditAndDeploy(idx);
+    else if(a==='close-edit'){var f=document.getElementById('edit-form-'+idx);if(f)f.className='edit-ps-form';}
   });
 }
-
 renderExecSummary();renderGrid();initDelegation();loadCommunity();
 
 </script>
