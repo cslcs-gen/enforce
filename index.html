@@ -796,9 +796,29 @@ function openDetail(id,src){
 
 /* ── COMMUNITY ── */
 async function loadCommunity(){
-  try{var r=await fetch(WORKER+'/submissions');if(!r.ok)return;var d=await r.json();communityPS=d.submissions||[];renderExecSummary();renderGrid();
-    var rpbox=document.getElementById('rationalise-prompt-display');if(rpbox&&rpbox.textContent)rpbox.textContent=buildRationalisePrompt();
-  }catch(e){console.warn('Community load failed',e);}
+  try{
+    var controller=new AbortController();
+    var timeout=setTimeout(function(){controller.abort();},8000);
+    var r=await fetch(WORKER+'/submissions',{signal:controller.signal,mode:'cors'});
+    clearTimeout(timeout);
+    if(!r.ok)return;
+    var d=await r.json();
+    communityPS=d.submissions||[];
+    renderExecSummary();renderGrid();
+    var rpbox=document.getElementById('rationalise-prompt-display');
+    if(rpbox&&rpbox.textContent)rpbox.textContent=buildRationalisePrompt();
+  }catch(e){
+    // Silently fail - community submissions are optional enhancement
+    // Retry once after 5 seconds in case of transient network issue
+    if(e.name!=='AbortError'){
+      setTimeout(function(){
+        fetch(WORKER+'/submissions',{mode:'cors'})
+          .then(function(r){return r.ok?r.json():null;})
+          .then(function(d){if(d&&d.submissions){communityPS=d.submissions;renderExecSummary();renderGrid();}})
+          .catch(function(){});
+      },5000);
+    }
+  }
 }
 
 /* ── SUBMIT ── */
